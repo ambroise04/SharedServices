@@ -1,0 +1,71 @@
+﻿using Microsoft.EntityFrameworkCore;
+using SharedServices.DAL.Entities;
+using SharedServices.DAL.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace SharedServices.DAL.Repositories
+{
+    public class ServiceRepository : IServiceRepository, IRepository<Service>
+    {
+        private readonly ApplicationContext Context;
+        public ServiceRepository(ApplicationContext context)
+        {
+            Context = context;
+        }
+
+        public bool Delete(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("A bad id was submitted.");
+
+            var entity = Context.Services.Find(id);
+            var tracking = Context.Services.Remove(entity);
+
+            return tracking.State == EntityState.Deleted;
+        }
+
+        public IEnumerable<Service> GetAll()
+        {
+            return Context.Services
+                          .Include(s => s.Group)
+                          .Include(s => s.Users)
+                          .ToList();
+        }
+
+        public Service GetById(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("A bad id was submitted.");
+
+            return Context.Services.Find(id);
+        }
+
+        public Service Insert(Service entity)
+        {
+            if (entity is null)
+                throw new ArgumentException($"The object cannot be null. {nameof(entity)}");
+
+            if (entity.Id != 0)
+                throw new ArgumentException($"A new object cannot have an id. {nameof(entity)}");
+
+            var tracking = Context.Services.Add(entity);
+
+            return tracking.Entity;
+        }
+
+        public Service Update(Service entity)
+        {
+            if (entity is null)
+                throw new ArgumentException($"The object cannot be null. {nameof(entity)}");
+
+            if (entity.Id <= 0)
+                throw new ArgumentException($"Invalid object was submitted. The object has a bad id. {nameof(entity)}");
+
+            Context.Attach(entity).State = EntityState.Modified;
+
+            return entity;
+        }
+    }
+}

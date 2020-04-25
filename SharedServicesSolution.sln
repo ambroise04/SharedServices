@@ -11,17 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BL", "BL", "{40ECF789-0F30-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{B1385AE9-7DCD-4D4A-B7FE-BDA4937821E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedServices.BL", "SharedServices.BL\SharedServices.BL.csproj", "{D74CB764-DEFB-4D33-B550-14D75CA0B05B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedServices.BL", "SharedServices.BL\SharedServices.BL.csproj", "{D74CB764-DEFB-4D33-B550-14D75CA0B05B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedServices.BL.Tests", "SharedServices.BL.Tests\SharedServices.BL.Tests.csproj", "{1EE317E8-24D8-43A3-9D3B-AF8BD0BC224A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedServices.BL.Tests", "SharedServices.BL.Tests\SharedServices.BL.Tests.csproj", "{1EE317E8-24D8-43A3-9D3B-AF8BD0BC224A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedServices.DAL", "Sharedservices.DAL\SharedServices.DAL.csproj", "{F2BBC2C5-22BA-454A-B9DB-D68D9AA04F92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedServices.DAL", "Sharedservices.DAL\SharedServices.DAL.csproj", "{F2BBC2C5-22BA-454A-B9DB-D68D9AA04F92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedServices.DAL.Tests", "SharedServices.DAL.Tests\SharedServices.DAL.Tests.csproj", "{82525C90-9851-4B59-BC2C-5BA0C9A85F83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedServices.DAL.Tests", "SharedServices.DAL.Tests\SharedServices.DAL.Tests.csproj", "{82525C90-9851-4B59-BC2C-5BA0C9A85F83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mutual", "Mutual", "{F6254307-F1F5-4CBD-AC7D-59E7FCAD68A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedServices.Mutual", "SharedServices.Mutual\SharedServices.Mutual.csproj", "{66AC0628-0AD1-405E-B400-9905B48D095D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedServices.Mutual", "SharedServices.Mutual\SharedServices.Mutual.csproj", "{66AC0628-0AD1-405E-B400-9905B48D095D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
