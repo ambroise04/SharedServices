@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
-namespace SharedServices.DAL.Entities
+namespace SharedServices.BL.Domain
 {
     public class ServiceGroup
     {
         public int Id { get; set; }
-        [Required]
         public string Title { get; set; }
         public ICollection<Service> Services { get; set; }
     }

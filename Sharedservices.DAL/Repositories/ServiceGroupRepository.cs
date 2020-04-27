@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace SharedServices.DAL.Repositories
 {
-    public class ServiceGroupRepository : IServiceGroupRepository, IRepository<ServiceGroup>
+    public class ServiceGroupRepository : IServiceGroupRepository
     {
         private readonly ApplicationContext Context;
         public ServiceGroupRepository(ApplicationContext context)
@@ -39,6 +40,11 @@ namespace SharedServices.DAL.Repositories
                 throw new ArgumentException("A bad id was submitted.");
 
             return Context.ServiceGroups.Find(id);
+        }
+
+        public IEnumerable<ServiceGroup> GetByPredicate(Expression<Func<ServiceGroup, bool>> predicate)
+        {
+            return Context.ServiceGroups.Where(predicate);
         }
 
         public ServiceGroup Insert(ServiceGroup entity)

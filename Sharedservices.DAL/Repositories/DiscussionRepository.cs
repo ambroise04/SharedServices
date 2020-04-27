@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace SharedServices.DAL.Repositories
 {
-    public class DiscussionRepository : IDiscussionRepository, IRepository<Discussion>
+    public class DiscussionRepository : IDiscussionRepository
     {
         private readonly ApplicationContext Context;
         public DiscussionRepository(ApplicationContext context)
@@ -37,6 +38,11 @@ namespace SharedServices.DAL.Repositories
                 throw new ArgumentException("A bad id was submitted.");
 
             return Context.Discussions.Find(id);
+        }
+
+        public IEnumerable<Discussion> GetByPredicate(Expression<Func<Discussion, bool>> predicate)
+        {
+            return Context.Discussions.Where(predicate);
         }
 
         public Discussion Insert(Discussion entity)

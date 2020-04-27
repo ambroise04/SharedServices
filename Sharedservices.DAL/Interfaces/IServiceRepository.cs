@@ -1,6 +1,9 @@
-﻿namespace SharedServices.DAL.Interfaces
+﻿using SharedServices.DAL.Entities;
+using SharedServices.DAL.Repositories;
+
+namespace SharedServices.DAL.Interfaces
 {
-    public interface IServiceRepository
+    public interface IServiceRepository : IRepository<Service>
     {
     }
 }

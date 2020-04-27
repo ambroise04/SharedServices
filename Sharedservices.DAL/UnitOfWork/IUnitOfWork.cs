@@ -3,7 +3,7 @@ using SharedServices.DAL.Interfaces;
 
 namespace SharedServices.DAL.UnitOfWork
 {
-    public interface IUnitOfWork<TContext> where TContext : DbContext, new()
+    public interface IUnitOfWork
     {
         IDiscussionRepository DiscussionRepository { get; }
         IRequestRepository RequestRepository { get; }

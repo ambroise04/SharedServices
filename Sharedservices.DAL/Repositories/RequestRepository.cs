@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace SharedServices.DAL.Repositories
 {
-    public class RequestRepository : IRequestRepository, IRepository<Request>
+    public class RequestRepository : IRequestRepository
     {
         private readonly ApplicationContext Context;
         public RequestRepository(ApplicationContext context)
@@ -40,6 +41,11 @@ namespace SharedServices.DAL.Repositories
                 throw new ArgumentException("A bad id was submitted.");
 
             return Context.Requests.Find(id);
+        }
+
+        public IEnumerable<Request> GetByPredicate(Expression<Func<Request, bool>> predicate)
+        {
+            return Context.Requests.Where(predicate);
         }
 
         public Request Insert(Request entity)

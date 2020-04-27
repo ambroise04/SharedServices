@@ -4,10 +4,11 @@ using SharedServices.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace SharedServices.DAL.Repositories
 {
-    public class ServiceRepository : IServiceRepository, IRepository<Service>
+    public class ServiceRepository : IServiceRepository
     {
         private readonly ApplicationContext Context;
         public ServiceRepository(ApplicationContext context)
@@ -30,7 +31,8 @@ namespace SharedServices.DAL.Repositories
         {
             return Context.Services
                           .Include(s => s.Group)
-                          .Include(s => s.Users)
+                          .Include(s => s.UserServices)
+                          .ThenInclude(us => us.User)
                           .ToList();
         }
 
@@ -40,6 +42,11 @@ namespace SharedServices.DAL.Repositories
                 throw new ArgumentException("A bad id was submitted.");
 
             return Context.Services.Find(id);
+        }
+
+        public IEnumerable<Service> GetByPredicate(Expression<Func<Service, bool>> predicate)
+        {
+            return Context.Services.Where(predicate);
         }
 
         public Service Insert(Service entity)

@@ -1,19 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using SharedServices.DAL;
+using System;
 
-namespace SharedServices.DAL.Entities
+namespace SharedServices.BL.Domain
 {
     public class Request
     {
         public int Id { get; set; }
         public ApplicationUser User { get; set; }
-        [Required]
         public Service Service { get; set; }
-        [Required]
         public DateTime DateOfRequest { get; set; }
-        [Required]
         public int Point { get; set; }
-        [Required]
         public bool Accepted { get; set; }
     }
 }

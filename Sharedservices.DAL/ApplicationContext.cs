@@ -32,6 +32,12 @@ namespace SharedServices.DAL
             }
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ApplicationUserServices>().HasKey(s => new { s.ServiceId, s.ApplicationUserId });            
+            base.OnModelCreating(builder);
+        }
+
         public DbSet<ServiceGroup> ServiceGroups { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Request> Requests { get; set; }

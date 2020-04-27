@@ -6,7 +6,7 @@ using System;
 
 namespace SharedServices.DAL.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork<ApplicationContext>, IDisposable
+    public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly ApplicationContext _context;
         private string _errorMessage = string.Empty;

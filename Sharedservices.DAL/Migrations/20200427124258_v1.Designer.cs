@@ -10,7 +10,7 @@ using SharedServices.DAL;
 namespace SharedServices.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200425152114_v1")]
+    [Migration("20200427124258_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,63 +70,6 @@ namespace SharedServices.DAL.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -289,6 +232,21 @@ namespace SharedServices.DAL.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SharedServices.DAL.Entities.ApplicationUserServices", b =>
+                {
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ServiceId", "ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("ApplicationUserServices");
+                });
+
             modelBuilder.Entity("SharedServices.DAL.Entities.Discussion", b =>
                 {
                     b.Property<int>("Id")
@@ -303,12 +261,15 @@ namespace SharedServices.DAL.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Emitter")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Receiver")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -334,7 +295,7 @@ namespace SharedServices.DAL.Migrations
                     b.Property<int>("Point")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ServiceId")
+                    b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -356,9 +317,6 @@ namespace SharedServices.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -366,11 +324,10 @@ namespace SharedServices.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("GroupId");
 
@@ -385,6 +342,7 @@ namespace SharedServices.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -399,13 +357,6 @@ namespace SharedServices.DAL.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.HasOne("SharedServices.DAL.Entities.Service", null)
-                        .WithMany("Users")
-                        .HasForeignKey("ServiceId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -450,6 +401,21 @@ namespace SharedServices.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SharedServices.DAL.Entities.ApplicationUserServices", b =>
+                {
+                    b.HasOne("SharedServices.DAL.ApplicationUser", "User")
+                        .WithMany("UserServices")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SharedServices.DAL.Entities.Service", "Service")
+                        .WithMany("UserServices")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SharedServices.DAL.Entities.Discussion", b =>
                 {
                     b.HasOne("SharedServices.DAL.ApplicationUser", null)
@@ -461,7 +427,9 @@ namespace SharedServices.DAL.Migrations
                 {
                     b.HasOne("SharedServices.DAL.Entities.Service", "Service")
                         .WithMany()
-                        .HasForeignKey("ServiceId");
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SharedServices.DAL.ApplicationUser", "User")
                         .WithMany("Requests")
@@ -470,10 +438,6 @@ namespace SharedServices.DAL.Migrations
 
             modelBuilder.Entity("SharedServices.DAL.Entities.Service", b =>
                 {
-                    b.HasOne("SharedServices.DAL.ApplicationUser", null)
-                        .WithMany("Services")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("SharedServices.DAL.Entities.ServiceGroup", "Group")
                         .WithMany("Services")
                         .HasForeignKey("GroupId");

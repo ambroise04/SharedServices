@@ -57,7 +57,7 @@ namespace SharedServices.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,9 +176,9 @@ namespace SharedServices.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Emitter = table.Column<string>(nullable: true),
-                    Receiver = table.Column<string>(nullable: true),
-                    Message = table.Column<string>(nullable: true),
+                    Emitter = table.Column<string>(nullable: false),
+                    Receiver = table.Column<string>(nullable: false),
+                    Message = table.Column<string>(nullable: false),
                     DateHour = table.Column<DateTime>(nullable: false),
                     ApplicationUserId = table.Column<string>(nullable: true)
                 },
@@ -199,20 +199,13 @@ namespace SharedServices.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: true),
+                    Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    GroupId = table.Column<int>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true)
+                    GroupId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Services", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Services_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Services_ServiceGroups_GroupId",
                         column: x => x.GroupId,
@@ -222,35 +215,27 @@ namespace SharedServices.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "IdentityUser",
+                name: "ApplicationUserServices",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    NormalizedUserName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    NormalizedEmail = table.Column<string>(nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    ServiceId = table.Column<int>(nullable: true)
+                    ApplicationUserId = table.Column<string>(nullable: false),
+                    ServiceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_IdentityUser", x => x.Id);
+                    table.PrimaryKey("PK_ApplicationUserServices", x => new { x.ServiceId, x.ApplicationUserId });
                     table.ForeignKey(
-                        name: "FK_IdentityUser_Services_ServiceId",
+                        name: "FK_ApplicationUserServices_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserServices_Services_ServiceId",
                         column: x => x.ServiceId,
                         principalTable: "Services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,7 +245,7 @@ namespace SharedServices.DAL.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
-                    ServiceId = table.Column<int>(nullable: true),
+                    ServiceId = table.Column<int>(nullable: false),
                     DateOfRequest = table.Column<DateTime>(nullable: false),
                     Point = table.Column<int>(nullable: false),
                     Accepted = table.Column<bool>(nullable: false)
@@ -273,7 +258,7 @@ namespace SharedServices.DAL.Migrations
                         column: x => x.ServiceId,
                         principalTable: "Services",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Requests_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -281,6 +266,11 @@ namespace SharedServices.DAL.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserServices_ApplicationUserId",
+                table: "ApplicationUserServices",
+                column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -327,11 +317,6 @@ namespace SharedServices.DAL.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IdentityUser_ServiceId",
-                table: "IdentityUser",
-                column: "ServiceId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Requests_ServiceId",
                 table: "Requests",
                 column: "ServiceId");
@@ -342,11 +327,6 @@ namespace SharedServices.DAL.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Services_ApplicationUserId",
-                table: "Services",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Services_GroupId",
                 table: "Services",
                 column: "GroupId");
@@ -354,6 +334,9 @@ namespace SharedServices.DAL.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ApplicationUserServices");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -371,9 +354,6 @@ namespace SharedServices.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discussions");
-
-            migrationBuilder.DropTable(
-                name: "IdentityUser");
 
             migrationBuilder.DropTable(
                 name: "Requests");
