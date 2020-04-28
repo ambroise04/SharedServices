@@ -42,5 +42,6 @@ namespace SharedServices.DAL
         public DbSet<Service> Services { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
     }
 }

@@ -8,6 +8,7 @@ namespace SharedServices.DAL.Entities
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
+        public int PointsByHour { get; set; }
         public ICollection<Service> Services { get; set; }
     }
 }

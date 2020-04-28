@@ -14,5 +14,6 @@ namespace SharedServices.DAL
         public ICollection<ApplicationUserServices> UserServices { get; set; }
         public ICollection<Request> Requests { get; set; }
         public ICollection<Discussion> Discussions { get; set; }
+        public ICollection<Feedback> Feedbacks { get; set; }
     }
 }

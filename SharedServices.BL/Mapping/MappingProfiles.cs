@@ -18,6 +18,9 @@ namespace SharedServices.BL.Mapping
 
             CreateMap<DAL.Entities.ServiceGroup, ServiceGroup>();
             CreateMap<DAL.Entities.ServiceGroup, ServiceGroup>().ReverseMap();
+
+            CreateMap<DAL.Entities.Feedback, Feedback>();
+            CreateMap<DAL.Entities.Feedback, Feedback>().ReverseMap();
         }
     }
 }

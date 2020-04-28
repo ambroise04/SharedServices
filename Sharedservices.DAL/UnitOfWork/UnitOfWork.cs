@@ -16,6 +16,7 @@ namespace SharedServices.DAL.UnitOfWork
         private readonly IRequestRepository requestRepository;
         private readonly IServiceGroupRepository serviceGroupRepository;
         private readonly IServiceRepository serviceRepository;
+        private readonly IFeedbackRepository feedbackRepository;
 
         private bool disposedValue = false;
 
@@ -31,6 +32,8 @@ namespace SharedServices.DAL.UnitOfWork
         public IServiceGroupRepository ServiceGroupRepository => serviceGroupRepository ?? new ServiceGroupRepository(_context);
 
         public IServiceRepository ServiceRepository => serviceRepository ?? new ServiceRepository(_context);
+
+        public IFeedbackRepository FeedbackRepository => feedbackRepository ?? new FeedbackRepository(_context);
 
         public void CreateTransaction()
         {
