@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mutual", "Mutual", "{F62543
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedServices.Mutual", "SharedServices.Mutual\SharedServices.Mutual.csproj", "{66AC0628-0AD1-405E-B400-9905B48D095D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentitySample.Mvc", "..\Identity\samples\IdentitySample.Mvc\IdentitySample.Mvc.csproj", "{E8B6DCA3-5959-45EF-9B55-1D883C1C8946}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{66AC0628-0AD1-405E-B400-9905B48D095D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66AC0628-0AD1-405E-B400-9905B48D095D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66AC0628-0AD1-405E-B400-9905B48D095D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8B6DCA3-5959-45EF-9B55-1D883C1C8946}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8B6DCA3-5959-45EF-9B55-1D883C1C8946}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8B6DCA3-5959-45EF-9B55-1D883C1C8946}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8B6DCA3-5959-45EF-9B55-1D883C1C8946}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{F2BBC2C5-22BA-454A-B9DB-D68D9AA04F92} = {B1385AE9-7DCD-4D4A-B7FE-BDA4937821E8}
 		{82525C90-9851-4B59-BC2C-5BA0C9A85F83} = {B1385AE9-7DCD-4D4A-B7FE-BDA4937821E8}
 		{66AC0628-0AD1-405E-B400-9905B48D095D} = {F6254307-F1F5-4CBD-AC7D-59E7FCAD68A5}
+		{E8B6DCA3-5959-45EF-9B55-1D883C1C8946} = {05DDB704-7918-4A9A-B54D-F5E3CA9C2FAB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F83879D1-4A05-41E4-8566-3F861A1086AE}
