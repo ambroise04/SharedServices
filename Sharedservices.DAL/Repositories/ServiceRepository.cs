@@ -52,10 +52,13 @@ namespace SharedServices.DAL.Repositories
         public Service Insert(Service entity)
         {
             if (entity is null)
-                throw new ArgumentException($"The object cannot be null. {nameof(entity)}");
+                throw new ArgumentNullException($"The object cannot be null. {nameof(entity)}");
 
             if (entity.Id != 0)
                 throw new ArgumentException($"A new object cannot have an id. {nameof(entity)}");
+
+            if (entity.Group is null)
+                throw new ArgumentNullException($"The group reference in the service cannot be null. {nameof(entity)}");
 
             var tracking = Context.Services.Add(entity);
 
@@ -65,7 +68,7 @@ namespace SharedServices.DAL.Repositories
         public Service Update(Service entity)
         {
             if (entity is null)
-                throw new ArgumentException($"The object cannot be null. {nameof(entity)}");
+                throw new ArgumentNullException($"The object cannot be null. {nameof(entity)}");
 
             if (entity.Id <= 0)
                 throw new ArgumentException($"Invalid object was submitted. The object has a bad id. {nameof(entity)}");

@@ -19,7 +19,7 @@ namespace SharedServices.DAL.Repositories
         public bool Delete(int id)
         {
             if (id <= 0)
-                throw new ArgumentException("A bad id was submitted.");
+                throw new ArgumentException("A bad id was provided.");
 
             var entity = Context.Discussions.Find(id);
             var tracking = Context.Discussions.Remove(entity);
@@ -35,7 +35,7 @@ namespace SharedServices.DAL.Repositories
         public Discussion GetById(int id)
         {
             if (id <= 0)
-                throw new ArgumentException("A bad id was submitted.");
+                throw new ArgumentException("A bad id was provided.");
 
             return Context.Discussions.Find(id);
         }
@@ -48,7 +48,7 @@ namespace SharedServices.DAL.Repositories
         public Discussion Insert(Discussion entity)
         {
             if (entity is null)
-                throw new ArgumentException($"The object cannot be null. {nameof(entity)}");
+                throw new ArgumentNullException($"The object cannot be null. {nameof(entity)}");
 
             if (entity.Id != 0)
                 throw new ArgumentException($"A new object cannot have an id. {nameof(entity)}");
@@ -61,10 +61,10 @@ namespace SharedServices.DAL.Repositories
         public Discussion Update(Discussion entity)
         {
             if (entity is null)
-                throw new ArgumentException($"The object cannot be null. {nameof(entity)}");
+                throw new ArgumentNullException($"The object cannot be null. {nameof(entity)}");
 
             if (entity.Id <= 0)
-                throw new ArgumentException($"Invalid object was submitted. The object has a bad id. {nameof(entity)}");
+                throw new ArgumentException($"Invalid object was provided. The object has a bad id. {nameof(entity)}");
 
             Context.Attach(entity).State = EntityState.Modified;
 
