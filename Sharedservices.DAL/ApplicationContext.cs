@@ -27,7 +27,8 @@ namespace SharedServices.DAL
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");                
+                optionsBuilder.UseSqlite(@"DataSource=SharedServiceDB.db;");
                 optionsBuilder.EnableSensitiveDataLogging();
             }
         }

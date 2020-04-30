@@ -1,13 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedServices.DAL;
+using SharedServices.DAL.Interfaces;
+using SharedServices.DAL.Repositories;
+using SharedServices.DAL.UnitOfWork;
+using SharedServices.UI.Services;
+using System;
 
 namespace SharedServices
 {
@@ -23,7 +26,52 @@ namespace SharedServices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Framework services
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
+            {
+                services.AddDbContext<ApplicationContext>(options => 
+                    options.UseSqlServer(Configuration.GetConnectionString("Default"))
+                );
+            }
+            else
+            {
+                services.AddDbContext<ApplicationContext>();
+            }
+
             services.AddControllersWithViews();
+
+            services.AddIdentityCore<ApplicationUser>(o =>
+                {
+                    o.SignIn.RequireConfirmedAccount = true;
+                    o.Password.RequireDigit = false;
+                    o.Password.RequiredLength = 8;
+                    o.Password.RequireNonAlphanumeric = false;
+                    o.Password.RequireUppercase = true;
+                    o.Password.RequireLowercase = false;
+                }
+            ).AddRoles<IdentityRole>()
+             .AddEntityFrameworkStores<ApplicationContext>()
+             .AddSignInManager()
+             .AddDefaultTokenProviders();
+
+            services.AddAuthentication(o =>
+            {
+                o.DefaultScheme = IdentityConstants.ApplicationScheme;
+                o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+            .AddIdentityCookies(o => { });
+
+            // Add application services.
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IDiscussionRepository, DiscussionRepository>();
+            services.AddScoped<IServiceGroupRepository, ServiceGroupRepository>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IRequestRepository, RequestRepository>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

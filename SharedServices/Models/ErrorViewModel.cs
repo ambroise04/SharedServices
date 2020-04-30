@@ -1,6 +1,4 @@
-using System;
-
-namespace SharedServices.Models
+namespace SharedServices.UI.Models
 {
     public class ErrorViewModel
     {
