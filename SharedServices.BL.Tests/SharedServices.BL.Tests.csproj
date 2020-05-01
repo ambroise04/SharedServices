@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SharedServices.BL\SharedServices.BL.csproj" />
     <ProjectReference Include="..\Sharedservices.DAL\SharedServices.DAL.csproj" />
   </ItemGroup>
 

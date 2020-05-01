@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="LayoutDefaultComponents/_Styles.cshtml" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="ju-loading-screen">
+        <div class="sk-double-bounce">
+            <div class="sk-child sk-double-bounce1"></div>
+            <div class="sk-child sk-double-bounce2"></div>
+        </div>
+    </div>
+
+    <!-- Start Top Header -->
+    <partial name="LayoutDefaultComponents/_HeaderTop.cshtml" />
+    <!-- /End Top Header -->
+    <!-- Start Navigation -->
+    <div class="fables-navigation fables-main-background-color py-3 py-lg-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-10 col-lg-9 pr-md-0">
+                    <partial name="LayoutDefaultComponents/_Navigation.cshtml" />
+                </div>
+                <div class="col-12 col-md-2 col-lg-3 pr-md-0 icons-header-mobile">
+                    <partial name="LayoutDefaultComponents/_HeaderIcons.cshtml" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /End Navigation -->
+    <!-- Start Header -->
+    <div class="fables-header fables-after-overlay" style="height: 100px;">
+        <div class="container">
+            <h3 class="fables-page-title fables-second-border-color">@ViewData["Title"]</h3>
+        </div>
+    </div>
+    <!-- /End Header -->
+    <!-- Start Breadcrumbs -->
+    <div class="fables-light-background-color">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="fables-breadcrumb breadcrumb px-0 py-3">
+                    <li class="breadcrumb-item"><a href="#" class="fables-second-text-color">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- /End Breadcrumbs -->
+    <!-- Start page content -->
+    <div class="container">
+        @RenderBody();
+    </div>
+
+    <!-- Start Footer 2 Background Image  -->
+    <partial name="LayoutDefaultComponents/_Footer.cshtml" />
+    <!-- /End Footer 2 Background Image  -->
+    <!--Start Scripts-->
+    <partial name="LayoutDefaultComponents/_Scripts.cshtml" />
+    @RenderSection("Scripts", required: false)
+    <!-- /End Scripts-->
+</body>
+</html>
