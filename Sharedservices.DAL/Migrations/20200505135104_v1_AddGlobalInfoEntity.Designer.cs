@@ -10,8 +10,8 @@ using SharedServices.DAL;
 namespace SharedServices.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200427124258_v1")]
-    partial class v1
+    [Migration("20200505135104_v1_AddGlobalInfoEntity")]
+    partial class v1_AddGlobalInfoEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -279,6 +279,63 @@ namespace SharedServices.DAL.Migrations
                     b.ToTable("Discussions");
                 });
 
+            modelBuilder.Entity("SharedServices.DAL.Entities.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Advisor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DisplayAdvisorName")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Mark")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Feedbacks");
+                });
+
+            modelBuilder.Entity("SharedServices.DAL.Entities.Picture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique();
+
+                    b.ToTable("Pictures");
+                });
+
             modelBuilder.Entity("SharedServices.DAL.Entities.Request", b =>
                 {
                     b.Property<int>("Id")
@@ -341,6 +398,9 @@ namespace SharedServices.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("PointsByHour")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -348,6 +408,57 @@ namespace SharedServices.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ServiceGroups");
+                });
+
+            modelBuilder.Entity("SharedServices.Mutual.GlobalInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddressEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressFR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthorLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionFR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Infos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddressEN = "Place Cardinal Mercier, 2 Wavre Belgium",
+                            AddressFR = "Place Cardinal Mercier, 2 Wavre Belgique",
+                            AuthorLink = "https://www.labak.azurewebsites.net",
+                            DescriptionEN = "Description of this platform",
+                            DescriptionFR = "Description de cette plateforme",
+                            Email = "labakoam@gmail.com",
+                            Phone = "+32 (0)494 68 00 38"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -421,6 +532,22 @@ namespace SharedServices.DAL.Migrations
                     b.HasOne("SharedServices.DAL.ApplicationUser", null)
                         .WithMany("Discussions")
                         .HasForeignKey("ApplicationUserId");
+                });
+
+            modelBuilder.Entity("SharedServices.DAL.Entities.Feedback", b =>
+                {
+                    b.HasOne("SharedServices.DAL.ApplicationUser", "User")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("SharedServices.DAL.Entities.Picture", b =>
+                {
+                    b.HasOne("SharedServices.DAL.ApplicationUser", "User")
+                        .WithOne("Picture")
+                        .HasForeignKey("SharedServices.DAL.Entities.Picture", "ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SharedServices.DAL.Entities.Request", b =>

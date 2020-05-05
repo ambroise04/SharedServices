@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharedServices.Mutual\SharedServices.Mutual.csproj" />
+  </ItemGroup>
+
 </Project>

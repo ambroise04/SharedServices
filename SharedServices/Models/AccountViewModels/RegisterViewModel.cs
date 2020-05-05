@@ -10,6 +10,22 @@ namespace SharedServices.UI.Models.AccountViewModels
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Prénoms")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Nom")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Ville")]
+        public string City { get; set; }
+
+        [Required]
+        [Display(Name = "Code postal")]
+        public int PostalCode { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

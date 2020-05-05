@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharedServices.BL.Services;
 using SharedServices.DAL;
 using SharedServices.DAL.Interfaces;
 using SharedServices.DAL.Repositories;
@@ -79,7 +80,11 @@ namespace SharedServices
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IRequestRepository, RequestRepository>();
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IGlobalInfoRepository, GlobalInfoRepository>();
+            //Enterprise information
+            services.AddTransient<IGlobalInfo, GlobalInfo>();
 
+            services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }

@@ -8,39 +8,68 @@
     <link href="~/mdb/css/stepper.min.css" rel="stylesheet" />
 }
 
-<h1>@Localizer["PageTitle"]</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <h5 class="card-header bg-color-red white-text text-center py-4">
+                    <span>@Localizer["PageTitle"]</span>
+                </h5>
+                <div class="card-body px-lg-5 pt-0">
+                    <!-- Default form register -->
+                    <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post"
+                          class="p-5">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-row mb-4">
+                            <div class="col">
+                                <!-- First name -->
+                                <label asp-for="FirstName"></label>
+                                <input asp-for="FirstName" class="form-control">
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
 
-<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
-    <h4>Create a new account.</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="col">
+                                <!-- Last name -->
+                                <label asp-for="LastName"></label>
+                                <input asp-for="LastName" class="form-control">
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- E-mail -->
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control mb-4">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                        <!-- Password -->
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control" aria-describedby="registerPassword">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <small id="registerPassword" class="form-text text-muted mb-4">
+                            At least 8 characters and 1 digit
+                        </small>
+
+                        <!-- Confirm Password -->
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" class="form-control">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                        <!-- Sign up button -->
+                        <button class="btn btn-info my-4 btn-block" type="submit">Sign in</button>
+
+                        <!-- Terms of service -->
+                        <p>
+                            By clicking
+                            <em>Sign up</em> you agree to our
+                            <a href="" target="_blank">terms of service</a>
+
+                    </form>
+                    <!-- Default form register -->
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Register</button>
-        </div>
-    </div>
-</form>
+</div>
 
 @section Scripts
 {

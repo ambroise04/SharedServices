@@ -1,15 +1,21 @@
 ﻿@inject IViewLocalizer Localizer
+@inject IGlobalInfo GlobalInfo
+
+@{
+    var infos = GlobalInfo.GetGlobalInfo();
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+}
 
 <div class="fables-footer-image fables-after-overlay white-color py-4 py-lg-5 bg-rules">
     <div class="container">
-        <div class="row">            
+        <div class="row">
             <div class="col-12 col-lg-4 mb-4 mb-lg-0">
-                <a href="#" class="fables-second-border-color border-bottom pb-3 d-block mb-3 mt-minus-13"><img src="~/template/images/fables-logo.png" alt="fables template">
+                <a href="#" class="fables-second-border-color border-bottom pb-3 d-block mb-3 mt-minus-13">
+                    <img src="~/template/images/fables-logo.png" alt="fables template">
                 </a>
                 <p class="font-15 fables-third-text-color">
-                    t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters.
-                    <br><br>
-                    t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+                     @{ string desc = (cultureFR) ? infos.DescriptionFR : infos.DescriptionEN;}
+                     @desc
                 </p>
 
             </div>
@@ -17,27 +23,27 @@
             <div class="col-12 col-sm-6 col-lg-4">
                 <h2 class="font-20 semi-font fables-second-border-color border-bottom pb-3">@Localizer["ContactNous"]</h2>
                 <div class="my-3">
-                    <h4 class="font-16 semi-font"><span class="fables-iconmap-icon fables-second-text-color pr-2 font-20 mt-1 d-inline-block"></span> Address Information</h4>
-                    <p class="font-14 fables-fifth-text-color mt-2 ml-4">@Localizer["Adresse"]</p>
+                    <h4 class="font-16 semi-font"><span class="fables-iconmap-icon fables-second-text-color pr-2 font-20 mt-1 d-inline-block"></span> @Localizer["AdresseTitre"]</h4>
+                    <p class="font-14 fables-fifth-text-color mt-2 ml-4">
+                        @{ string address = (cultureFR) ? infos.AddressFR : infos.AddressEN;}
+                        @address
+                    </p>
                 </div>
                 <div class="my-3">
                     <h4 class="font-16 semi-font"><span class="fables-iconphone fables-second-text-color pr-2 font-20 mt-1 d-inline-block"></span> @Localizer["CallTitre"] </h4>
-                    <p class="font-14 fables-fifth-text-color mt-2 ml-4">+32 494 68 00 38</p>
+                    <p class="font-14 fables-fifth-text-color mt-2 ml-4">@infos.Phone</p>
                 </div>
                 <div class="my-3">
                     <h4 class="font-16 semi-font"><span class="fables-iconemail fables-second-text-color pr-2 font-20 mt-1 d-inline-block"></span> Mail </h4>
-                    <p class="font-14 fables-fifth-text-color mt-2 ml-4">adminsupport@website.com</p>
+                    <p class="font-14 fables-fifth-text-color mt-2 ml-4">@infos.Email</p>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-lg-4">
                 <h2 class="font-20 semi-font fables-second-border-color border-bottom pb-3 mb-3">@Localizer["Exploration"]</h2>
                 <ul class="nav fables-footer-links">
-                    <li><a href="about1.html">About Us</a></li>
-                    <li><a href="contactus1.html">Contact Us</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="team.html">Team</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="testimonials.html">Testimonials</a></li>
+                    <li><a asp-controller="Home" asp-action="Faq">FAQs</a></li>
+                    <li><a asp-controller="Contact" asp-action="ContactUs">Contact</a></li>
+                    <li><a asp-controller="Home" asp-action="Testimonial">@Localizer["Temoignage"]</a></li>
                 </ul>
             </div>
 
@@ -48,7 +54,7 @@
 <div class="copyright fables-main-background-color mt-0 border-0 white-color font-15">
     <ul class="nav fables-footer-social-links just-center fables-light-footer-links">
         <li><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-        <li><a href="www.labak.azurewebsites.net" target="_blank"><i class="fas fa-user-tie"></i></a></li>
+        <li><a href="@infos.AuthorLink" target="_blank"><i class="fas fa-user-tie"></i></a></li>
     </ul>
     <p class="mb-0">@Localizer["Copyright"]</p>
 </div>

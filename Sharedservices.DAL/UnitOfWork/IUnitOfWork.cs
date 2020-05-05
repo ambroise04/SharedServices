@@ -10,6 +10,7 @@ namespace SharedServices.DAL.UnitOfWork
         IServiceGroupRepository ServiceGroupRepository { get; }
         IServiceRepository ServiceRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }
+        IGlobalInfoRepository GlobalInfoRepository { get; }
 
         void CreateTransaction();
         void CommitTransaction();

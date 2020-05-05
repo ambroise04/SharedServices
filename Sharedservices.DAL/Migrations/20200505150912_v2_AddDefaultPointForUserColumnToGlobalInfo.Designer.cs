@@ -10,8 +10,8 @@ using SharedServices.DAL;
 namespace SharedServices.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200429114559_v3_AddPictureEntity")]
-    partial class v3_AddPictureEntity
+    [Migration("20200505150912_v2_AddDefaultPointForUserColumnToGlobalInfo")]
+    partial class v2_AddDefaultPointForUserColumnToGlobalInfo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -408,6 +408,61 @@ namespace SharedServices.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ServiceGroups");
+                });
+
+            modelBuilder.Entity("SharedServices.Mutual.GlobalInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AddressEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressFR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AuthorLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DefaultPointForUsers")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DescriptionEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescriptionFR")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Infos");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddressEN = "Place Cardinal Mercier, 2 Wavre Belgium",
+                            AddressFR = "Place Cardinal Mercier, 2 Wavre Belgique",
+                            AuthorLink = "https://www.labak.azurewebsites.net",
+                            DefaultPointForUsers = 10,
+                            DescriptionEN = "Description of this platform",
+                            DescriptionFR = "Description de cette plateforme",
+                            Email = "labakoam@gmail.com",
+                            Phone = "+32 (0)494 68 00 38"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

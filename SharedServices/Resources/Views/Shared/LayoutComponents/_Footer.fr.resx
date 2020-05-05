@@ -120,6 +120,9 @@
   <data name="Adresse" xml:space="preserve">
     <value>Place Cardinal Mercier 2, Wavre Belgique</value>
   </data>
+  <data name="AdresseTitre" xml:space="preserve">
+    <value>Adresse pour informations</value>
+  </data>
   <data name="CallTitre" xml:space="preserve">
     <value>Appelez maintenant</value>
   </data>
@@ -131,5 +134,8 @@
   </data>
   <data name="Exploration" xml:space="preserve">
     <value>Explorer ce site</value>
+  </data>
+  <data name="Temoignage" xml:space="preserve">
+    <value>Témoignages</value>
   </data>
 </root>

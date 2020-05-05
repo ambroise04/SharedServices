@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Accueil" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Aide" xml:space="preserve">
-    <value>Help</value>
-  </data>
-  <data name="Etapes" xml:space="preserve">
-    <value>How to begin ?</value>
-  </data>
-  <data name="Recherche" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="VoirServices" xml:space="preserve">
-    <value>View services</value>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Registration</value>
   </data>
 </root>

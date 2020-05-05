@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SharedServices.DAL.Migrations
 {
-    public partial class v1 : Migration
+    public partial class v1_AddGlobalInfoEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -52,12 +52,32 @@ namespace SharedServices.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Infos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(nullable: false),
+                    DescriptionFR = table.Column<string>(nullable: false),
+                    DescriptionEN = table.Column<string>(nullable: true),
+                    Phone = table.Column<string>(nullable: false),
+                    AddressFR = table.Column<string>(nullable: false),
+                    AddressEN = table.Column<string>(nullable: true),
+                    AuthorLink = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Infos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ServiceGroups",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    PointsByHour = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -194,6 +214,50 @@ namespace SharedServices.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Feedbacks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Mark = table.Column<int>(nullable: false),
+                    Comment = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true),
+                    Advisor = table.Column<string>(nullable: false),
+                    DisplayAdvisorName = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pictures",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ContentType = table.Column<string>(nullable: false),
+                    Image = table.Column<byte[]>(nullable: false),
+                    ApplicationUserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pictures", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pictures_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
                 {
@@ -267,6 +331,11 @@ namespace SharedServices.DAL.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Infos",
+                columns: new[] { "Id", "AddressEN", "AddressFR", "AuthorLink", "DescriptionEN", "DescriptionFR", "Email", "Phone" },
+                values: new object[] { 1, "Place Cardinal Mercier, 2 Wavre Belgium", "Place Cardinal Mercier, 2 Wavre Belgique", "https://www.labak.azurewebsites.net", "Description of this platform", "Description de cette plateforme", "labakoam@gmail.com", "+32 (0)494 68 00 38" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ApplicationUserServices_ApplicationUserId",
                 table: "ApplicationUserServices",
@@ -317,6 +386,17 @@ namespace SharedServices.DAL.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Feedbacks_UserId",
+                table: "Feedbacks",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pictures_ApplicationUserId",
+                table: "Pictures",
+                column: "ApplicationUserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Requests_ServiceId",
                 table: "Requests",
                 column: "ServiceId");
@@ -354,6 +434,15 @@ namespace SharedServices.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discussions");
+
+            migrationBuilder.DropTable(
+                name: "Feedbacks");
+
+            migrationBuilder.DropTable(
+                name: "Infos");
+
+            migrationBuilder.DropTable(
+                name: "Pictures");
 
             migrationBuilder.DropTable(
                 name: "Requests");

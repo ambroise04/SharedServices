@@ -9,9 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using SharedServices.DAL;
+using System.Globalization;
+using SharedServices.DAL.UnitOfWork;
+using SharedServices.BL.UseCases.Admin;
 
 namespace SharedServices.UI.Controllers
-{
+{  
     [Authorize]
     public class AccountController : Controller
     {
@@ -21,18 +24,24 @@ namespace SharedServices.UI.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly Adminitrator _admin;
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _unitOfWork = unitOfWork;
+            _admin = new Adminitrator(_unitOfWork);
         }
 
         //
@@ -103,18 +112,34 @@ namespace SharedServices.UI.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, 
+                    City = model.City, PostalCode = model.PostalCode, Point = _admin.GetInfo().DefaultPointForUsers };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                    //For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                    //Send an email with this link
+                    var culture = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+
+                    string subject, message;
+                    if (culture)
+                    {
+                        subject = "Confirmez votre inscription";
+                        message = "Veuillez confirmer votre inscription en cliquant <a href=\"" + callbackUrl + "\">ici</a>";
+                    }
+                    else
+                    {
+                        subject = "Confirm your account";
+                        message = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>";
+                    }
+
+                    await _emailSender.SendEmailAsync(model.Email, subject,
+                        message);
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);

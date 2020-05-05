@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.DAL.Entities;
+using SharedServices.DAL.Seeds;
+using SharedServices.Mutual;
 using System;
 
 namespace SharedServices.DAL
@@ -27,15 +29,15 @@ namespace SharedServices.DAL
 
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");                
-                optionsBuilder.UseSqlite(@"DataSource=SharedServiceDB.db;");
-                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");                
+                //optionsBuilder.UseSqlite(@"DataSource=SharedServiceDB.db;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<ApplicationUserServices>().HasKey(s => new { s.ServiceId, s.ApplicationUserId });            
+            builder.Entity<ApplicationUserServices>().HasKey(s => new { s.ServiceId, s.ApplicationUserId });
+            builder.Entity<GlobalInfo>().HasData(GlobalInfoSeed.GlobalInfo());
             base.OnModelCreating(builder);
         }
 
@@ -45,5 +47,6 @@ namespace SharedServices.DAL
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Picture> Pictures { get; set; }
+        public DbSet<GlobalInfo> Infos { get; set; }
     }
 }
