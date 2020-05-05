@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,8 @@ using SharedServices.DAL.Repositories;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.UI.Services;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace SharedServices
 {
@@ -26,6 +30,12 @@ namespace SharedServices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //i18n service
+            services.AddLocalization(options => options.ResourcesPath = "Resources")
+                    .AddMvc()
+                    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                    .AddDataAnnotationsLocalization();
+
             //Framework services
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
             {
@@ -87,6 +97,25 @@ namespace SharedServices
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //i18n params
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("fr"),
+                new CultureInfo("fr-FR"),
+                new CultureInfo("en"),
+                new CultureInfo("en-US")
+            };
+
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            app.UseRequestLocalization(localizationOptions);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

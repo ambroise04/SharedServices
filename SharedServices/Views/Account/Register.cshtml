@@ -1,9 +1,14 @@
 ﻿@model RegisterViewModel
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = Localizer["PageTitle"];
+}
+@section Styles{
+    <link href="~/mdb/css/stepper.min.css" rel="stylesheet" />
 }
 
-<h1>@ViewData["Title"].</h1>
+<h1>@Localizer["PageTitle"]</h1>
 
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
     <h4>Create a new account.</h4>
@@ -37,6 +42,8 @@
     </div>
 </form>
 
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/mdb/js/stepper.min.js"></script>
 }

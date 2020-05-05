@@ -1,6 +1,4 @@
-﻿@inject IViewLocalizer Localizer
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <partial name="LayoutComponents/_Styles.cshtml" />
@@ -28,25 +26,6 @@
         </div>
     </div>
     <!-- /End Navigation -->
-    <!-- Start Header -->
-    <div class="fables-header fables-after-overlay" style="height: 100px;">
-        <div class="container">
-            <h3 class="fables-page-title fables-second-border-color">@ViewData["Title"]</h3>
-        </div>
-    </div>
-    <!-- /End Header -->
-    <!-- Start Breadcrumbs -->
-    <div class="fables-light-background-color">
-        <div class="container">
-            <nav aria-label="breadcrumb">
-                <ol class="fables-breadcrumb breadcrumb px-0 py-3">
-                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="fables-second-text-color">@Localizer["Accueil"]</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-    <!-- /End Breadcrumbs -->
     <!-- Start page content -->
     @RenderBody()
     <!-- /End page content -->

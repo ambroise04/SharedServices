@@ -5,7 +5,7 @@
     color: rgb(64, 64, 64);
 }
 .btco-hover-menu a ,  .navbar > li > a {
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
     padding: 10px 15px;
     color: #666;
     font-size: 15px;
