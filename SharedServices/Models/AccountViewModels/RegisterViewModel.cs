@@ -18,6 +18,10 @@ namespace SharedServices.UI.Models.AccountViewModels
         public string LastName { get; set; }
 
         [Required]
+        [Display(Name = "Pays")]
+        public string Country { get; set; }
+
+        [Required]
         [Display(Name = "Ville")]
         public string City { get; set; }
 
@@ -31,6 +35,7 @@ namespace SharedServices.UI.Models.AccountViewModels
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

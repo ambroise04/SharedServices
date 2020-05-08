@@ -113,7 +113,7 @@ namespace SharedServices.UI.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, 
-                    City = model.City, PostalCode = model.PostalCode, Point = _admin.GetInfo().DefaultPointForUsers };
+                    Country = model.Country, City = model.City, PostalCode = model.PostalCode, Point = _admin.GetInfo().DefaultPointForUsers };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

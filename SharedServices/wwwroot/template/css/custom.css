@@ -2758,11 +2758,11 @@ h1,h2,h3,h4,h5,h6,p{
     border-top-width: 1px;
     border-top-style: solid;
 }
-.form-control:focus { 
+/*.form-control:focus { 
     background-color: transparent;
     border-color: rgba(229, 77, 66, 1); 
     box-shadow: none;
-}
+}*/
 .owl-carousel .owl-item img {
     width: auto;
     margin-right:  auto;
@@ -2833,9 +2833,9 @@ a:hover , .btn-link:hover{
     background: linear-gradient(to bottom, rgba(44,62,79,0.2) 0%,rgba(44,62,79,0.21) 1%,rgba(44,62,79,0.77) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#332c3e4f', endColorstr='#c42c3e4f',GradientType=0 );
 }
-.fables-main-background-color ,.fables-main-before a::before , .fables-main-before a::after ,.fables-main-active.active , .fables-main-dots .owl-dot.active span ,.fables-main-hover-background-color:hover{
+/*.fables-main-background-color ,.fables-main-before a::before , .fables-main-before a::after ,.fables-main-active.active , .fables-main-dots .owl-dot.active span ,.fables-main-hover-background-color:hover{
     background-color: #2C3E4F !important;
-}
+}*/
 .fables-main-text-color{
     color: #2C3E4F ;
 }

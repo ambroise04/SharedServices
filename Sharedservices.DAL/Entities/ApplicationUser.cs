@@ -4,13 +4,14 @@ using System.Collections.Generic;
 
 namespace SharedServices.DAL
 {
-    public class ApplicationUser : IdentityUser<string>
+    public class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int PostalCode { get; set; }
         public int Point { get; set; }
         public string City { get; set; }
+        public string Country { get; set; }
         public Picture Picture { get; set; }
         public ICollection<ApplicationUserServices> UserServices { get; set; }
         public ICollection<Request> Requests { get; set; }

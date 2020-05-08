@@ -5,80 +5,50 @@
     ViewData["Title"] = Localizer["PageTitle"];
 }
 @section Styles{
-    <link href="~/mdb/css/steppers.min.css" rel="stylesheet" />
+    <link href="~/mdb/css/stepper.min.css" rel="stylesheet" />
 }
 <style>
     ul.stepper {
         margin: 0em 0rem;
     }
 
-        ul.stepper .step.active:before {
-            content: '\f00c';
-            font-size: 1rem;
-        }
-
-        ul.stepper .step.done:before, ul.stepper .step.wrong:before {
-            font-family: 'Font Awesome 5 free';
-            font-weight: 900;
-        }
-
-    .avatar-pic {
-        width: 150px;
-        height: 150px;
+    /*ul.stepper .step.active:before {
+        content: '\f00c';
+        font-size: 1rem;
     }
+
+    ul.stepper .step.done:before, ul.stepper .step.wrong:before {
+        font-family: 'Font Awesome 5 free';
+        font-weight: 900;
+    }*/
 </style>
 
 <div class="fables-after-overlay py-4 py-lg-5 mb-4 mb-lg-5 bg-rules" style="background-image: url('/images/register-bg-2.jpg');">
     <div class="container position-relative z-index">
-        <div class="text-center">
-            <img src="~/images/logo-complet.png" alt="Between us logo" class="img-fluid">
-            <h2 class="white-color ubuntu-light font-weight-bold  mb-4 mb-md-5">@Localizer["PageTitle"]</h2>
-        </div>
-        <div class="row p-4">
+        <h2 class="white-color ubuntu-light font-weight-bold text-center mb-4 mb-md-5">@Localizer["PageTitle"]</h2>
+        <div class="row">
             <div class="col-md-12 mb-lg-0 wow bounceInDown card card-body bg-ghost" data-wow-delay=".4s" data-wow-duration="1.5s"
                  style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceInDown; opacity: 0.8">
                 <!-- Default form register -->
                 <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post"
-                      class="p-sm-2 p-md-3 p-lg-5 ubuntu-light" enctype="multipart/form-data">
+                      class="p-5">
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-row">
-                        <ul class="stepper linear col-md-12">
+                        <ul class="stepper horizontal horizontal-fix col-md-12" id="horizontal-stepper">
                             <li class="step active">
                                 <div class="step-title waves-effect waves-dark"> Identité</div>
                                 <div class="step-new-content">
                                     <div class="row">
-                                        <div class="col-md-6 col-sm-12 d-flex align-items-center">
-                                            <p>
-                                                <small>
-                                                    Ajouter une photo pourrait accroître le degré de confiance des personnes susceptibles de vous proposer un service.
-                                                </small>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <div class="file-field d-flex flex-sm-wrap align-items-center">
-                                                <div class="d-flex justify-content-center">
-                                                    <div class="btn bg-color-green white-text btn-rounded">
-                                                        <span>Ajouter une photo</span>
-                                                        <input type="file" id="fileupload">
-                                                    </div>
-                                                </div>
-                                                <div class="mb-2">
-                                                    <img src="~/images/placeholder-avatar.jpg" id="preview"
-                                                         class="rounded-circle z-depth-1-half avatar-pic" alt="Profile picture">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-6 col-sm-12">
                                             <!-- First name -->
                                             <label asp-for="FirstName"></label>
-                                            <input asp-for="FirstName" class="form-control validate" required>
+                                            <input asp-for="FirstName" class="form-control">
                                             <span asp-validation-for="FirstName" class="text-danger"></span>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <!-- Last name -->
                                             <label asp-for="LastName"></label>
-                                            <input asp-for="LastName" class="form-control validate" required>
+                                            <input asp-for="LastName" class="form-control">
                                             <span asp-validation-for="LastName" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -86,7 +56,7 @@
                                         <div class="col-md-12">
                                             <!-- E-mail -->
                                             <label asp-for="Email"></label>
-                                            <input asp-for="Email" class="form-control validate" required>
+                                            <input asp-for="Email" class="form-control">
                                             <span asp-validation-for="Email" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -94,7 +64,7 @@
                                         <div class="col-md-6 col-sm-12">
                                             <!-- Password -->
                                             <label asp-for="Password"></label>
-                                            <input asp-for="Password" class="form-control validate" aria-describedby="registerPassword" required>
+                                            <input asp-for="Password" class="form-control" aria-describedby="registerPassword">
                                             <span asp-validation-for="Password" class="text-danger"></span>
                                             <small id="registerPassword" class="form-text text-muted mb-4">
                                                 At least 8 characters and 1 digit
@@ -103,12 +73,12 @@
                                         <div class="col-md-6 col-sm-12">
                                             <!-- Confirm Password -->
                                             <label asp-for="ConfirmPassword"></label>
-                                            <input asp-for="ConfirmPassword" class="form-control validate" required>
+                                            <input asp-for="ConfirmPassword" class="form-control">
                                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="step-actions">
-                                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step">CONTINUE</button>
+                                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="someFunction21">CONTINUE</button>
                                     </div>
                                 </div>
                             </li>
@@ -116,30 +86,56 @@
                                 <div class="step-title waves-effect waves-dark"> Localité</div>
                                 <div class="step-new-content">
                                     <div class="row">
-                                        <div class="col-md-4 col-sm-12">
+                                        <div class="col-md-6 col-sm-12">
                                             <!-- Postal cod -->
                                             <label asp-for="PostalCode"></label>
-                                            <input asp-for="PostalCode" class="form-control validate" required>
+                                            <input asp-for="PostalCode" class="form-control">
                                             <span asp-validation-for="PostalCode" class="text-danger"></span>
                                         </div>
-                                        <div class="col-md-4 col-sm-12">
+                                        <div class="col-md-6 col-sm-12">
                                             <!-- City -->
                                             <label asp-for="City"></label>
-                                            <input asp-for="City" class="form-control validate" required>
+                                            <input asp-for="City" class="form-control">
                                             <span asp-validation-for="City" class="text-danger"></span>
                                         </div>
-                                        <div class="col-md-4 col-sm-12">
-                                            <!-- Country -->
-                                            <label asp-for="Country"></label>
-                                            <select asp-for="Country" class="browser-default custom-select select">
-                                                <partial name="/Views/Shared/_Countries.cshtml" />
-                                            </select>
-                                            <span asp-validation-for="Country" class="text-danger"></span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <!-- Password -->
+                                            <label asp-for="Password"></label>
+                                            <input asp-for="Password" class="form-control" aria-describedby="registerPassword">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                            <small id="registerPassword" class="form-text text-muted mb-4">
+                                                At least 8 characters and 1 digit
+                                            </small>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <!-- Confirm Password -->
+                                            <label asp-for="ConfirmPassword"></label>
+                                            <input asp-for="ConfirmPassword" class="form-control">
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <!-- Password -->
+                                            <label asp-for="Password"></label>
+                                            <input asp-for="Password" class="form-control" aria-describedby="registerPassword">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                            <small id="registerPassword" class="form-text text-muted mb-4">
+                                                At least 8 characters and 1 digit
+                                            </small>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <!-- Confirm Password -->
+                                            <label asp-for="ConfirmPassword"></label>
+                                            <input asp-for="ConfirmPassword" class="form-control">
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="step-actions">
+                                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="someFunction21">CONTINUE</button>
                                         <button class="waves-effect waves-dark btn btn-sm btn-secondary previous-step">BACK</button>
-                                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step">CONTINUE</button>
                                     </div>
                                 </div>
                             </li>
@@ -173,44 +169,11 @@
 
 @section Scripts
 {
-    <script src="~/mdb/js/steppers.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/mdb/js/stepper.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('.stepper').mdbStepper();
         })
-
-        function someFunction22() {
-            setTimeout(function () {
-                $('.stepper').nextStep();
-            }, 2000);
-        }
-
-        $(function () {
-            $("#fileupload").change(function () {
-                if (typeof (FileReader) != "undefined") {
-                    var dvPreview = $("#dvPreview");
-                    dvPreview.html("");
-                    var regex = /^([\w\s\\.\-:\(\)])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-                    $($(this)[0].files).each(function () {
-                        var file = $(this);
-                        if (regex.test(file[0].name.toLowerCase())) {
-                            var reader = new FileReader();
-                            reader.onload = function (e) {
-                                var img = $("#preview");
-                                img.attr("src", e.target.result);
-                            }
-                            reader.readAsDataURL(file[0]);
-                        } else {
-                            error(file[0].name + " n'est pas un fichier image valide. Changez les caractères avec accent si le nom du ficher en contient.");
-                            dvPreview.html("");
-                            return false;
-                        }
-                    });
-                } else {
-                    alert("This browser does not support HTML5 FileReader.");
-                }
-            });
-        });
     </script>
 }
