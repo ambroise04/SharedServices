@@ -117,7 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Back" xml:space="preserve">
+    <value>RETOUR</value>
+  </data>
+  <data name="Identity" xml:space="preserve">
+    <value>Votre identité</value>
+  </data>
+  <data name="Localite" xml:space="preserve">
+    <value>Localité</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>CONTINUER</value>
+  </data>
   <data name="PageTitle" xml:space="preserve">
     <value>Inscription</value>
+  </data>
+  <data name="PasswordHint" xml:space="preserve">
+    <value>Au moins 8 caractères contenant au moins un caractère alphanumérique.At least 8 characters and 1 digitcharacters and 1 digit</value>
+  </data>
+  <data name="PictureAdvise" xml:space="preserve">
+    <value>Ajouter votre photo pourrait accroître le degré de confiance des personnes susceptibles de vous proposer un service.</value>
+  </data>
+  <data name="PictureBtn" xml:space="preserve">
+    <value>Ajouter une photo</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Vos services</value>
+  </data>
+  <data name="Valider" xml:space="preserve">
+    <value>S'INSCRIRE</value>
   </data>
 </root>

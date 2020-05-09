@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SharedServices.DAL.Entities;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SharedServices.DAL
 {
@@ -12,6 +13,8 @@ namespace SharedServices.DAL
         public int Point { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        [Range(0, 5)]
+        public int Start { get; set; }
         public Picture Picture { get; set; }
         public ICollection<ApplicationUserServices> UserServices { get; set; }
         public ICollection<Request> Requests { get; set; }

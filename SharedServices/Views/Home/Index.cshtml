@@ -1,6 +1,8 @@
-﻿@{
+﻿@inject IViewLocalizer Localizer;
+
+@{
     Layout = "_LayoutIndex";
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = Localizer["Titre"];
 }
 
 <!-- Start Header -->

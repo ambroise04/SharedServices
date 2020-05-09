@@ -12,6 +12,7 @@ using SharedServices.DAL;
 using System.Globalization;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.BL.UseCases.Admin;
+using Microsoft.AspNetCore.Http;
 
 namespace SharedServices.UI.Controllers
 {  
@@ -107,13 +108,14 @@ namespace SharedServices.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model, IFormFile File, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, 
                     Country = model.Country, City = model.City, PostalCode = model.PostalCode, Point = _admin.GetInfo().DefaultPointForUsers };
+                _admin.ThreatPicture(File, user);
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
