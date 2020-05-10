@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = Localizer["PageTitle"];
+    var services = Model.ServicesTO;
 }
 @section Styles{
     <link href="~/mdb/css/steppers.min.css" rel="stylesheet" />
@@ -26,6 +27,22 @@
         max-width: 150px;
         height: 150px;
     }
+
+    .md-outline.select-wrapper + label{
+        top: .5em !important;
+        z-index: 2 !important;
+    }
+
+    .select-wrapper.md-form > ul li label {
+        color: #0e9c9c;
+    }
+    .select-wrapper.md-form.md-outline + label.active {
+        color: #0e9c9c;
+    }
+
+    .select-wrapper.md-form.md-outline + label {
+        background: #f8f8ff;
+    }
 </style>
 
 <div class="fables-after-overlay py-4 py-lg-5 mb-4 mb-lg-5 bg-rules" style="background-image: url('/images/register-bg-2.jpg');">
@@ -36,7 +53,10 @@
         </div>
         <div class="row p-4">
             <div class="col-md-12 mb-lg-0 wow bounceInDown card card-body bg-ghost" data-wow-delay=".4s" data-wow-duration="1.5s"
-                 style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceInDown;">
+                 style="        visibility: visible;
+        animation-duration: 1.5s;
+        animation-delay: 0.4s;
+        animation-name: bounceInDown;">
                 <!-- Default form register -->
                 <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post"
                       class="p-sm-2 p-md-3 p-lg-4 ubuntu-light" enctype="multipart/form-data">
@@ -142,9 +162,27 @@
                                     </div>
                                 </div>
                             </li>
+                            <!--Services-->
                             <li class="step">
                                 <div class="step-title waves-effect waves-dark"> @Localizer["Services"]</div>
                                 <div class="step-new-content">
+                                    <div class="row">
+                                        <div class="col-md-12 select-outline">
+                                            <select name="Services" id="Services" class="mdb-select md-form md-outline" multiple>
+                                                @foreach (var group in services)
+                                                {
+                                                    <optgroup label="@group.ServiceGroup.Title">
+                                                        @foreach (var service in group.Services)
+                                                        {
+                                                            <option value="@service.Id">@service.Title</option>
+                                                        }
+                                                    </optgroup>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="Services" class="text-danger"></span>
+                                            <label class="mdb-main-label" for="Services">Vos services</label>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <!-- Terms of service -->

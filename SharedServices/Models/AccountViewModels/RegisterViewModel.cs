@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SharedServices.BL.Domain;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SharedServices.UI.Models.AccountViewModels
 {
@@ -40,5 +42,8 @@ namespace SharedServices.UI.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public List<ServiceTO> ServicesTO { get; set; }
+        public List<Service> Services { get; set; }
     }
 }

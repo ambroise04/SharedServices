@@ -100,7 +100,9 @@ namespace SharedServices.UI.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            RegisterViewModel registerViewModel = new RegisterViewModel();
+            registerViewModel.ServicesTO = _admin.GetAllServicesGrouped();
+            return View(registerViewModel);
         }
 
         //
