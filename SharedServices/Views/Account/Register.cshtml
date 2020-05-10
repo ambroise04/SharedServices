@@ -168,7 +168,7 @@
                                 <div class="step-new-content">
                                     <div class="row">
                                         <div class="col-md-12 select-outline">
-                                            <select name="Services" id="Services" class="mdb-select md-form md-outline" multiple>
+                                            <select asp-for="Services" class="mdb-select md-form md-outline" multiple>
                                                 @foreach (var group in services)
                                                 {
                                                     <optgroup label="@group.ServiceGroup.Title">
@@ -179,8 +179,8 @@
                                                     </optgroup>
                                                 }
                                             </select>
+                                            <label class="mdb-main-label" asp-for="Services">Vos services</label>
                                             <span asp-validation-for="Services" class="text-danger"></span>
-                                            <label class="mdb-main-label" for="Services">Vos services</label>
                                         </div>
                                     </div>
                                     <div class="row">
