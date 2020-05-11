@@ -7,42 +7,10 @@
 }
 @section Styles{
     <link href="~/mdb/css/steppers.min.css" rel="stylesheet" />
+    <link href="~/css/register.css" rel="stylesheet" />
 }
 <style>
-    ul.stepper {
-        margin: 0em 0rem;
-    }
-
-        ul.stepper .step.active:before {
-            content: '\f00c';
-            font-size: 1rem;
-        }
-
-        ul.stepper .step.done:before, ul.stepper .step.wrong:before {
-            font-family: 'Font Awesome 5 free';
-            font-weight: 900;
-        }
-
-    .avatar-pic {
-        max-width: 150px;
-        height: 150px;
-    }
-
-    .md-outline.select-wrapper + label{
-        top: .5em !important;
-        z-index: 2 !important;
-    }
-
-    .select-wrapper.md-form > ul li label {
-        color: #0e9c9c;
-    }
-    .select-wrapper.md-form.md-outline + label.active {
-        color: #0e9c9c;
-    }
-
-    .select-wrapper.md-form.md-outline + label {
-        background: #f8f8ff;
-    }
+    
 </style>
 
 <div class="fables-after-overlay py-4 py-lg-5 mb-4 mb-lg-5 bg-rules" style="background-image: url('/images/register-bg-2.jpg');">
@@ -69,7 +37,7 @@
                                         <div class="col-md-6 col-sm-12 d-flex align-items-center mb-sm-2">
                                             <p>
                                                 <small>
-                                                    @Localizer["PictureAdvise"]                                                    
+                                                    @Localizer["PictureAdvise"]
                                                 </small>
                                             </p>
                                         </div>
@@ -115,7 +83,7 @@
                                             <label asp-for="Password"></label>
                                             <input asp-for="Password" class="form-control validate" aria-describedby="registerPassword" value="Ambroise0" required>
                                             <span asp-validation-for="Password" class="text-danger"></span>
-                                            <small id="registerPassword" class="form-text text-muted mb-4">                                                
+                                            <small id="registerPassword" class="form-text text-muted mb-4">
                                                 @Localizer["PasswordHint"]
                                             </small>
                                         </div>
@@ -167,8 +135,22 @@
                                 <div class="step-title waves-effect waves-dark"> @Localizer["Services"]</div>
                                 <div class="step-new-content">
                                     <div class="row">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <small>Vous aurez la possibilité de rensigner les services dont vous êtes 
+                                                compétent après votre inscription.</small>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12 ubuntu-medium mt-2">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="service-check" name="withoutServices">
+                                                <label class="form-check-label" for="service-check">Renseigner plus tard</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-12 select-outline">
-                                            <select asp-for="Services" class="mdb-select md-form md-outline" multiple>
+                                            <select name="Services" id="sve" class="mdb-select md-form md-outline service-select" searchable="Rechercher..." multiple>
                                                 @foreach (var group in services)
                                                 {
                                                     <optgroup label="@group.ServiceGroup.Title">
@@ -179,7 +161,7 @@
                                                     </optgroup>
                                                 }
                                             </select>
-                                            <label class="mdb-main-label" asp-for="Services">Vos services</label>
+                                            <label class="mdb-main-label" for="sve">Vos services</label>
                                             <span asp-validation-for="Services" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -187,9 +169,8 @@
                                         <div class="col-md-12">
                                             <!-- Terms of service -->
                                             <p>
-                                                By clicking
-                                                <em>Sign up</em> you agree to our
-                                                <a href="" target="_blank">terms of service</a>
+                                                By clicking <em class="submit-term">@Localizer["Valider"]</em> you agree to our 
+                                                <a class="p-0" href="" target="_blank">terms of service</a>
                                             </p>
                                         </div>
                                     </div>
@@ -202,7 +183,6 @@
                         </ul>
                     </div>
                 </form>
-                <!-- Default form register -->
             </div>
         </div>
     </div>
@@ -215,6 +195,14 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('.stepper').mdbStepper();
+
+            $("#service-check").on("change", function () {
+                if ($(this).is(":checked")) {
+                    $(".select-dropdown").attr("disabled", true);
+                } else {
+                    $(".select-dropdown").removeAttr("disabled");
+                }
+            })
         })
 
         $('.mdb-select').materialSelect({

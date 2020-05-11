@@ -21,6 +21,32 @@ namespace SharedServices.BL.UseCases.Clients
             return Mapping.Mapping.Mapper.Map<Service>(addedService);
         }
 
+        public Service GetServiceById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException($"Service id is wrong. {nameof(id)}");
+            }
+
+            var retrievedService = unitOfWork.ServiceRepository
+                      .GetById(id);
+
+            return Mapping.Mapping.Mapper.Map<Service>(retrievedService);
+        }
+
+        public DAL.Entities.Service GetServiceByIdWithoutConverting(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException($"Service id is wrong. {nameof(id)}");
+            }
+
+            var retrievedService = unitOfWork.ServiceRepository
+                      .GetById(id);
+
+            return retrievedService;
+        }
+
         public List<Service> GetAllServices()
         {
             var services = unitOfWork.ServiceRepository

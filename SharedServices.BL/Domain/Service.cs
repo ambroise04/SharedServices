@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SharedServices.DAL;
+using SharedServices.DAL.Entities;
 using System.Collections.Generic;
 
 namespace SharedServices.BL.Domain
@@ -10,6 +11,6 @@ namespace SharedServices.BL.Domain
         public string Title { get; set; }
         public string Description { get; set; }
         public ServiceGroup Group { get; set; }
-        public ICollection<ApplicationUser> Users { get; set; }
+        public ICollection<ApplicationUserServices> UserServices { get; set; }
     }
 }

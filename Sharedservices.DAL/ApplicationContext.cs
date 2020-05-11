@@ -29,7 +29,7 @@ namespace SharedServices.DAL
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");                
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");
                 //optionsBuilder.UseSqlite(@"DataSource=SharedServiceDB.db;");
             }
         }
@@ -37,7 +37,19 @@ namespace SharedServices.DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ApplicationUserServices>().HasKey(s => new { s.ServiceId, s.ApplicationUserId });
+
+            builder.Entity<ApplicationUserServices>()
+                   .HasOne(x => x.Service)
+                   .WithMany(x => x.UserServices)
+                   .HasForeignKey(x => x.ServiceId);
+
+            builder.Entity<ApplicationUserServices>()
+                   .HasOne(x => x.User)
+                   .WithMany(x => x.UserServices)
+                   .HasForeignKey(x => x.ApplicationUserId);
+
             builder.Entity<GlobalInfo>().HasData(GlobalInfoSeed.GlobalInfo());
+
             base.OnModelCreating(builder);
         }
 

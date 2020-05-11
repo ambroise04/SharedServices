@@ -30,7 +30,7 @@ namespace SharedServices.DAL.Repositories
         public IEnumerable<Service> GetAll()
         {
             return Context.Services
-                          .Include(s => s.Group)
+                          .Include(s => s.Group)                          
                           .Include(s => s.UserServices)
                           .ThenInclude(us => us.User)
                           .ToList();
@@ -41,7 +41,7 @@ namespace SharedServices.DAL.Repositories
             if (id <= 0)
                 throw new ArgumentException("A bad id was submitted.");
 
-            return Context.Services.Find(id);
+            return Context.Services.FirstOrDefault(s => s.Id == id);
         }
 
         public IEnumerable<Service> GetByPredicate(Expression<Func<Service, bool>> predicate)

@@ -133,7 +133,7 @@
     <value>Inscription</value>
   </data>
   <data name="PasswordHint" xml:space="preserve">
-    <value>Au moins 8 caractères contenant au moins un caractère alphanumérique.At least 8 characters and 1 digitcharacters and 1 digit</value>
+    <value>Au moins 8 caractères contenant au moins un caractère alphanumérique.</value>
   </data>
   <data name="PictureAdvise" xml:space="preserve">
     <value>Ajouter votre photo pourrait accroître le degré de confiance des personnes susceptibles de vous proposer un service.</value>

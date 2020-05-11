@@ -45,6 +45,7 @@ namespace SharedServices.DAL.UnitOfWork
         public void CommitTransaction()
         {
             _transaction.Commit();
+            Save();
         }
 
         public void RollbackTransaction()

@@ -13,14 +13,20 @@ using System.Globalization;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.BL.UseCases.Admin;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using SharedServices.BL.Domain;
+using System;
+using SharedServices.BL.Extensions;
+using SharedServices.Mutual;
 
 namespace SharedServices.UI.Controllers
-{  
+{
     [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
@@ -31,6 +37,7 @@ namespace SharedServices.UI.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
@@ -38,6 +45,7 @@ namespace SharedServices.UI.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
@@ -110,47 +118,125 @@ namespace SharedServices.UI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model, IFormFile File, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model, IFormFile File, string withoutServices, List<string> Services, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, 
-                    Country = model.Country, City = model.City, PostalCode = model.PostalCode, Point = _admin.GetInfo().DefaultPointForUsers };
-                _admin.ThreatPicture(File, user);
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                List<Service> services = new List<Service>();
+                if (string.IsNullOrEmpty(withoutServices))
                 {
-                    //For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    //Send an email with this link
-                    var culture = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-
-                    string subject, message;
-                    if (culture)
+                    if (Services.Count() != 0)
                     {
-                        subject = "Confirmez votre inscription";
-                        message = "Veuillez confirmer votre inscription en cliquant <a href=\"" + callbackUrl + "\">ici</a>";
+                        foreach (var id in Services)
+                        {
+                            services.Add(_admin.GetServiceById(int.Parse(id)));
+                        }
                     }
-                    else
-                    {
-                        subject = "Confirm your account";
-                        message = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>";
-                    }
-
-                    await _emailSender.SendEmailAsync(model.Email, subject,
-                        message);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
-
-                    return RedirectToLocal(returnUrl);
                 }
-                AddErrors(result);
+
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Country = model.Country,
+                    City = model.City,
+                    PostalCode = model.PostalCode,
+                    Point = _admin.GetInfo().DefaultPointForUsers
+                };
+
+                //Add picture
+                if (File != null && File.Length > 0)
+                    user.ManagePicture(File);
+
+                //Manage services for user
+                user.ManageRelationship(services, _admin);
+
+                //Begin transaction
+                _unitOfWork.CreateTransaction();
+                try
+                {
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        var culture = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+
+                        string subject, message;
+                        if (culture)
+                        {
+                            subject = "Confirmez votre inscription";
+                            message = "Veuillez confirmer votre inscription en cliquant <a href=\"" + callbackUrl + "\">ici</a>";
+                        }
+                        else
+                        {
+                            subject = "Confirm your account";
+                            message = "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>";
+                        }
+
+                        await _emailSender.SendEmailAsync(model.Email, subject, message);
+
+                        //Commit changes
+                        _unitOfWork.CommitTransaction();
+
+                        if (!_userManager.Options.SignIn.RequireConfirmedAccount)
+                        {
+                            await RoleAssigning(user);
+
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            _logger.LogInformation(3, "User created a new account with password.");
+
+                            return RedirectToLocal(returnUrl);
+                        }
+                        else
+                        {
+                            return RedirectToAction("RegisterConfirmation");
+                        }
+                    }
+                    AddErrors(result);
+                }
+                catch (Exception ex)
+                {
+                    _unitOfWork.RollbackTransaction();
+                    _logger.LogError(ex.Message);
+                }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return RedirectToAction();
+        }
+
+        private async Task RoleAssigning(ApplicationUser user)
+        {
+            if (!await _roleManager.RoleExistsAsync(Roles.User.ToString()))
+            {
+                var userRole = new IdentityRole(Roles.User.ToString());
+                await _roleManager.CreateAsync(userRole);
+            }
+
+            if (!await _roleManager.RoleExistsAsync(Roles.Admin.ToString()))
+            {
+                var admin = new IdentityRole(Roles.Admin.ToString());
+                var res = await _roleManager.CreateAsync(admin);
+                if (res.Succeeded)
+                {
+                    await _userManager.AddToRolesAsync(user, new List<string> { Roles.Admin.ToString(), Roles.User.ToString() });
+                }
+            }
+            else
+            {
+                await _userManager.AddToRolesAsync(user, new List<string> { Roles.User.ToString() });
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegisterConfirmation()
+        {
+            return View();
         }
 
         //
@@ -275,6 +361,9 @@ namespace SharedServices.UI.Controllers
                 return View("Error");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            await RoleAssigning(user);
+
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
