@@ -120,6 +120,9 @@
   <data name="Back" xml:space="preserve">
     <value>RETOUR</value>
   </data>
+  <data name="DejaInscrit" xml:space="preserve">
+    <value>Déjà inscrit ?</value>
+  </data>
   <data name="Identity" xml:space="preserve">
     <value>Votre identité</value>
   </data>
@@ -141,8 +144,26 @@
   <data name="PictureBtn" xml:space="preserve">
     <value>Ajouter une photo</value>
   </data>
+  <data name="SeConnecter" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
+  <data name="ServiceLater" xml:space="preserve">
+    <value>Renseigner plus tard</value>
+  </data>
+  <data name="ServiceLaterDescription" xml:space="preserve">
+    <value>Vous aurez la possibilité de rensigner les services dont vous êtes compétent après votre inscription.</value>
+  </data>
   <data name="Services" xml:space="preserve">
     <value>Vos services</value>
+  </data>
+  <data name="Terms1" xml:space="preserve">
+    <value>En cliquant sur</value>
+  </data>
+  <data name="Terms2" xml:space="preserve">
+    <value>, vous acceptez nos</value>
+  </data>
+  <data name="Terms3" xml:space="preserve">
+    <value>conditions d'utilisation</value>
   </data>
   <data name="Valider" xml:space="preserve">
     <value>S'INSCRIRE</value>

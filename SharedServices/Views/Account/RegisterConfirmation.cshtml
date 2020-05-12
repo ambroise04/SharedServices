@@ -1,12 +1,13 @@
-﻿@{
-    ViewData["Title"] = "Confirmez votre email";
+﻿@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
 }
-<div class="container">
+<div class="container py-lg-5 py-md-4 py-sm-3">
     <div class="row">
         <div class="col-md-12 ubuntu-light">
-            <h3 class="ubuntu-medium">@ViewData["Title"]</h3>
+            <h3 class="ubuntu-medium">@Localizer["PageTitle"]</h3>
             <p>
-                Veuillez vérifier votre courriel pour confirmer votre compte.
+                @Localizer["Message"]
             </p>
         </div>
     </div>

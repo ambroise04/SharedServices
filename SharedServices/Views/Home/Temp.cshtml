@@ -1,179 +1,53 @@
-﻿@model RegisterViewModel
+﻿@model Article
 @inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = Localizer["PageTitle"];
 }
 @section Styles{
-    <link href="~/mdb/css/stepper.min.css" rel="stylesheet" />
+
 }
 <style>
-    ul.stepper {
-        margin: 0em 0rem;
-    }
-
-    /*ul.stepper .step.active:before {
-        content: '\f00c';
-        font-size: 1rem;
-    }
-
-    ul.stepper .step.done:before, ul.stepper .step.wrong:before {
-        font-family: 'Font Awesome 5 free';
-        font-weight: 900;
-    }*/
 </style>
 
 <div class="fables-after-overlay py-4 py-lg-5 mb-4 mb-lg-5 bg-rules" style="background-image: url('/images/register-bg-2.jpg');">
     <div class="container position-relative z-index">
-        <h2 class="white-color ubuntu-light font-weight-bold text-center mb-4 mb-md-5">@Localizer["PageTitle"]</h2>
-        <div class="row">
-            <div class="col-md-12 mb-lg-0 wow bounceInDown card card-body bg-ghost" data-wow-delay=".4s" data-wow-duration="1.5s"
-                 style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.4s; animation-name: bounceInDown; opacity: 0.8">
-                <!-- Default form register -->
-                <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post"
-                      class="p-5">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-row">
-                        <ul class="stepper horizontal horizontal-fix col-md-12" id="horizontal-stepper">
-                            <li class="step active">
-                                <div class="step-title waves-effect waves-dark"> Identité</div>
-                                <div class="step-new-content">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- First name -->
-                                            <label asp-for="FirstName"></label>
-                                            <input asp-for="FirstName" class="form-control">
-                                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Last name -->
-                                            <label asp-for="LastName"></label>
-                                            <input asp-for="LastName" class="form-control">
-                                            <span asp-validation-for="LastName" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- E-mail -->
-                                            <label asp-for="Email"></label>
-                                            <input asp-for="Email" class="form-control">
-                                            <span asp-validation-for="Email" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Password -->
-                                            <label asp-for="Password"></label>
-                                            <input asp-for="Password" class="form-control" aria-describedby="registerPassword">
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                            <small id="registerPassword" class="form-text text-muted mb-4">
-                                                At least 8 characters and 1 digit
-                                            </small>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Confirm Password -->
-                                            <label asp-for="ConfirmPassword"></label>
-                                            <input asp-for="ConfirmPassword" class="form-control">
-                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="step-actions">
-                                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="someFunction21">CONTINUE</button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="step">
-                                <div class="step-title waves-effect waves-dark"> Localité</div>
-                                <div class="step-new-content">
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Postal cod -->
-                                            <label asp-for="PostalCode"></label>
-                                            <input asp-for="PostalCode" class="form-control">
-                                            <span asp-validation-for="PostalCode" class="text-danger"></span>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- City -->
-                                            <label asp-for="City"></label>
-                                            <input asp-for="City" class="form-control">
-                                            <span asp-validation-for="City" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Password -->
-                                            <label asp-for="Password"></label>
-                                            <input asp-for="Password" class="form-control" aria-describedby="registerPassword">
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                            <small id="registerPassword" class="form-text text-muted mb-4">
-                                                At least 8 characters and 1 digit
-                                            </small>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Confirm Password -->
-                                            <label asp-for="ConfirmPassword"></label>
-                                            <input asp-for="ConfirmPassword" class="form-control">
-                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Password -->
-                                            <label asp-for="Password"></label>
-                                            <input asp-for="Password" class="form-control" aria-describedby="registerPassword">
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                            <small id="registerPassword" class="form-text text-muted mb-4">
-                                                At least 8 characters and 1 digit
-                                            </small>
-                                        </div>
-                                        <div class="col-md-6 col-sm-12">
-                                            <!-- Confirm Password -->
-                                            <label asp-for="ConfirmPassword"></label>
-                                            <input asp-for="ConfirmPassword" class="form-control">
-                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                    <div class="step-actions">
-                                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="someFunction21">CONTINUE</button>
-                                        <button class="waves-effect waves-dark btn btn-sm btn-secondary previous-step">BACK</button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="step">
-                                <div class="step-title waves-effect waves-dark"> Vos services</div>
-                                <div class="step-new-content">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <!-- Terms of service -->
-                                            <p>
-                                                By clicking
-                                                <em>Sign up</em> you agree to our
-                                                <a href="" target="_blank">terms of service</a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="step-actions">
-                                        <!-- Sign up button -->
-                                        <button class="waves-effect waves-dark btn-sm btn btn-info m-0 mt-4" type="submit">Sign in</button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </form>
-                <!-- Default form register -->
+        <form asp-controller="Home" asp-action="Temp">
+            <div class="row">
+                <div class="col-6">
+                    <select class="browser-default custom-select" id="category" asp-items="@(new SelectList(Model.Categories,"Id","Name"))">
+                        <option selected>Choisir une catégorie</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <select class="browser-default custom-select" id="product">
+                        <option selected>Choisir d'abord une catégorie</option>
+                    </select>
+                </div>
             </div>
-        </div>
+            
+        </form>
     </div>
 </div>
 
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/mdb/js/stepper.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.stepper').mdbStepper();
-        })
+        $("#category").on("change", function () {
+            var id = $(this).children("option:selected").val();
+            $.ajax({
+                type: "GET",
+                url: "/Home/Products/" + id,
+                dataType: "html",
+                success: function (data) {                    
+                    $("#product").html("");
+                    $("#product").html(data);
+                },
+                error: function () {
+                    alert("error")
+                }
+            })
+        });
     </script>
 }

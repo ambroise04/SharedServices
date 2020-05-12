@@ -27,7 +27,7 @@
         animation-name: bounceInDown;">
                 <!-- Default form register -->
                 <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post"
-                      class="p-sm-2 p-md-3 p-lg-4 ubuntu-light" enctype="multipart/form-data">
+                      class="p-sm-2 p-md-3 p-lg-4 ubuntu-light border border-light" enctype="multipart/form-data">
                     <div class="form-row">
                         <ul class="stepper linear col-md-12">
                             <li class="step active">
@@ -137,14 +137,13 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <p>
-                                                <small>Vous aurez la possibilité de rensigner les services dont vous êtes 
-                                                compétent après votre inscription.</small>
+                                                <small>@Localizer["ServiceLaterDescription"]</small>
                                             </p>
                                         </div>
                                         <div class="col-md-12 ubuntu-medium mt-2">
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input" id="service-check" name="withoutServices">
-                                                <label class="form-check-label" for="service-check">Renseigner plus tard</label>
+                                                <label class="form-check-label" for="service-check">@Localizer["ServiceLater"]</label>
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +160,7 @@
                                                     </optgroup>
                                                 }
                                             </select>
-                                            <label class="mdb-main-label" for="sve">Vos services</label>
+                                            <label class="mdb-main-label" for="sve">@Localizer["Services"]</label>
                                             <span asp-validation-for="Services" class="text-danger"></span>
                                         </div>
                                     </div>
@@ -169,8 +168,8 @@
                                         <div class="col-md-12">
                                             <!-- Terms of service -->
                                             <p>
-                                                By clicking <em class="submit-term">@Localizer["Valider"]</em> you agree to our 
-                                                <a class="p-0" href="" target="_blank">terms of service</a>
+                                                @Localizer["Terms1"] <em class="submit-term">@Localizer["Valider"]</em>@Localizer["Terms2"]
+                                            <a class="p-0" href="" target="_blank">@Localizer["Terms3"]</a>
                                             </p>
                                         </div>
                                     </div>
@@ -181,6 +180,12 @@
                                 </div>
                             </li>
                         </ul>
+                        <div>
+                            <p>
+                                @Localizer["DejaInscrit"]
+                                <a class="p-0" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]">@Localizer["SeConnecter"]</a>
+                            </p>
+                        </div>
                     </div>
                 </form>
             </div>

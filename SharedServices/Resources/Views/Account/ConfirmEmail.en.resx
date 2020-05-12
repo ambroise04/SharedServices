@@ -117,55 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Back" xml:space="preserve">
-    <value>BACK</value>
-  </data>
-  <data name="DejaInscrit" xml:space="preserve">
-    <value>Already registered ?</value>
-  </data>
-  <data name="Identity" xml:space="preserve">
-    <value>Your identity</value>
-  </data>
-  <data name="Localite" xml:space="preserve">
-    <value>Place</value>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value>CONTINUE</value>
+  <data name="Message" xml:space="preserve">
+    <value>Thank you for confirming your email. You can now log in.</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>Registration</value>
-  </data>
-  <data name="PasswordHint" xml:space="preserve">
-    <value>At least 8 characters with at least 1 digit.</value>
-  </data>
-  <data name="PictureAdvise" xml:space="preserve">
-    <value>Adding your photo could increase the confidence of people who may offer you a service.</value>
-  </data>
-  <data name="PictureBtn" xml:space="preserve">
-    <value>Add a picture</value>
-  </data>
-  <data name="SeConnecter" xml:space="preserve">
-    <value>Log in</value>
-  </data>
-  <data name="ServiceLater" xml:space="preserve">
-    <value>Fill in later</value>
-  </data>
-  <data name="ServiceLaterDescription" xml:space="preserve">
-    <value>You will be able to fill in the services for which you are responsible after your registration.</value>
-  </data>
-  <data name="Services" xml:space="preserve">
-    <value>Your services</value>
-  </data>
-  <data name="Terms1" xml:space="preserve">
-    <value>By clicking</value>
-  </data>
-  <data name="Terms2" xml:space="preserve">
-    <value> you agree to our</value>
-  </data>
-  <data name="Terms3" xml:space="preserve">
-    <value>terms of service</value>
-  </data>
-  <data name="Valider" xml:space="preserve">
-    <value>REGISTER</value>
+    <value>Email confirmation</value>
   </data>
 </root>
