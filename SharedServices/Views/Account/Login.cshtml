@@ -6,15 +6,20 @@
     ViewData["Title"] = Localizer["PageTitle"];
 }
 @section Styles{
-    
+    <style>
+        @@media (max-width : 768px) {
+            .img-logo {
+                width: 60%;
+                height: auto;
+            }
+        }
+    </style>
 }
-<style>
-</style>
 
 <div class="fables-after-overlay py-4 py-lg-5 mb-4 mb-lg-5 bg-rules" style="background-image: url('/images/register-bg-2.jpg');">
     <div class="container position-relative z-index">
         <div class="text-center">
-            <img src="~/images/logo-complet.png" alt="Between us logo" class="img-fluid">
+            <img src="~/images/logo-complet.png" alt="Between us logo" class="img-fluid img-logo">
             <h2 class="white-color ubuntu-light font-weight-bold  mb-4 mb-md-5">@Localizer["PageTitle"]</h2>
         </div>
         <div class="row p-4 justify-content-center">

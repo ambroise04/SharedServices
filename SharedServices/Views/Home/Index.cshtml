@@ -5,8 +5,24 @@
     ViewBag.Title = Localizer["Titre"];
 }
 
+@section Styles {
+    <style>
+        @@media (max-width : 768px) {
+            .index-traingle::before {
+                margin-top: auto;
+                margin-bottom: 3em;
+            }
+
+            .img-logo {
+                width: 60%;
+                height: auto;
+            }
+        }
+    </style>
+}
+
 <!-- Start Header -->
-<div class="fables-header fables-after-overlay overlay-lighter index-traingle bg-rules" style="background-image: url(/template/images/index-background.jpg);">
+<div class="fables-header fables-after-overlay overlay-lighter index-traingle bg-rules" style="        background-image: url(/template/images/index-background.jpg);">
     <partial name="/Views/Shared/LayoutComponents/_Header.cshtml" />
 </div>
 <!-- /End Header -->

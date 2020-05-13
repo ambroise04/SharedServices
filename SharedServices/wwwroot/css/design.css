@@ -9,3 +9,16 @@
 .fables-main-background-color, .fables-main-before a::before, .fables-main-before a::after, .fables-main-active.active, .fables-main-dots .owl-dot.active span, .fables-main-hover-background-color:hover {
     background-color: #0e9c9c !important;
 }
+
+.index-traingle::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-bottom: 100vh solid rgba(255,255,255,.75);
+    border-right: 98.5vw solid rgba(255, 255, 255, 0.56);
+    z-index: 3;
+    bottom: 0;
+}

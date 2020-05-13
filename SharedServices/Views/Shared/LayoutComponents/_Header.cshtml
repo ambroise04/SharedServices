@@ -1,28 +1,49 @@
 ﻿<div class="container">
+    <div class="row justify-content-end">
+        <div class="col-md-4 z-index ml-auto mr-sm-2 mr-md-2 mr-lg-0">
+            <img src="/images/logo-complet.png" alt="Logo" class="img-logo"/>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-10 col-lg-7 mr-auto index-carousel">
-            <div class="owl-carousel owl-theme default-carousel nav-0 z-index mt-md-4 mt-xl-5 pt-md-4 pt-xl-5 dots-0 pb-md-5">
+        <div class="col-md-10 col-lg-7 mr-auto index-carousel mb-sm-2 mb-md-3 mb-lg-4">
+            @*Time managed in custom.js for default-carousel with carousel-duration attribute*@
+            <div class="owl-carousel carousel-duration owl-theme default-carousel nav-0 z-index pt-md-3 pt-xl-4 dots-0 pb-md-5" carousel-duration="10000">
                 <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".4s">
-                    <h1 class="fables-main-text-color font-weight-bold mb-1">
-                        CONSULTING SERVICE FOR ALL
-                        <span class="fables-second-text-color">KIND OF BUSINESSES</span>
+                    <h1 class="text-color-green font-weight-bold mb-1">
+                        ARRETEZ DE PAYER DE L'ARGENT
+                        <span class="fables-main-text-color"> POUR TOUS LES SERVICES</span>
                     </h1>
                     <p class="fables-forth-text-colo mb-3 light-font fables-header-slider-details">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        Avec BETWEEN US, mettez vos compétences au service des autres. 
+                        Gagnez des points et utilisez-les pour demander les services dont vous avez besoin
                     </p>
-                    <a href="#" class="btn fables-second-background-color fables-second-border-color white-color rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">Our Services</a>
-                    <a href="#" class="btn fables-second-border-color fables-second-text-color rounded-0 px-3 px-md-4 py-2 fables-second-hover-background-color">Learn More</a>
+                    <a href="#" class="btn fables-second-background-color fables-second-border-color white-color 
+                       rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">Voir les services</a>
+                    <a href="#" class="btn btn-outline-red fables-second-text-color px-3 px-md-4 py-2 
+                       fables-second-hover-background-color">Demander un service</a>
                 </div>
-                <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".8s">
-                    <h1 class="fables-main-text-color font-weight-bold mb-1">
-                        CONSULTING SERVICE FOR ALL
-                        <span class="fables-second-text-color">KIND OF BUSINESSES</span>
+                <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".4s">
+                    <h1 class="text-color-green font-weight-bold mb-1">
+                        INSCRIVEZ-VOUS MAINTENANT
+                        <span class="fables-main-text-color"> ET GAGNEZ VOS PREMIERS POINTS</span>
                     </h1>
                     <p class="fables-forth-text-colo mb-3 light-font fables-header-slider-details">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        Dès votre inscription BETWEEN US vous offre un certain nombre de points que vous pouvez dépenser sans attendre.
                     </p>
-                    <a href="#" class="btn fables-second-background-color fables-second-border-color white-color rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">Our Services</a>
-                    <a href="#" class="btn fables-second-border-color fables-second-text-color rounded-0 px-3 px-md-4 py-2 fables-second-hover-background-color">Learn More</a>
+                    <a asp-controller="Account" asp-action="Register" class="btn fables-second-background-color fables-second-border-color 
+                       white-color rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">Inscription</a>                    
+                </div>
+                <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".4s">
+                    <h1 class="text-color-green font-weight-bold mb-1">
+                        VOUS AVEZ UN SERVICE A DEMANDER ?
+                        <span class="fables-main-text-color"> TROUVEZ CELUI QU'IL VOUS FAUT</span>
+                    </h1>
+                    <p class="fables-forth-text-colo mb-3 light-font fables-header-slider-details">
+                        Choisissez un particulier parmi ceux correspondant à votre demande. 
+                        Il ne vous reste qu'à fixer un rendez-vous directement avec ce dernier.
+                    </p>                    
+                    <a asp-controller="Search" asp-action="Index" class="btn btn-outline-red fables-second-text-color 
+                       px-3 px-md-4 py-2 fables-second-hover-background-color">Rechercher</a>
                 </div>
             </div>
         </div>

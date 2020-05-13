@@ -93,10 +93,12 @@ $(document).ready(function(){
     
  
     
-// teaser slider
+    // teaser slider
+    var duration = $(".carousel-duration").attr("carousel-duration");
  $(".blog-teaser,.default-carousel").owlCarousel({
      loop:true,  
-     autoplay:true,
+     autoplay: true,
+     autoplayTimeout: parseInt(duration),
      dots:true,
      nav:true,
      navText: ['<span class="fables-iconarrow-left"></span>','<span class="fables-iconarrow-right"></span>'],
