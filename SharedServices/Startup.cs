@@ -53,6 +53,7 @@ namespace SharedServices
 
             services.AddIdentityCore<ApplicationUser>(o =>
                 {
+                    o.User.RequireUniqueEmail = false;
                     o.SignIn.RequireConfirmedAccount = true;
                     o.Password.RequireDigit = false;
                     o.Password.RequiredLength = 8;

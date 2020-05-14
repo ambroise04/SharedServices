@@ -42,5 +42,13 @@ namespace SharedServices.BL.Extensions
             };
             user.Picture = Mapping.Mapping.Mapper.Map<Picture>(pic);
         }
+
+        public static string PictureSource(this ApplicationUser user)
+        {
+            var base64 = Convert.ToBase64String(user.Picture.Image);
+            var src = string.Format("data:{0};base64,{1}", user.Picture.ContentType, base64);
+
+            return src;
+        }
     }
 }

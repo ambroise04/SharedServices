@@ -1,89 +1,66 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using SharedServices.BL.UseCases.Admin;
+using SharedServices.BL.UseCases.Clients;
+using SharedServices.DAL;
+using SharedServices.DAL.UnitOfWork;
+using SharedServices.UI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SharedServices.UI.Controllers
 {
     public class SearchController : Controller
     {
-        // GET: Service
-        public ActionResult Index()
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private Client _client;
+
+        public SearchController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
-            return View();
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _client = new Client(_unitOfWork);
+        }
+
+        // GET: Service
+        public async Task<ActionResult> Index(int? pageIndex, string search, int? order)
+        {
+            var pageSize = 8;
+            List<ApplicationUser> applicationUsers;
+            _client = new Client(_unitOfWork, _userManager);
+            if (!string.IsNullOrEmpty(search))
+            {
+                applicationUsers = _client.SearchResult(search);
+            }
+            else
+            {
+                applicationUsers = _client.SearchAllUsers();
+            }
+            var users = await PaginatedList<ApplicationUser>.CreateAsync(applicationUsers.AsQueryable().AsNoTracking(), pageIndex ?? 1, pageSize);
+            var model = new SearchModel 
+            {
+                Users = users
+            };
+            return View(model);
+        }
+
+        public string[] Services()
+        {            
+            return _client.GetAllServices()
+                        .Select(s => s.Title)
+                        .ToArray();
         }
 
         // GET: Service/Details/5
         public ActionResult Details(int id)
         {
             return View();
-        }
-
-        // GET: Service/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Service/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Service/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Service/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Service/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Service/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }

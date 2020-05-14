@@ -626,7 +626,7 @@ body{
     text-align: right;
 }
 .fables-btn-rouned{
-    border-radius: 22px;
+    border-radius: 10em;
 }
 .fables-hover-btn-color {
     position: relative;
@@ -642,22 +642,22 @@ body{
 .fables-hover-btn-color:hover ,.fables-hover-btn-color:hover span{
     color: #fff !important;
 }
-.fables-hover-btn-color::after {
-    content: "";
-    border-radius: 22px;
-    position: absolute;
-    left: 0; 
-    background-color: #E54D42;
-    height: 100%;
-    right: 77%;
-    top: 0;
-    z-index: 1;
-    opacity: 0;
-    transition: all ease-in-out .3s;
-    -webkit-transition: all ease-in-out .3s;
-    -o-transition: all ease-in-out .3s;
-    -moz-transition: all ease-in-out .3s;
-}
+    .fables-hover-btn-color::after {
+        content: "";
+        border-radius: 10em;
+        position: absolute;
+        left: 0;
+        background-color: #0e9c9c;
+        height: 100%;
+        right: 77%;
+        top: 0;
+        z-index: 1;
+        opacity: 0;
+        transition: all ease-in-out .3s;
+        -webkit-transition: all ease-in-out .3s;
+        -o-transition: all ease-in-out .3s;
+        -moz-transition: all ease-in-out .3s;
+    }
 .fables-hover-btn-color span{
     z-index: 2;
     position: relative;
