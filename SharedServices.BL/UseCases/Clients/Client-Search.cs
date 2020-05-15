@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SharedServices.BL.Domain;
 using SharedServices.DAL;
 using System.Collections.Generic;
 using System.Linq;

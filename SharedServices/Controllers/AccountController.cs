@@ -142,6 +142,7 @@ namespace SharedServices.UI.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     Country = model.Country,
+                    Description = model.Description,
                     City = model.City,
                     PostalCode = model.PostalCode,
                     Point = _admin.GetInfo().DefaultPointForUsers

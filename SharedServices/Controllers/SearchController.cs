@@ -58,9 +58,16 @@ namespace SharedServices.UI.Controllers
         }
 
         // GET: Service/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult Details(string id)
         {
-            return View();
+            var user = _userManager.Users
+                                   .Include(u => u.Picture)
+                                   .Include(u => u.Feedbacks)
+                                   .Include(u => u.UserServices)
+                                   .ThenInclude(us => us.Service)
+                                   .FirstOrDefault(u => u.Id.Equals(id));
+            return View(user);
         }
     }
 }

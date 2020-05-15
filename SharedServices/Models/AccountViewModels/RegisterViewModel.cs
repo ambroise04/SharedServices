@@ -31,6 +31,9 @@ namespace SharedServices.UI.Models.AccountViewModels
         [Display(Name = "Code postal")]
         public int PostalCode { get; set; }
 
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]

@@ -170,11 +170,20 @@
                                         </div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-md-12 select-outline">
+                                            <div class="form-group">
+                                                <label asp-for="Description"></label>
+                                                <textarea class="form-control" asp-for="Description" rows="3"></textarea>
+                                            </div>
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-md-12">
                                             <!-- Terms of service -->
                                             <p>
                                                 @Localizer["Terms1"] <em class="submit-term">@Localizer["Valider"]</em>@Localizer["Terms2"]
-                                            <a class="p-0" href="" target="_blank">@Localizer["Terms3"]</a>
+                                                <a class="p-0" href="" target="_blank">@Localizer["Terms3"]</a>
                                             </p>
                                         </div>
                                     </div>

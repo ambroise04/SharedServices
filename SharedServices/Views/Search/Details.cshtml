@@ -1,0 +1,160 @@
+﻿@model ApplicationUser
+@inject IViewLocalizer Localizer;
+@inject UserManager<ApplicationUser> UserManager;
+
+@{
+    ViewBag.Title = Localizer["Titre"];
+    var user = Model;
+}
+
+@section Styles {
+    <style>
+        @@media (max-width : 768px) {
+            .margin {
+                margin-top: 3em;
+            }
+        }
+
+        .btn-outline-green-light {
+            border: 1px solid #0e9c9c !important;
+            background-color: transparent !important;
+            color: #0e9c9c !important;
+        }
+
+        #picture-container {
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .picture {
+            margin: 0 2px;
+            cursor: pointer;
+        }
+    </style>
+}
+
+<!-- Start page content -->
+<div class="container">
+    <div class="row my-4 my-md-5">
+        <div class="col-12 col-lg-6">
+            <div id="picture-container">
+                <div class="picture">
+                    <img src="@user.ResizePicture(539, 365)" alt="@user.FirstName image" class="w-100">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 col-12 col-lg-6 mt-3 mt-lg-0">
+            <h2 class="fables-main-text-color font-20 semi-font">@user.FirstName @user.LastName</h2>
+            <div class="row mb-2">
+                <div class="col-12">
+                    <ul class="rating pb-xl-2 mt-2">
+                        @for (int i = 0; i < user.Start; i++)
+                        {
+                            <li>
+                                <i class="fas fa-star text-color-green"></i>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="fables-forth-text-color fables-single-tags mt-1">
+                <i class="fas fa-map-marker-alt fables-fifth-text-color"></i>
+                @{ var address = string.Concat(user.PostalCode, " ", user.City, " - ", user.Country);}
+                <span>@address</span>
+            </div>
+
+            <p class="fables-forth-text-color font-15 my-3">
+                @user.Description
+            </p>
+
+            <div class="row mb-5">
+                <div class="col-6">
+                    <a href="#" class="btn btn-sm btn-outline-green-light btn-rounded fables-hover-btn-color fables-second-text-color font-14 p-2 px-2 px-xl-4">
+                        <i class="fas fa-hands-helping fables-btn-value"></i>
+                        <span class="fables-btn-value">ENVOYER LA DEMANDE</span>
+                    </a>
+                </div>
+                <div class="col-6 text-right">
+                    <a asp-action="Message" asp-controller="Discussion" asp-route-target="@user.Id" class="fables-product-btn" data-toggle="tooltip" data-placement="top" title="Envoyer un message">
+                        <i class="far fa-envelope"></i>
+                    </a>
+                    <a asp-action="Mark" asp-controller="User" asp-route-target="@user.Id" class="fables-product-btn" data-toggle="tooltip" data-placement="top" title="Noter">
+                        <i class="far fa-star"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <nav class="fables-single-nav">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="fables-single-item nav-link fables-forth-text-color fables-second-active fables-second-hover-color fables-forth-after px-3 px-md-5 font-15 semi-font border-0 active rounded-0 py-3" id="nav-serv-tab" data-toggle="tab" href="#nav-serv" role="tab" aria-controls="nav-desc" aria-selected="true">SERVICES</a>
+                    <a class="fables-single-item nav-link fables-forth-text-color fables-second-active fables-second-hover-color fables-forth-after border-0 px-3 px-md-5 font-15 semi-font rounded-0 py-3" id="nav-avis-tab" data-toggle="tab" href="#nav-avis" role="tab" aria-controls="nav-review" aria-selected="false">AVIS (@user.Feedbacks.Count())</a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-serv" role="tabpanel" aria-labelledby="nav-serv-tab">
+                    <div class="">
+                        <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Ambroise a les compétences suivantes :</h2>
+                        <ul class="nav fables-blog-cat-list fables-forth-text-color fables-second-hover-color-link">
+                            @foreach (var service in user.UserServices)
+                            {
+                                <li><a asp-action="Index" asp-controller="Service" asp-route-target="@service.ServiceId">@service.Service.Title</a></li>
+                            }
+                        </ul>
+                        <hr>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-avis" role="tabpanel" aria-labelledby="nav-avis-tab">
+                    <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Avis sur @user.FirstName</h2>
+                    @foreach (var feedback in user.Feedbacks)
+                    {
+                        var advisor = UserManager.Users.Include(u => u.Picture).FirstOrDefault( u => u.Id.Equals(feedback.Advisor)); 
+                        <div class="fables-testimonial-block border fables-third-text-color py-4 px-6 mb-2 rounded position-relative">
+                            <div class="row">
+                                <div class="col-12 col-sm-3 text-center image-container shine-effect">
+                                    <img src="@advisor.ResizePicture(121, 120)" alt="@advisor.FirstName @advisor.LastName" class="fables-testimonial-block-img rounded-circle">
+                                </div>
+                                <div class="col-12 col-sm-8">
+                                    <div class="fables-testimonial-block-info">
+                                        <h3 class="mt-4 mb-2">
+                                            <a asp-action="Details" asp-controller="User" asp-route-id="@advisor.Id" class="fables-forth-text-color font-15 semi-font">@advisor.FirstName @advisor.LastName</a>
+                                        </h3>
+                                        @{ var advisorAddress = string.Concat(advisor.PostalCode, " ", advisor.City, " - ", advisor.Country);}
+                                        <h3 class="fables-fifth-text-color font-italic font-14 mt-2">@advisorAddress</h3>
+                                        <div class="fables-fifth-text-color font-italic font-14 mt-2 d-flex">
+                                            <span class="pb-xl-2 mt-2 mr-2">Note :</span>
+                                            <ul class="rating pb-xl-2 mt-2">
+                                                @for (int i = 0; i < feedback.Mark; i++)
+                                                {
+                                                    <li>
+                                                        <i class="fas fa-star text-color-green"></i>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fables-forth-text-color font-italic font-14 semi-font mt-3 d-md-block">
+                                @feedback.Comment
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /End page content -->
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+
+    </script>
+}
