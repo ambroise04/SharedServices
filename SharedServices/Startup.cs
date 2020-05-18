@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -31,6 +32,9 @@ namespace SharedServices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Trying to resolve session error for sign in manager
+            services.AddSession();
+
             //i18n service
             services.AddLocalization(options => options.ResourcesPath = "Resources")
                     .AddMvc()
@@ -63,15 +67,29 @@ namespace SharedServices
                 }
             ).AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<ApplicationContext>()
-             .AddSignInManager()
+             .AddSignInManager()             
              .AddDefaultTokenProviders();
 
-            services.AddAuthentication(o =>
+            services.AddAuthentication(options =>
             {
-                o.DefaultScheme = IdentityConstants.ApplicationScheme;
-                o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+                options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+                options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
             })
-            .AddIdentityCookies(o => { });
+            .AddIdentityCookies();
+
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.AccessDeniedPath = "/Account/AccessDenied";
+            //    options.Cookie.Name = "YourAppCookieName";
+            //    options.Cookie.HttpOnly = true;
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+            //    options.LoginPath = "/Account/Login";
+            //    // ReturnUrlParameter requires 
+            //    //using Microsoft.AspNetCore.Authentication.Cookies;
+            //    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+            //    options.SlidingExpiration = true;
+            //});
 
             // Add application services.
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -118,16 +136,20 @@ namespace SharedServices
                 DefaultRequestCulture = new RequestCulture("en-US"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
-            };
+            };            
 
             app.UseRequestLocalization(localizationOptions);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
+            app.UseAuthentication();
 
             app.UseRouting();
-
+            
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

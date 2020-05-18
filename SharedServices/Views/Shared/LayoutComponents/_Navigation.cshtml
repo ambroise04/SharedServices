@@ -1,50 +1,52 @@
 ﻿@inject IViewLocalizer Localizer
 @inject SignInManager<ApplicationUser> SignInManager
 
-<nav class="navbar navbar-expand-md btco-hover-menu py-lg-2">
-    <a class="navbar-brand pl-0" asp-controller="Home" asp-action="Index"><img src="~/images/logo-complet-red.png" alt="Fables Template" class="fables-logo"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#fablesNavDropdown" aria-controls="fablesNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="fables-iconmenu-icon text-white font-16"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="fablesNavDropdown">
-        <ul class="navbar-nav mx-auto fables-nav ubuntu-light">
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Index">
-                    @Localizer["Accueil"]
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Home" asp-action="Steps">
-                    @Localizer["Etapes"]
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Service" asp-action="Index">
-                    @Localizer["VoirServices"]
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Service" asp-action="Index">
-                    @Localizer["Recherche"]
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="sub-nav7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    @Localizer["Aide"]
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="sub-nav7">
-                    <li><a class="dropdown-item" href="contactus1.html">FAQ</a></li>
-                    <li><a class="dropdown-item" href="contactus2.html">Contact</a></li>
-                </ul>
-            </li>
-        </ul>
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <partial name="/Views/Shared/LayoutComponents/_HeaderIcons.cshtml" />
-        }
-        else
-        {
-            <partial name="/Views/Shared/LayoutComponents/_LoginRegister.cshtml" />
-        }
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-color-green scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/images/logo-complet-red.png" alt="Between us logo" class="fables-logo" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto ubuntu-light">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                        @Localizer["Accueil"]<span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Steps">
+                        @Localizer["Etapes"]
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Service" asp-action="Index">
+                        @Localizer["VoirServices"]
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Service" asp-action="Index">
+                        @Localizer["Recherche"]
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="sub-nav7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @Localizer["Aide"]
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="sub-nav7">
+                        <li><a class="dropdown-item" href="contactus1.html">FAQ</a></li>
+                        <li><a class="dropdown-item" href="contactus2.html">Contact</a></li>
+                    </ul>
+                </li>
+            </ul>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <partial name="/Views/Shared/LayoutComponents/_HeaderIcons.cshtml" />
+            }
+            else
+            {
+                <partial name="/Views/Shared/LayoutComponents/_LoginRegister.cshtml" />
+            }
+        </div>
     </div>
 </nav>

@@ -164,7 +164,7 @@ body {
 }
 
 .max-line-height {
-    line-height: 75px;
+    line-height: 50px;
 }
 
 .header-fixed-height-large {
@@ -270,7 +270,6 @@ body {
     border-right-style: solid;
     border-left-style: solid;
     color: #eee !important;
-    float: right;
 }
 /* End fables header */
 

@@ -18,6 +18,7 @@ using SharedServices.BL.Domain;
 using System;
 using SharedServices.BL.Extensions;
 using SharedServices.Mutual;
+using Microsoft.AspNetCore.Authentication;
 
 namespace SharedServices.UI.Controllers
 {
@@ -57,8 +58,13 @@ namespace SharedServices.UI.Controllers
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -70,6 +76,7 @@ namespace SharedServices.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            returnUrl = returnUrl ?? Url.Content("~/Home");
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -244,7 +251,7 @@ namespace SharedServices.UI.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogOff()
+        public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");

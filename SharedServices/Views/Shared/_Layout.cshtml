@@ -17,24 +17,26 @@
     <!-- Start Top Header -->
     <partial name="LayoutComponents/_HeaderTop.cshtml" />
     <!-- /End Top Header -->
-    <!-- Start Navigation -->
-    <div class="fables-navigation fables-main-background-color py-3 py-lg-0">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-12 col-lg-12 pr-md-0">
-                    <partial name="LayoutComponents/_Navigation.cshtml" />
+    <div class="d-flex flex-column">
+        <!-- Start Navigation -->
+        <div class="fables-navigation fables-main-background-color py-3 py-lg-0 mb-md-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12 pr-md-0">
+                        <partial name="LayoutComponents/_Navigation.cshtml" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /End Navigation -->
-    <!-- Start Header -->
-    <div class="fables-header fables-after-overlay" style="height: 100px;">
-        <div class="container">
-            <h3 class="fables-page-title fables-second-border-color">@ViewData["Title"]</h3>
+        <!-- /End Navigation -->
+        <!-- Start Header -->
+        <div class="fables-header fables-after-overlay mt-lg-5 mt-md-4 mt-sm-3 pt-5" style="height: 100px;">
+            <div class="container align-items-center">
+                <h3 class="fables-page-title fables-second-border-color">@ViewData["Title"]</h3>
+            </div>
         </div>
+        <!-- /End Header -->
     </div>
-    <!-- /End Header -->
     <!-- Start Breadcrumbs -->
     <div class="fables-light-background-color">
         <div class="container">

@@ -10,6 +10,12 @@
     background-color: #0e9c9c !important;
 }
 
+.btn-outline-my-green {
+    border: 2px solid #0e9c9c !important;
+    background-color: transparent !important;
+    color: #0e9c9c !important;
+}
+
 .index-traingle::before {
     content: "";
     position: absolute;
@@ -22,3 +28,103 @@
     z-index: 3;
     bottom: 0;
 }
+
+@media (max-width : 768px) {
+    .index-traingle::before {
+        margin-top: auto;
+        margin-bottom: 3em;
+    }
+
+    .img-logo {
+        width: 60%;
+        height: auto;
+    }
+
+    .fixed-top {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 11;
+    }
+}
+
+@media (min-width : 769px) {
+
+    .fixed-top {
+        position: fixed;
+        top: 40px;
+        right: 0;
+        left: 0;
+        z-index: 11;
+        height: 5em;
+    }
+
+    .fixed-band {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 12;
+    }
+}
+
+.btn-logout{
+    cursor:pointer;
+}
+
+.dropdown-menu a.dropdown-item:hover {
+    background-color: #0e9c9c !important;
+    color: white !important;
+}
+.dropdown-menu a.dropdown-item.bordered:hover {
+    background-color: #0e9c9c !important;
+    color: white !important;
+    border: 1px solid white !important;
+} 
+/*Begin Chat styles*/
+.container.chat-room .members-panel-1,
+.container.chat-room .chat-1 {
+    position: relative;
+    overflow-y: scroll;
+}
+
+.container.chat-room .members-panel-1 {
+    height: 594px;
+}
+
+.container.chat-room .chat-1 {
+    height: 500px;
+}
+
+.container.chat-room .friend-list li {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+    .container.chat-room .friend-list li:last-of-type {
+        border-bottom: none;
+    }
+
+.scrollbar-light-my-green::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.scrollbar-light-my-green::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar-light-my-green::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-color: #0e9c9c;
+}
+
+.rare-wind-gradient {
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#a8edea), to(#fed6e3));
+    background-image: -webkit-linear-gradient(bottom, #a8edea 0%, #fed6e3 100%);
+    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+}
+/* End Chat styles*/
