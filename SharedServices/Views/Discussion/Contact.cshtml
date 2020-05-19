@@ -1,7 +1,15 @@
-﻿@inject IViewLocalizer Localizer;
+﻿@model IEnumerable<SharedServices.BL.Domain.Discussion>
+@inject UserManager<ApplicationUser> UserManager;
+@inject IViewLocalizer Localizer;
 
 @{
     ViewBag.Title = Localizer["Titre"];
+    var currentUser = await UserManager.GetUserAsync(User);
+    var fullUser = UserManager.Users.Include(u => u.Picture).Include(u => u.Contacts).FirstOrDefault(u => u.Id.Equals(currentUser.Id));
+    var discussions = Model;
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
 }
 
 <div class="container-fluid py-lg-5 py-md-3 py-sm-2">
@@ -10,123 +18,43 @@
             <div class="col-md-5 col-xl-3 px-0">
                 <div class="white z-depth-1 px-2 pt-3 pb-0 members-panel-1 scrollbar-light-my-green">
                     <ul class="list-unstyled friend-list">
-                        <li class="active grey lighten-3 p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>John Doe</strong>
-                                    <p class="last-message text-muted">Hello, Are you there?</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Just now</p>
-                                    <span class="badge badge-danger float-right">1</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-1.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Danny Smith</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">5 min ago</p>
-                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Alex Steward</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Yesterday</p>
-                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-3.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Ashley Olsen</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Yesterday</p>
-                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-4.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Kate Moss</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Yesterday</p>
-                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Lara Croft</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Yesterday</p>
-                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Brad Pitt</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">5 min ago</p>
-                                    <span class="text-muted float-right"><i class="fas fa-check" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Ken Ditto</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Yesterday</p>
-                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="p-2">
-                            <a href="#" class="d-flex justify-content-between">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2 z-depth-1">
-                                <div class="text-small">
-                                    <strong>Marta Wozniak</strong>
-                                    <p class="last-message text-muted">Lorem ipsum dolor sit.</p>
-                                </div>
-                                <div class="chat-footer">
-                                    <p class="text-smaller text-muted mb-0">Yesterday</p>
-                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
-                                </div>
-                            </a>
-                        </li>
+                        @foreach (var contact in fullUser.Contacts)
+                        {
+                            var contactDiscussions = discussions.Where(d => d.Emitter.Equals(contact.Id) || d.Receiver.Equals(contact.Id));
+                            if (contactDiscussions.Count() != 0)
+                            {
+                                <li class="p-2 contact">
+                                    <a href="#" class="d-flex flex-column justify-content-between">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <img src="@contact.ResizePicture(48, 48)" alt="avatar" class="avatar rounded-circle d-flex align-self-start mr-2 z-depth-1">
+                                            </div>
+                                            <div class="col-9 text-small">
+                                                <div class="chat-footer">
+                                                    <p class="my-0"><strong><small>@contact.FirstName @contact.LastName</small></strong></p>
+                                                    <p class="text-smaller text-muted mb-0 my-0"><small>@contactDiscussions.First().DateHour.ToString("HH:mm - dd/MM/yyyy", culture)</small></p>
+                                                    @*<span class="badge badge-danger float-right">1</span>*@    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row d-flex justify-content-end">
+                                            <div class="col-9">
+                                                <div class="text-small">
+                                                    @if (contactDiscussions.First().Message.Length <= 20)
+                                                    {
+                                                        <p class="last-message text-muted">@contactDiscussions.First().Message</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="last-message text-muted">@string.Concat(contactDiscussions.First().Message.Substring(0, 20), "...")</p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
 
@@ -218,3 +146,17 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(".contact").on("click", function () {
+            $(".contact, .active").removeClass("grey");
+            $(".contact, .active").removeClass("lighten-3");
+            $(".contact, .active").removeClass("active");
+
+            $(this).addClass("active");
+            $(this).addClass("grey");
+            $(this).addClass("lighten-3");
+        })
+    </script>
+}

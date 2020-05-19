@@ -152,6 +152,7 @@ namespace SharedServices.UI.Controllers
                     Description = model.Description,
                     City = model.City,
                     PostalCode = model.PostalCode,
+                    Start = 1,
                     Point = _admin.GetInfo().DefaultPointForUsers
                 };
 

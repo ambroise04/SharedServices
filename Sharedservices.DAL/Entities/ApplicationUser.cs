@@ -19,6 +19,7 @@ namespace SharedServices.DAL
         public Picture Picture { get; set; }
         public ICollection<ApplicationUserServices> UserServices { get; set; }
         public ICollection<Request> Requests { get; set; }
+        public ICollection<ApplicationUser> Contacts { get; set; }
         public ICollection<Discussion> Discussions { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
     }
