@@ -16,34 +16,48 @@ namespace SharedServices.UI.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly UserManager<ApplicationUser> userManager;
-        private Client client;
+        private readonly Client client;
         public DiscussionController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
 
             this.unitOfWork = unitOfWork;
             this.userManager = userManager;
-            client = new Client(this.unitOfWork);
+            client = new Client(this.unitOfWork, userManager);
         }
         // GET: Discussion
         [HttpGet]
-        public async Task<ActionResult> Contact()
+        public async Task<ActionResult> Index()
         {
             string user = userManager.GetUserId(User);
 
-            var discussions = client.GetUserDiscussion(user);
-            await UserContact();
-            discussions = discussions.Select(d => new Discussion
+            var contacts = client.GetContacts(user);
+
+            var lastDiscussion = client.GetUserDiscussion(user).FirstOrDefault();
+            var discussions = new List<Discussion>();
+            if (lastDiscussion != null)
             {
-                Id = d.Id,
-                DateHour = d.DateHour,
-                Message = d.Message,
-                Emitter = d.Emitter,
-                Receiver = d.Receiver,
-                EmitterUser = userManager.Users.Include(u => u.Picture).Include(u => u.Contacts).FirstOrDefault(u => u.Id.Equals(d.Emitter)),
-                ReceiverUser = userManager.Users.Include(u => u.Picture).Include(u => u.Contacts).FirstOrDefault(u => u.Id.Equals(d.Receiver))
-            }).ToList();
+                discussions = lastDiscussion.Emitter.Equals(user) ?
+                    client.GetDiscussionBetweenCurrentUserAndAnOtherUser(user, lastDiscussion.Receiver) :
+                    client.GetDiscussionBetweenCurrentUserAndAnOtherUser(user, lastDiscussion.Emitter);
+            }
+            await UserContact();                        
+
+            ViewBag.Contacts = contacts;
 
             return View(discussions);
+        }
+
+        public IActionResult Contact(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return Json(new { status = false, message = "Bad parameter" });
+            }
+
+            string user = userManager.GetUserId(User);
+            var discussions = client.GetDiscussionBetweenCurrentUserAndAnOtherUser(user, id);
+
+            return Json(new { status = true, discussions });
         }
 
         private async Task UserContact()
@@ -58,10 +72,10 @@ namespace SharedServices.UI.Controllers
                 user.Contacts.Add(gauthier);
                 user.Contacts.Add(pauline);
             }
-            else 
+            else
             {
-                while(user.Contacts.Count() > 2) 
-                { 
+                while (user.Contacts.Count() > 2)
+                {
                     user.Contacts.Remove(user.Contacts.Last());
                     user.Contacts.Remove(user.Contacts.Last());
                 }

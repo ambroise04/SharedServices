@@ -1,0 +1,119 @@
+﻿@model IEnumerable<SharedServices.BL.Domain.Discussion>
+@inject UserManager<ApplicationUser> UserManager;
+@inject IViewLocalizer Localizer;
+
+@{
+    ViewBag.Title = Localizer["Titre"];
+    var currentUser = await UserManager.GetUserAsync(User);
+    var contacts = ViewBag.Contacts as List<ContactTO>;
+    var discussions = Model;
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
+
+    var hasContact = discussions.Count() > 0;
+}
+
+<div class="container-fluid py-lg-5 py-md-3 py-sm-2">
+    <div class="container chat-room">
+        <div class="row px-lg-2 px-2">
+            <div class="col-md-5 col-xl-3 px-0">
+                <div class="white z-depth-1 px-2 pt-3 pb-0 members-panel-1 scrollbar-light-my-green">
+                    <ul class="list-unstyled friend-list">
+                        @foreach (var contact in contacts)
+                        {
+                            <li class="p-2 contact">
+                                <a id="@contact.Contact.Id" class="d-flex flex-column justify-content-between">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <img src="@contact.Contact.ResizePicture(48, 48)" alt="avatar" class="avatar rounded-circle d-flex align-self-start mr-2 z-depth-1">
+                                        </div>
+                                        <div class="col-9 text-small">
+                                            <div class="chat-footer">
+                                                <p class="my-0"><strong><small>@contact.Contact.FirstName @contact.Contact.LastName</small></strong></p>
+                                                <p class="text-smaller text-muted mb-0 my-0"><small>@contact.Date.ToString("HH:mm - dd/MM/yyyy", culture)</small></p>
+                                                @*<span class="badge badge-danger float-right">1</span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row d-flex justify-content-end">
+                                        <div class="col-9">
+                                            <div class="text-small">
+                                                @if (contact.Message.Length <= 20)
+                                                {
+                                                    <p class="last-message text-muted">@contact.Message</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="last-message text-muted">@string.Concat(contact.Message.Substring(0, 20), "...")</p>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <!-- Grid column -->
+            <!-- Grid column -->
+            <div class="col-md-7 col-xl-9 pl-md-3 px-lg-2 px-sm-2 py-md-2 py-sm-1">
+                <div class="chat-message">
+                    <ul class="list-unstyled chat-1 scrollbar-light-my-green chat-content">
+                        @if (hasContact)
+                        {
+                            foreach (var discussion in discussions.Reverse())
+                            {
+                                if (discussion.Emitter.Equals(currentUser.Id))
+                                {
+                                    <li class="d-flex justify-content-between mb-4">
+                                        <div class="chat-body white p-3 z-depth-1">
+                                            <div class="header">
+                                                <strong class="primary-font">@discussion.EmitterUser.FirstName @discussion.EmitterUser.LastName</strong>
+                                                <small class="pull-right text-muted"><i class="far fa-clock"></i> @discussion.DateHour.ToString("HH:mm - dd/MM/yyyy", culture)</small>
+                                            </div>
+                                            <hr class="w-100">
+                                            <p class="mb-0">
+                                                @discussion.Message
+                                            </p>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="d-flex justify-content-between mb-4">
+                                        <img src="@discussion.EmitterUser.ResizePicture(50, 50)" alt="avatar" class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1">
+                                        <div class="chat-body white p-3 ml-2 z-depth-1">
+                                            <div class="header">
+                                                <strong class="primary-font">@discussion.EmitterUser.FirstName @discussion.EmitterUser.LastName</strong>
+                                                <small class="pull-right text-muted"><i class="far fa-clock"></i> @discussion.DateHour.ToString("HH:mm - dd/MM/yyyy", culture)</small>
+                                            </div>
+                                            <hr class="w-100">
+                                            <p class="mb-0">
+                                                @discussion.Message
+                                            </p>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                    <div class="white">
+                        <div class="form-group basic-textarea">
+                            <textarea class="form-control pl-2 my-0" id="exampleFormControlTextarea2" rows="3" placeholder="Type your message here..."></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-my-green btn-rounded btn-sm waves-effect waves-dark float-right">Envoyer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/business/discussion.js"></script>
+    <script type="text/javascript">
+
+    </script>
+}
