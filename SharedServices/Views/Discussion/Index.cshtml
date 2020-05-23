@@ -23,7 +23,7 @@
                         @foreach (var contact in contacts)
                         {
                             <li class="p-2 contact">
-                                <a id="@contact.Contact.Id" class="d-flex flex-column justify-content-between">
+                                <a id="@contact.Contact.Id" current="@currentUser.Id" class="d-flex flex-column justify-content-between">
                                     <div class="row">
                                         <div class="col-3">
                                             <img src="@contact.Contact.ResizePicture(48, 48)" alt="avatar" class="avatar rounded-circle d-flex align-self-start mr-2 z-depth-1">
@@ -67,8 +67,8 @@
                             {
                                 if (discussion.Emitter.Equals(currentUser.Id))
                                 {
-                                    <li class="d-flex justify-content-between mb-4">
-                                        <div class="chat-body white p-3 z-depth-1">
+                                    <li class="d-flex justify-content-end mb-2 w-100">
+                                        <div class="chat-body white p-3 z-depth-1 rounded">
                                             <div class="header">
                                                 <strong class="primary-font">@discussion.EmitterUser.FirstName @discussion.EmitterUser.LastName</strong>
                                                 <small class="pull-right text-muted"><i class="far fa-clock"></i> @discussion.DateHour.ToString("HH:mm - dd/MM/yyyy", culture)</small>
@@ -82,9 +82,8 @@
                                 }
                                 else
                                 {
-                                    <li class="d-flex justify-content-between mb-4">
-                                        <img src="@discussion.EmitterUser.ResizePicture(50, 50)" alt="avatar" class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1">
-                                        <div class="chat-body white p-3 ml-2 z-depth-1">
+                                    <li class="d-flex justify-content-start mb-2 w-100">                                        
+                                        <div class="chat-body white p-3 ml-2 z-depth-1 rounded">
                                             <div class="header">
                                                 <strong class="primary-font">@discussion.EmitterUser.FirstName @discussion.EmitterUser.LastName</strong>
                                                 <small class="pull-right text-muted"><i class="far fa-clock"></i> @discussion.DateHour.ToString("HH:mm - dd/MM/yyyy", culture)</small>

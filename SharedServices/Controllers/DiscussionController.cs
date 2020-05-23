@@ -5,6 +5,7 @@ using SharedServices.BL.Domain;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
+using SharedServices.Mutual.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,10 @@ namespace SharedServices.UI.Controllers
             }
 
             string user = userManager.GetUserId(User);
-            var discussions = client.GetDiscussionBetweenCurrentUserAndAnOtherUser(user, id);
+            var discussions = client.GetDiscussionBetweenCurrentUserAndAnOtherUser(user, id)
+                                    .Select(d => d.ToTransfer())
+                                    .Reverse()
+                                    .ToList();
 
             return Json(new { status = true, discussions });
         }

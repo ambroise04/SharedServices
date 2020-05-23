@@ -17,11 +17,11 @@ $(document).ready(function () {
 
     $(".contact a").on("click", function (event) {
         //event.preventDefault();
-        getDiscussion(this.getAttribute("id"));
+        getDiscussion(this.getAttribute("id"), this.getAttribute("current"));
     })
 })
 
-function getDiscussion(id) {
+function getDiscussion(id, current) {
     $.ajax({
         type: "GET",
         url: "Discussion/Contact",
@@ -29,7 +29,7 @@ function getDiscussion(id) {
         dataType: "json",
         success: function (data) {
             if (data["status"]) {
-                fillContent(data["discussions"]);
+                fillContent(data["discussions"], current);
             } else {
                 console.log(data["message"])
             }
@@ -40,19 +40,19 @@ function getDiscussion(id) {
     })
 }
 
-function fillContent(data) {
+function fillContent(data, current) {
     var content = "";
     var $container = $(".chat-content");
     $container.html("");
 
     $.each(data, function (index, message) {
-        if (discussion.Emitter.Equals(currentUser.Id)) {
+        if (message.emitter == current) {
             content += `
-                        <li class="d-flex justify-content-between mb-4">
-                            <div class="chat-body white p-3 z-depth-1">
+                        <li class="d-flex justify-content-end mb-4">
+                            <div class="chat-body white p-3 z-depth-1 rounded">
                                 <div class="header">
-                                    <strong class="primary-font">${message.emitteruser.firstname} ${message.emitteruser.lastname}</strong>
-                                    <small class="pull-right text-muted"><i class="far fa-clock"></i> ${message.datehour}</small>
+                                    <strong class="primary-font">${message.emitterName}</strong>
+                                    <small class="pull-right text-muted"><i class="far fa-clock"></i> ${message.date}</small>
                                 </div>
                                 <hr class="w-100">
                                 <p class="mb-0">
@@ -64,12 +64,11 @@ function fillContent(data) {
         }
         else {
             content += `
-                        <li class="d-flex justify-content-between mb-4">
-                            <img src="Image" alt="avatar" class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1">
-                            <div class="chat-body white p-3 ml-2 z-depth-1">
+                        <li class="d-flex justify-content-start mb-4">
+                            <div class="chat-body white p-3 ml-2 z-depth-1 rounded">
                                 <div class="header">
-                                    <strong class="primary-font">${message.emitteruser.firstname} ${message.emitteruser.lastname}</strong>
-                                    <small class="pull-right text-muted"><i class="far fa-clock"></i>${message.datehour}</small>
+                                    <strong class="primary-font">${message.emitterName}</strong>
+                                    <small class="pull-right text-muted"><i class="far fa-clock"></i>${message.date}</small>
                                 </div>
                                 <hr class="w-100">
                                 <p class="mb-0">
