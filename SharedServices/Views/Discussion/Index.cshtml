@@ -82,7 +82,7 @@
                                 }
                                 else
                                 {
-                                    <li class="d-flex justify-content-start mb-2 w-100">                                        
+                                    <li class="d-flex justify-content-start mb-2 w-100">
                                         <div class="chat-body white p-3 ml-2 z-depth-1 rounded">
                                             <div class="header">
                                                 <strong class="primary-font">@discussion.EmitterUser.FirstName @discussion.EmitterUser.LastName</strong>
@@ -98,12 +98,14 @@
                             }
                         }
                     </ul>
-                    <div class="white">
+                    <form class="white" id="form-message">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="target" name="target" value="" />
                         <div class="form-group basic-textarea">
-                            <textarea class="form-control pl-2 my-0" id="exampleFormControlTextarea2" rows="3" placeholder="Type your message here..."></textarea>
+                            <textarea class="form-control pl-2 my-0" name="message" id="message-box" rows="3" placeholder="Type your message here..."></textarea>
                         </div>
-                    </div>
-                    <button type="button" class="btn btn-outline-my-green btn-rounded btn-sm waves-effect waves-dark float-right">Envoyer</button>
+                    </form>
+                    <button type="button" class="btn btn-outline-my-green btn-rounded btn-sm waves-effect waves-dark float-right" onclick="sendingMessage()">Envoyer</button>
                 </div>
             </div>
         </div>

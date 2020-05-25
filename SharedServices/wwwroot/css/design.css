@@ -81,7 +81,18 @@
     background-color: #0e9c9c !important;
     color: white !important;
     border: 1px solid white !important;
-} 
+}
+
+.green-border textarea {
+    border: 1px solid #0e9c9c;
+}
+
+.green-border .form-control:focus {
+    border: 1px solid #0e9c9c;
+    box-shadow: 0 0 0 0.2rem rgba(14, 156, 156, .25);
+}
+
+
 /*Begin Chat styles*/
 .container.chat-room .members-panel-1,
 .container.chat-room .chat-1 {

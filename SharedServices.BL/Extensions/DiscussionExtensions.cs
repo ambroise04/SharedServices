@@ -25,7 +25,7 @@ namespace SharedServices.Mutual.Extensions
                 EmitterName = string.Concat(discussion.EmitterUser.FirstName, " ",discussion.EmitterUser.LastName),
                 Message = discussion.Message,
                 Date = discussion.DateHour.ToString("HH:mm - dd/MM/yyyy", culture),
-                PictureSource = discussion.EmitterUser.ResizePicture(50, 50)
+                PictureSource = discussion.EmitterUser?.ResizePicture(50, 50)
             };
 
             return discussionTO;

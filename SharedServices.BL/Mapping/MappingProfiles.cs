@@ -7,11 +7,11 @@ namespace SharedServices.BL.Mapping
     {
         public MappingProfiles()
         {
-            CreateMap<DAL.Entities.Discussion, Discussion>();
-            CreateMap<DAL.Entities.Discussion, Discussion>().ReverseMap();
+            CreateMap<DAL.Entities.Discussion, Discussion>().ForMember(dest => dest.DateHour, opt => opt.MapFrom(s => s.DateHour.ToLocalTime()));
+            CreateMap<Discussion, DAL.Entities.Discussion>().ForMember(dest => dest.DateHour, opt => opt.MapFrom(s => s.DateHour.ToUniversalTime()));
 
             CreateMap<DAL.Entities.Request, Request>();
-            CreateMap<DAL.Entities.Request, Request>().ReverseMap();
+            CreateMap<Request, DAL.Entities.Request> ();
 
             CreateMap<DAL.Entities.Service, Service>();
             CreateMap<DAL.Entities.Service, Service>().ReverseMap();

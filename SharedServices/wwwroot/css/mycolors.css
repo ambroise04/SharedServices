@@ -1,19 +1,19 @@
 ﻿.bg-color-green {
-    background-color: #0e9c9c;
+    background-color: #0e9c9c !important;
 }
 
 .text-color-green {
-    color: #0e9c9c;
+    color: #0e9c9c !important;
 }
 
 .bg-color-red {
-    background-color: #e51b23;
+    background-color: #e51b23 !important;
 }
 
 .text-color-red {
-    color: #e51b23;
+    color: #e51b23 !important;
 }
 
 .bg-color-grey {
-    background-color: #dde4eb;
+    background-color: #dde4eb !important;
 }

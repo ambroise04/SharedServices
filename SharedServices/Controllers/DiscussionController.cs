@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
+using SharedServices.BL.Extensions;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.Mutual.Extensions;
+using SharedServices.UI.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -62,6 +66,89 @@ namespace SharedServices.UI.Controllers
                                     .ToList();
 
             return Json(new { status = true, discussions });
+        }
+
+        public IActionResult UserInfo(string target)
+        {
+            if (string.IsNullOrEmpty(target))
+            {
+                throw new ArgumentException("Bad params", nameof(target));
+            }
+            var user = userManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(target));
+            if (user is null)
+            {
+                throw new ArgumentException("Bad target was submitted", nameof(user));
+            }
+            var infos = new SearchMessageUserInfos 
+            { 
+                Id = user.Id, 
+                FullName = string.Concat(user.FirstName, " ", user.LastName), 
+                ImageSource = user.ResizePicture(45, 45) 
+            };
+
+            return PartialView("_SearchMessage", infos);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Discuss(string target, string message)
+        {
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+
+            var errorMessage = cultureFR ? "Des paramètres incorrects ont été envoyés. Veuillez vérifier vos données et réessayez s'il vous plaît."
+                : "Incorrect parameters have been sent.Please check your details and try again please";
+
+            if (string.IsNullOrEmpty(target) || string.IsNullOrEmpty(message))
+            {
+                return Json(new { status = false, message = errorMessage});
+            }
+
+            var targetUser = await userManager.FindByIdAsync(target);
+
+            if (targetUser is null)
+            {
+                errorMessage = cultureFR ? "Votre correspondant n'a pas été trouvé. Veuillez réessayer s'il vous plaît."
+                : "Your correspondent was not found.Try again, please";
+
+                return Json(new { status = false, message = errorMessage });
+            }
+
+            var currentUser = await userManager.GetUserAsync(User);
+            Discussion discussion = new Discussion
+            {
+                Emitter = currentUser.Id,
+                Receiver = targetUser.Id,
+                Message = message,
+                DateHour = DateTime.Now,               
+            };
+
+            unitOfWork.CreateTransaction();
+            try
+            {
+                var result = client.AddDiscussion(discussion);
+                
+                if (result is null)
+                {
+                    unitOfWork.RollbackTransaction();
+                    errorMessage = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                        : "An error has been encountered. Try again, please.";
+                    return Json(new { status = false, message = errorMessage });
+                }
+                result.EmitterUser = userManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(result.Emitter));
+                var successMessage = cultureFR ? "Votre message a été envoyé avec succès." : "Your messsage has been sent successfully.";
+                unitOfWork.CommitTransaction();
+
+                return Json(new { status = true, message = successMessage, discussion = result.ToTransfer(), current = currentUser.Id });
+            }
+            catch (Exception)
+            {
+                unitOfWork.RollbackTransaction();
+                errorMessage = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                    : "An error has been encountered. Try again, please.";
+
+                return Json(new { status = false, message = errorMessage });
+            }
         }
 
         private async Task UserContact()
