@@ -30,7 +30,10 @@ namespace SharedServices.DAL.Repositories
         public IEnumerable<Request> GetAll()
         {
             return Context.Requests
-                          .Include(r => r.User)
+                          .Include(r => r.Receiver)
+                          .ThenInclude(u => u.Picture)
+                          .Include(r => r.Requester)
+                          .ThenInclude(u => u.Picture)
                           .Include(r => r.Service)
                           .ToList();
         }
@@ -40,12 +43,24 @@ namespace SharedServices.DAL.Repositories
             if (id <= 0)
                 throw new ArgumentException("A bad id was submitted.");
 
-            return Context.Requests.Find(id);
+            return Context.Requests
+                          .Include(r => r.Receiver)
+                          .ThenInclude(u => u.Picture)
+                          .Include(r => r.Requester)
+                          .ThenInclude(u => u.Picture)
+                          .Include(r => r.Service)
+                          .FirstOrDefault(r => r.Id == id);
         }
 
         public IEnumerable<Request> GetByPredicate(Expression<Func<Request, bool>> predicate)
         {
-            return Context.Requests.Where(predicate);
+            return Context.Requests
+                          .Include(r => r.Receiver)
+                          .ThenInclude(u => u.Picture)
+                          .Include(r => r.Requester)
+                          .ThenInclude(u => u.Picture)
+                          .Include(r => r.Service)
+                          .Where(predicate);
         }
 
         public Request Insert(Request entity)

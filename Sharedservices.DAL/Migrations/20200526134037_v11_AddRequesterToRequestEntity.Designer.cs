@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SharedServices.DAL;
 
 namespace SharedServices.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200526134037_v11_AddRequesterToRequestEntity")]
+    partial class v11_AddRequesterToRequestEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -357,9 +359,6 @@ namespace SharedServices.DAL.Migrations
 
                     b.Property<bool>("Accepted")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("DateOfAddition")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfRequest")
                         .HasColumnType("datetime2");

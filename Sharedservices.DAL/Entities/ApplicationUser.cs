@@ -2,6 +2,7 @@
 using SharedServices.DAL.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SharedServices.DAL
 {
@@ -18,7 +19,10 @@ namespace SharedServices.DAL
         public int Start { get; set; }
         public Picture Picture { get; set; }
         public ICollection<ApplicationUserServices> UserServices { get; set; }
-        public ICollection<Request> Requests { get; set; }
+        [InverseProperty("Receiver")]
+        public ICollection<Request> RequestsReceived { get; set; }
+        [InverseProperty("Requester")]
+        public ICollection<Request> RequestsSent { get; set; }
         public ICollection<ApplicationUser> Contacts { get; set; }
         public ICollection<Discussion> Discussions { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }

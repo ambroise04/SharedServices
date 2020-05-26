@@ -1,18 +1,32 @@
-﻿<ul class="navbar-nav ml-md-auto ubuntu-light">
-    <li class="nav-item">
-        <a class="nav-link fables-third-text-color px-2
-           fables-second-hover-color top-header-link max-line-height" asp-action="Index" asp-controller="Discussion">
+﻿@inject UserManager<ApplicationUser> UserManager
+@{ 
+    var userId = UserManager.GetUserId(User);
+    var currentUser = UserManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(userId));
+}
+<ul class="navbar-nav ml-md-auto ubuntu-light d-flex align-items-end">
+    <li class="nav-item text-center">
+        <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Discussion">
+            @*Affichage à gérer avec la class .visible*@
+            <span class="nav-item__badge visible"><span aria-hidden="true" class="nav-item__badge-count">1</span></span>
             <i class="far fa-envelope"></i>
+            <span class="font-13">Messagerie</span>
         </a>
-    </li>    
-    <li class="nav-item dropdown">
-        <a title="Profil" class="nav-link dropdown-toggle fables-third-text-color px-2
-           fables-second-hover-color top-header-link max-line-height"
+    </li>
+    <li class="nav-item text-center">
+        <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Request">
+            <span class="nav-item__badge visible"><span aria-hidden="true" class="nav-item__badge-count">2</span></span>
+            <i class="far fa-handshake"></i>
+            <span class="font-13">Demandes</span>
+        </a>
+    </li>
+    <li class="nav-item dropdown text-center">
+        <a title="Profil" class="nav-link dropdown-toggle fables-third-text-color px-2 d-flex flex-column justify-content-center"
            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user"></i>
+            <img width="24" src="@currentUser.PictureSource()" height="24" alt="@currentUser.FirstName @currentUser.LastName" class="nav-item__profile-member-photo nav-item__icon">
+            <span class="font-13">Vous</span>
         </a>
         <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" id="login" asp-action="Login" asp-controller="Account"><i class="far fa-address-card prefix mr-2"></i>Profile</a>
+            <a class="dropdown-item" id="login" asp-action="Profile" asp-controller="User"><i class="far fa-address-card prefix mr-2"></i>Profile</a>
             <form style="width:inherit" id="logoutForm" class="" asp-action="Logout" asp-controller="Account" asp-route-returnUrl="@Url.Action("Index", "Home")">
                 <button id="logout" type="submit" class="nav-link btn-sm btn-outline-my-green text-dark btn-logout"><i class="fas fa-sign-out-alt prefix"></i>Déconnexion</button>
             </form>

@@ -1,4 +1,6 @@
-﻿using SharedServices.BL.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using SharedServices.BL.Domain;
+using SharedServices.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +42,7 @@ namespace SharedServices.BL.UseCases.Clients
             }
 
             var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.User.Id.Equals(userId))
+                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId))
                                      .OrderByDescending(r => r.DateOfRequest)
                                      .Select(r => Mapping.Mapping.Mapper.Map<Request>(r))
                                      .ToList();
@@ -56,7 +58,7 @@ namespace SharedServices.BL.UseCases.Clients
             }
 
             var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.User.Id.Equals(userId) && r.Accepted)
+                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId) && r.Accepted)
                                      .OrderByDescending(r => r.DateOfRequest)
                                      .Select(r => Mapping.Mapping.Mapper.Map<Request>(r))
                                      .ToList();
@@ -72,12 +74,36 @@ namespace SharedServices.BL.UseCases.Clients
             }
 
             var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.User.Id.Equals(userId) && !r.Accepted)
+                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId) && !r.Accepted)
                                      .OrderByDescending(r => r.DateOfRequest)
                                      .Select(r => Mapping.Mapping.Mapper.Map<Request>(r))
                                      .ToList();
 
             return requests;
+        }
+
+        public ApplicationUser UserRequests(string userId)
+        {
+            var user = userManager.Users
+                                    //Requests received
+                                  .Include(u => u.RequestsReceived)
+                                  .ThenInclude(rs => rs.Requester)
+                                  .ThenInclude(req => req.Picture)
+                                  //Requests received service
+                                  .Include(u => u.RequestsReceived)
+                                  .ThenInclude(rs => rs.Service)
+                                  .ThenInclude(serv => serv.Group)
+                                  //Requests sent
+                                  .Include(u => u.RequestsSent)
+                                  .ThenInclude(rs => rs.Receiver)
+                                  .ThenInclude(rec => rec.Picture)
+                                  //Requests sent service
+                                  .Include(u => u.RequestsSent)
+                                  .ThenInclude(rs => rs.Service)
+                                  .ThenInclude(serv => serv.Group)
+
+                                  .FirstOrDefault(u => u.Id.Equals(userId));
+            return user;
         }
     }
 }

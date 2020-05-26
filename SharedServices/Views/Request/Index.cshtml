@@ -1,0 +1,72 @@
+﻿@model ApplicationUser
+@inject IViewLocalizer Localizer;
+@inject UserManager<ApplicationUser> UserManager;
+
+@{
+    ViewBag.Title = Localizer["Titre"];
+    var user = Model;
+    var received = user.RequestsReceived;
+    var sent = user.RequestsSent;
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
+}
+
+<!-- Start page content -->
+<div class="container">
+    <div class="row my-4 my-md-5">
+        <div class="col-12">
+            <nav class="fables-single-nav">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="fables-single-item nav-link fables-forth-text-color fables-second-active fables-second-hover-color
+                       fables-forth-after px-3 px-md-5 font-15 semi-font border-0 active rounded-0 py-3" id="nav-receive-tab"
+                       data-toggle="tab" href="#nav-received" role="tab" aria-controls="nav-desc" aria-selected="true">
+                        REÇUES
+                    </a>
+                    <a class="fables-single-item nav-link fables-forth-text-color fables-second-active fables-second-hover-color
+                       fables-forth-after border-0 px-3 px-md-5 font-15 semi-font rounded-0 py-3" id="nav-send-tab"
+                       data-toggle="tab" href="#nav-sent" role="tab" aria-controls="nav-review" aria-selected="false">
+                        ENVOYÉES
+                    </a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-received" role="tabpanel" aria-labelledby="nav-receive-tab">
+                    <div class="">
+                        <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes reçues</h2>
+                        @foreach (var request in received)
+                        {
+                            <div class="row mb-3">
+                                <div class="col-4 col-md-3 text-center">
+                                    <a href="#" class="avatar">
+                                        <img src="@request.Requester.ResizePicture(134, 103)" width="150" height="150"
+                                             alt="@request.Requester.FirstName @request.Requester.LastName picture" class="rounded img-thumbnail">
+                                    </a>
+                                    <p>@request.Requester.FirstName @request.Requester.LastName</p>
+                                </div>
+                                <div class="col-8 pl-0 justify-content-center">
+                                    <a href="#" class="fables-main-text-color semi-font fables-second-hover-color text-truncate d-block">@request.Service.Title </a>
+                                    <p class="fables-fifth-text-color font-14 my-2 text-truncate">
+                                        Demande reçue le @request.DateOfAddition.ToString("dddd, dd MMMM yyyy", culture) à @request.DateOfAddition.ToString("HH:mm", culture)
+                                    </p>
+                                    <div class="fables-forth-text-color font-14">
+                                        <span class="fables-icondata fables-second-text-color mr-1"></span>
+                                        <span class="mr-2 mr-md-3"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
+                                        <i class="fas fa-gift"></i>
+                                        <a href="" class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }                        
+                    </div>
+                    <hr>
+                </div>
+                <div class="tab-pane fade" id="nav-sent" role="tabpanel" aria-labelledby="nav-send-tab">
+                    <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes envoyées</h2>
+
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
