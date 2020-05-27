@@ -64,6 +64,24 @@ element.style {
 }
 /*Nav*/
 
+/*Search*/
+@media (max-width : 768px) {
+    .margin {
+        margin-top: 3em;
+    }
+}
+
+.btn-outline-green-light {
+    border: 1px solid #0e9c9c !important;
+    background-color: transparent !important;
+    color: #0e9c9c !important;
+}
+
+.modal.show {
+    background: rgba(0, 0, 0, 0.50); /*for modal backdrop fade*/
+} 
+/*End Search*/
+
 .form-control:focus {
     border-color: #0e9c9c;
 }
@@ -80,6 +98,12 @@ element.style {
     border: 2px solid #0e9c9c !important;
     background-color: transparent !important;
     color: #0e9c9c !important;
+}
+
+.btn-outline-my-red {
+    border: 2px solid #e51b23 !important;
+    background-color: transparent !important;
+    color: #e51b23 !important;
 }
 
 .index-traingle::before {

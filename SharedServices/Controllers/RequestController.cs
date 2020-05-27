@@ -3,14 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
+using SharedServices.BL.Extensions;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
+using SharedServices.UI.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SharedServices.UI.Controllers
 {
@@ -35,10 +35,45 @@ namespace SharedServices.UI.Controllers
         // GET: Request
         public ActionResult Index()
         {
-            var userId = _userManager.GetUserId(User); 
+            var userId = _userManager.GetUserId(User);
             var user = _client.UserRequests(userId);
-           
+
             return View(user);
+        }
+
+        [HttpGet]
+        public IActionResult Create(int service, string flag)
+        {
+            if (service <= 0 || string.IsNullOrEmpty(flag))
+            {
+                throw new Exception("Bad request.");
+            }
+            var serviceRetrieved = _client.GetServiceById(service);
+            var user = _userManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(flag));
+
+            if (serviceRetrieved == null || user == null)
+            {
+                throw new Exception("One or more parameters are bad.");
+            }
+
+            var model = new RequestFormViewModel
+            {
+                ServiceId = serviceRetrieved.Id,
+                ServiceTitle = serviceRetrieved.Title,
+                OperationPoint = serviceRetrieved.Group.PointsByHour,
+                TargetId = user.Id,
+                TargetFullName = string.Concat(user.FirstName, " ", user.LastName),
+                TargetUserPictureSource = user.PictureSource()
+            };
+
+            return PartialView("_RequestForm", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(int service, string flag, DateTime date)
+        {            
+           return null;
         }
     }
 }

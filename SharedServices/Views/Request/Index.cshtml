@@ -12,6 +12,20 @@
     var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
 }
 
+
+@section Styles {
+    <style>
+        @@media (max-width:768px) {
+            .align {
+                text-align: center;
+            }
+        }
+
+        .align ::after {
+            text-align: left;
+        }
+    </style>
+}
 <!-- Start page content -->
 <div class="container">
     <div class="row my-4 my-md-5">
@@ -36,34 +50,73 @@
                         <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes reçues</h2>
                         @foreach (var request in received)
                         {
+                            <hr>
                             <div class="row mb-3">
-                                <div class="col-4 col-md-3 text-center">
+                                <div class="col-lg-4 col-md-3 col-sm-12 text-center">
                                     <a href="#" class="avatar">
                                         <img src="@request.Requester.ResizePicture(134, 103)" width="150" height="150"
                                              alt="@request.Requester.FirstName @request.Requester.LastName picture" class="rounded img-thumbnail">
                                     </a>
                                     <p>@request.Requester.FirstName @request.Requester.LastName</p>
                                 </div>
-                                <div class="col-8 pl-0 justify-content-center">
-                                    <a href="#" class="fables-main-text-color semi-font fables-second-hover-color text-truncate d-block">@request.Service.Title </a>
-                                    <p class="fables-fifth-text-color font-14 my-2 text-truncate">
-                                        Demande reçue le @request.DateOfAddition.ToString("dddd, dd MMMM yyyy", culture) à @request.DateOfAddition.ToString("HH:mm", culture)
+                                <div class="col-lg-6 col-md-7 col-sm-12 pl-0 align">
+                                    <a href="#" class="fables-main-text-color semi-font fables-second-hover-color">@request.Service.Title </a>
+                                    <p class="fables-fifth-text-color font-14 my-2">
+                                        Reçue le @request.DateOfAddition.ToString("dddd, dd MMMM yyyy", culture) à @request.DateOfAddition.ToString("HH:mm", culture)
                                     </p>
                                     <div class="fables-forth-text-color font-14">
-                                        <span class="fables-icondata fables-second-text-color mr-1"></span>
-                                        <span class="mr-2 mr-md-3"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
-                                        <i class="fas fa-gift"></i>
+                                        <span class="fables-icondata text-color-red"></span>
+                                        <span class="ml-1"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
+                                        <i class="fas fa-gift text-color-green ml-3 mr-1"></i>
                                         <a href="" class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</a>
                                     </div>
                                 </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
+                                    <p class="fables-product-info">
+                                        <a href="#" class="btn btn-sm btn-outline-green-light btn-rounded fables-hover-btn-color fables-second-text-color font-14 p-2 px-2 px-xl-4">
+                                            <i class="fas fa-hands-helping fables-btn-value"></i>
+                                            <span class="fables-btn-value">Accepter</span>
+                                        </a>
+                                    </p>
+                                    <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect">Refuser</a>
+                                </div>
                             </div>
-                        }                        
+                        }
                     </div>
                     <hr>
                 </div>
                 <div class="tab-pane fade" id="nav-sent" role="tabpanel" aria-labelledby="nav-send-tab">
-                    <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes envoyées</h2>
-
+                    <div class="">
+                        <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes envoyées</h2>
+                        @foreach (var request in sent)
+                        {
+                            <hr>
+                            <div class="row mb-3">
+                                <div class="col-lg-4 col-md-3 col-sm-12 text-center">
+                                    <a href="#" class="avatar">
+                                        <img src="@request.Receiver.ResizePicture(134, 103)" width="150" height="150"
+                                             alt="@request.Receiver.FirstName @request.Receiver.LastName picture" class="rounded img-thumbnail">
+                                    </a>
+                                    <p>@request.Receiver.FirstName @request.Receiver.LastName</p>
+                                </div>
+                                <div class="col-lg-6 col-md-7 col-sm-12 pl-0 align">
+                                    <a href="#" class="fables-main-text-color semi-font fables-second-hover-color">@request.Service.Title </a>
+                                    <p class="fables-fifth-text-color font-14 my-2">
+                                        Envoyée le @request.DateOfAddition.ToString("dddd, dd MMMM yyyy", culture) à @request.DateOfAddition.ToString("HH:mm", culture)
+                                    </p>
+                                    <div class="fables-forth-text-color font-14">
+                                        <span class="fables-icondata text-color-red"></span>
+                                        <span class="ml-1"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
+                                        <i class="fas fa-gift text-color-green ml-3 mr-1"></i>
+                                        <a href="" class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">                                    
+                                    <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect">Annuler</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
                     <hr>
                 </div>
             </div>

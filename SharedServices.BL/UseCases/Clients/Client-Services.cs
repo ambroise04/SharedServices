@@ -34,6 +34,21 @@ namespace SharedServices.BL.UseCases.Clients
             return Mapping.Mapping.Mapper.Map<Service>(retrievedService);
         }
 
+        public int GetServiceByTitle(string title)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                throw new ArgumentException($"Bad service title. {nameof(title)}");
+            }
+
+            var retrievedServiceId = unitOfWork.ServiceRepository
+                      .GetByPredicate(s => s.Title.ToLower().Equals(title.Trim().ToLower()))
+                      .Select(s => s.Id)
+                      .FirstOrDefault();
+
+            return retrievedServiceId;
+        }
+
         public DAL.Entities.Service GetServiceByIdWithoutConverting(int id)
         {
             if (id <= 0)

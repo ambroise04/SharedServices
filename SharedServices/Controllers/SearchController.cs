@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using SharedServices.BL.UseCases.Admin;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
@@ -43,15 +40,23 @@ namespace SharedServices.UI.Controllers
                 applicationUsers = _client.SearchAllUsers();
             }
             var users = await PaginatedList<ApplicationUser>.CreateAsync(applicationUsers.AsQueryable().AsNoTracking(), pageIndex ?? 1, pageSize);
-            var model = new SearchModel 
+            var model = new SearchModel
             {
                 Users = users
             };
+
+            if (!string.IsNullOrEmpty(search))
+            {                
+                var serviceId = _client.GetServiceByTitle(search);
+                ViewBag.Service = serviceId;
+            }
+            ViewBag.Search = search;
+
             return View(model);
         }
 
         public string[] Services()
-        {            
+        {
             return _client.GetAllServices()
                         .Select(s => s.Title)
                         .ToArray();
@@ -59,7 +64,7 @@ namespace SharedServices.UI.Controllers
 
         // GET: Service/Details/5
         [HttpGet]
-        public ActionResult Details(string id)
+        public ActionResult Details(string id, int flag)
         {
             var user = _userManager.Users
                                    .Include(u => u.Picture)
@@ -67,6 +72,11 @@ namespace SharedServices.UI.Controllers
                                    .Include(u => u.UserServices)
                                    .ThenInclude(us => us.Service)
                                    .FirstOrDefault(u => u.Id.Equals(id));
+            if (flag > 0)
+            {
+                var service = _client.GetServiceById(flag);
+                ViewBag.Service = service.Id;
+            }
             return View(user);
         }
     }

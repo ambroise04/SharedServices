@@ -1,0 +1,33 @@
+﻿@model RequestFormViewModel
+
+<div class="modal-header d-flex justify-content-center bg-color-green">
+    <div class="d-flex justify-content-center flex-wrap">
+        <img src="@Model.TargetUserPictureSource" width="45" height="45" alt="Contact picture" class="avatar rounded-circle" />
+        <p class="heading">Envoyer une demande à @Model.TargetFullName</p>
+    </div>
+</div>
+<div class="modal-body">
+    <form action="/" method="post" id="request-form" class="ubuntu-light">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-6">
+                <p class="py-1"><span class="ubuntu-medium">À :</span><span class="text-color-green"> @Model.TargetFullName</span></p>
+                <p class="py-1"><span class="ubuntu-medium">Service :</span> <span class="text-color-green"> @Model.ServiceTitle</span></p>
+                <p class="py-1"><span class="ubuntu-medium">Coût du service :</span><span class="text-color-green"> @Model.OperationPoint points par heure</span></p>
+            </div>
+            <div class="col-md-6">
+                <p class="ubuntu-medium pb-2">Date et heure</p>
+                <div class="form-group green-border">
+                    <label for="date">Cliquez pour sélectionner la date et l'heure</label>
+                    <input type="text" id="date" class="form-control request-date" name="date">
+                </div>
+            </div>
+        </div>
+        <input type="hidden" value="@Model.ServiceId" name="service" />
+        <input type="hidden" value="@Model.TargetId" name="flag" />        
+    </form>
+</div>
+<div class="d-flex justify-content-between" style="padding: 1rem; border-top: 1px solid #e9ecef;">
+    <a class="btn btn-sm btn-outline-my-green waves-effect" data-dismiss="modal">Annuler</a>
+    <a class="btn btn-sm bg-color-green waves-effect" id="btn-request" onclick="requestSending();">Envoyer</a>
+</div>
