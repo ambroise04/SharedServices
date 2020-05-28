@@ -7,6 +7,7 @@ using SharedServices.DAL.UnitOfWork;
 using SharedServices.UI.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace SharedServices.UI.Controllers
                 ViewBag.Service = serviceId;
             }
             ViewBag.Search = search;
-
+            ViewBag.Culture = CultureInfo.CurrentCulture.Name;
             return View(model);
         }
 

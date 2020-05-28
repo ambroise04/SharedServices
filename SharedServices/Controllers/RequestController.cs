@@ -83,6 +83,7 @@ namespace SharedServices.UI.Controllers
                     : "Parameter related errors have been encountered! Try again, please.";
                 return Json(new { status = false, message = errorMessage });
             }
+            date = cultureFR ? date : string.Join('-', date.Split("/"));
 
             var requestDate = DateTime.Parse(date);
             var serviceRetrieved = _client.GetServiceById(service);

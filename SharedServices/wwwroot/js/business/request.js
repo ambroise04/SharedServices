@@ -19,14 +19,9 @@ function getForm(service, flag) {
         dataType: "html",
         data: { service: service, flag: flag },
         success: function(data) {
-            $(".request-modal-content").html(data);
-            var lang = navigator.language;
+            $(".request-modal-content").html(data);            
             initializeDatePicker(lang);
-            if (lang.toLowerCase().search("fr") != -1) {
-                
-            } else {
-                
-            }
+            
             $("#request-modal").modal("show");
         },
         error: function() {

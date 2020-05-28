@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -139,6 +140,7 @@ namespace SharedServices
             };            
 
             app.UseRequestLocalization(localizationOptions);
+            localizationOptions.RequestCultureProviders.Insert(0, new UrlRequestCultureProvider());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -153,6 +155,14 @@ namespace SharedServices
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "cultureRoute",
+                    pattern: "{culture=fr}/{controller=Home}/{action=Index}/{id?}",
+                    constraints: new
+                    {
+                        culture = new RegexRouteConstraint("^[a-z]{2}(?:-[A-Z]{2})?$")
+                    });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
