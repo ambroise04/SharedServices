@@ -7,7 +7,7 @@ namespace SharedServices.BL.Domain
     {
         public int Id { get; set; }
         public ApplicationUser Receiver { get; set; }
-        public ApplicationUser Sender { get; set; }
+        public ApplicationUser Requester { get; set; }
         public Service Service { get; set; }
         public DateTime DateOfRequest { get; set; }
         public DateTime DateOfAddition { get; set; }

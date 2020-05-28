@@ -8,8 +8,15 @@
 }
 
 @section Styles {
-    <link href="~/css/datetimepicker.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="~/css/bootstrap-material-datetimepicker-bs4.min.css" rel="stylesheet" />
     <style>
+        .dtp-btn-cancel {
+            color: var(--custom-green-color) !important;
+        }
+        .dtp-btn-ok {
+            color: var(--custom-green-color) !important;
+        }
     </style>
 }
 
@@ -142,13 +149,16 @@
 @section Scripts{
     <script src="~/js/search.js"></script>
     <script src="~/js/moment.js"></script>
-    <script src="~/js/datetimepicker.js"></script>
+    <script src="~/js/bootstrap-material-datetimepicker-bs4.min.js"></script>
     <script src="~/js/business/request.js"></script>
 
 
     <script type="text/javascript">
+        var lang = @ViewBag.Culture;
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+
+            $(".dtp-select-hour").attr("fill", "#0e9c9c");
         })
     </script>
 }

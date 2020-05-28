@@ -15,9 +15,10 @@ namespace SharedServices.BL.UseCases.Clients
             {
                 throw new ArgumentNullException(nameof(request));
             }
-
+            var dalRequest = Mapping.Mapping.Mapper.Map<DAL.Entities.Request>(request);
+            dalRequest.Service = unitOfWork.ServiceRepository.GetById(request.Service.Id);
             var addedRequest = unitOfWork.RequestRepository
-                      .Insert(Mapping.Mapping.Mapper.Map<DAL.Entities.Request>(request));
+                      .Insert(dalRequest);
 
             return Mapping.Mapping.Mapper.Map<Request>(addedRequest);
         }

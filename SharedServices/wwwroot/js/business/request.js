@@ -21,20 +21,58 @@ function getForm(service, flag) {
         success: function(data) {
             $(".request-modal-content").html(data);
             var lang = navigator.language;
-            console.log(lang);
+            initializeDatePicker(lang);
             if (lang.toLowerCase().search("fr") != -1) {
-                $date_input = $(".request-date").bootstrapMaterialDatePicker({ format: 'DD MMMM YYYY - HH:mm', lang: 'fr', cancelText: 'ANNULER' });
-                $date_input.on("change", function (e, date) {
-                    alert(date);
-                });
+                
             } else {
-                $date_input = $(".request-date").bootstrapMaterialDatePicker({ format: 'DD MMMM YYYY - HH:mm' });
+                
             }
             $("#request-modal").modal("show");
         },
         error: function() {
             toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
         }
+    })
+}
+
+function initializeDatePicker(lang) {
+    var $dateTimePicker;
+    if (lang.toLowerCase().search("fr") != -1) {
+        $dateTimePicker = $('#date').bootstrapMaterialDatePicker({
+            format: 'DD/MM/YYYY HH:mm',
+            shortTime: false,
+            minDate: moment(),
+            date: true,
+            time: true,
+            monthPicker: false,
+            year: true,
+            clearButton: false,
+            nowButton: false,
+            switchOnClick: true,
+            cancelText: 'annuler',
+            nowText: 'maintenant',
+            lang: 'fr',
+            weekStart: 1,
+        });
+    } else {
+        $dateTimePicker = $('#date').bootstrapMaterialDatePicker({
+            format: 'MM-DD-YYYY HH:mm',
+            shortTime: false,
+            minDate: moment(),
+            date: true,
+            time: true,
+            monthPicker: false,
+            year: true,
+            clearButton: false,
+            nowButton: false,
+            switchOnClick: true,
+            cancelText: 'Cancel',
+        });
+    }
+
+    $dateTimePicker.on("change", function (event, date) {
+        var val = $('#date').val();
+        $("#dateSubmit").val(val);
     })
 }
 
