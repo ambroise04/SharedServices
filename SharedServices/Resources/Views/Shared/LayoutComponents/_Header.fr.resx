@@ -117,22 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About" xml:space="preserve">
-    <value>A propos</value>
+  <data name="1Btn1" xml:space="preserve">
+    <value>Voir les services</value>
   </data>
-  <data name="Contact" xml:space="preserve">
-    <value>Contact</value>
+  <data name="1Btn2" xml:space="preserve">
+    <value>Demander un service</value>
   </data>
-  <data name="Education" xml:space="preserve">
-    <value>Formations</value>
+  <data name="1Description" xml:space="preserve">
+    <value>Avec BETWEEN US, mettez vos compétences au service des autres.
+                        Gagnez des points et utilisez-les pour demander les services dont vous avez besoin</value>
   </data>
-  <data name="Home" xml:space="preserve">
-    <value>Accueil</value>
+  <data name="1Part1" xml:space="preserve">
+    <value>ARRETEZ DE PAYER DE L'ARGENT</value>
   </data>
-  <data name="Skills" xml:space="preserve">
-    <value>Expériences | Compétences</value>
+  <data name="1Part2" xml:space="preserve">
+    <value>POUR TOUS LES SERVICES</value>
   </data>
-  <data name="Works" xml:space="preserve">
-    <value>Projets</value>
+  <data name="2Btn1" xml:space="preserve">
+    <value>Inscription</value>
+  </data>
+  <data name="2Description" xml:space="preserve">
+    <value>Dès votre inscription BETWEEN US vous offre un certain nombre de points que vous pouvez dépenser sans attendre.</value>
+  </data>
+  <data name="2Part1" xml:space="preserve">
+    <value>INSCRIVEZ-VOUS MAINTENANT</value>
+  </data>
+  <data name="2Part2" xml:space="preserve">
+    <value>ET RECEVEZ GRATUITEMENT VOS PREMIERS POINTS</value>
+  </data>
+  <data name="3Btn1" xml:space="preserve">
+    <value>Rechercher</value>
+  </data>
+  <data name="3Description" xml:space="preserve">
+    <value>Choisissez un particulier parmi ceux correspondant à votre demande.
+                        Il ne vous reste qu'à fixer un rendez-vous directement avec ce dernier.</value>
+  </data>
+  <data name="3Part1" xml:space="preserve">
+    <value>VOUS AVEZ BESOIN D'UN SERVICE ?</value>
+  </data>
+  <data name="3Part2" xml:space="preserve">
+    <value>TROUVEZ CELUI QU'IL VOUS FAUT</value>
   </data>
 </root>

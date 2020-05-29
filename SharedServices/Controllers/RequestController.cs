@@ -134,5 +134,11 @@ namespace SharedServices.UI.Controllers
                 return Json(new { status = false, message = errorMessage });
             }
         }
+
+        [HttpGet]
+        public IActionResult All()
+        {
+            return View();
+        }
     }
 }

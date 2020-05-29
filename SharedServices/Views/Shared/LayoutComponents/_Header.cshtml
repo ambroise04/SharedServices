@@ -1,4 +1,6 @@
-﻿<div class="container mt-md-5 d-flex flex-column justify-content-around">
+﻿@inject IViewLocalizer Localizer
+
+<div class="container mt-md-5 d-flex flex-column justify-content-around">
     <div class="row justify-content-end">
         <div class="col-md-4 z-index ml-auto mr-sm-2 mr-md-2 mr-lg-0">
             <img src="/images/logo-complet.png" alt="Logo" class="img-logo"/>
@@ -8,42 +10,43 @@
         <div class="col-md-10 col-lg-7 mr-auto index-carousel mb-sm-2 mb-md-3 mb-lg-4">
             @*Time managed in custom.js for default-carousel with carousel-duration attribute*@
             <div class="owl-carousel carousel-duration owl-theme default-carousel nav-0 z-index pt-md-3 pt-xl-4 dots-0 pb-md-5" carousel-duration="10000">
+                <!--Part1-->
                 <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".4s">
                     <h1 class="text-color-green font-weight-bold mb-1">
-                        ARRETEZ DE PAYER DE L'ARGENT
-                        <span class="fables-main-text-color"> POUR TOUS LES SERVICES</span>
+                        @Localizer["1Part1"]<br />
+                        <span class="fables-main-text-color"> @Localizer["1Part2"]</span>
                     </h1>
                     <p class="fables-forth-text-colo mb-3 light-font fables-header-slider-details">
-                        Avec BETWEEN US, mettez vos compétences au service des autres. 
-                        Gagnez des points et utilisez-les pour demander les services dont vous avez besoin
+                        @Localizer["1Description"]
                     </p>
-                    <a href="#" class="btn fables-second-background-color fables-second-border-color white-color 
-                       rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">Voir les services</a>
-                    <a href="#" class="btn btn-outline-red fables-second-text-color px-3 px-md-4 py-2 
-                       fables-second-hover-background-color">Demander un service</a>
+                    <a href="#" class="btn fables-second-background-color fables-second-border-color white-color
+                       rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">@Localizer["1Btn1"]</a>
+                    <a href="#" class="btn btn-outline-red fables-second-text-color px-3 px-md-4 py-2
+                       fables-second-hover-background-color">@Localizer["1Btn2"]</a>
                 </div>
+                <!--Part2-->
                 <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".4s">
                     <h1 class="text-color-green font-weight-bold mb-1">
-                        INSCRIVEZ-VOUS MAINTENANT
-                        <span class="fables-main-text-color"> ET GAGNEZ VOS PREMIERS POINTS</span>
+                        @Localizer["2Part1"]<br />
+                        <span class="fables-main-text-color"> @Localizer["2Part2"]</span>
                     </h1>
                     <p class="fables-forth-text-colo mb-3 light-font fables-header-slider-details">
-                        Dès votre inscription BETWEEN US vous offre un certain nombre de points que vous pouvez dépenser sans attendre.
+                        @Localizer["2Description"]
                     </p>
-                    <a asp-controller="Account" asp-action="Register" class="btn fables-second-background-color fables-second-border-color 
-                       white-color rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">Inscription</a>                    
+                    <a asp-controller="Account" asp-action="Register" class="btn fables-second-background-color fables-second-border-color
+                       white-color rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">@Localizer["2Btn1"]</a>
                 </div>
+                <!--Part3-->
                 <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".4s">
                     <h1 class="text-color-green font-weight-bold mb-1">
-                        VOUS AVEZ UN SERVICE A DEMANDER ?
-                        <span class="fables-main-text-color"> TROUVEZ CELUI QU'IL VOUS FAUT</span>
+                        @Localizer["3Part1"]<br />
+                        <span class="fables-main-text-color"> @Localizer["3Part2"]</span>
                     </h1>
                     <p class="fables-forth-text-colo mb-3 light-font fables-header-slider-details">
-                        Choisissez un particulier parmi ceux correspondant à votre demande. 
-                        Il ne vous reste qu'à fixer un rendez-vous directement avec ce dernier.
-                    </p>                    
-                    <a asp-controller="Search" asp-action="Index" class="btn btn-outline-red fables-second-text-color 
-                       px-3 px-md-4 py-2 fables-second-hover-background-color">Rechercher</a>
+                        @Localizer["3Description"]
+                    </p>
+                    <a asp-controller="Search" asp-action="Index" class="btn btn-outline-red fables-second-text-color
+                       px-3 px-md-4 py-2 fables-second-hover-background-color">@Localizer["3Btn1"]</a>
                 </div>
             </div>
         </div>

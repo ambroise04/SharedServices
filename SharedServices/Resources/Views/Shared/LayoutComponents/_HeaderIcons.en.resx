@@ -117,45 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="1Btn1" xml:space="preserve">
-    <value>Service overview</value>
+  <data name="Deconnexion" xml:space="preserve">
+    <value>Logout</value>
   </data>
-  <data name="1Btn2" xml:space="preserve">
-    <value>Ask for a service</value>
+  <data name="Demandes" xml:space="preserve">
+    <value>Requests</value>
   </data>
-  <data name="1Description" xml:space="preserve">
-    <value>With BETWEEN US, put your skills at the service of others.
-                        Earn points and use them to request the services you need.</value>
+  <data name="Messagerie" xml:space="preserve">
+    <value>Messaging</value>
   </data>
-  <data name="1Part1" xml:space="preserve">
-    <value>STOP PAYING MONEY</value>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
   </data>
-  <data name="1Part2" xml:space="preserve">
-    <value>FOR ALL SERVICES YOU NEED</value>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
   </data>
-  <data name="2Btn1" xml:space="preserve">
-    <value>Registration</value>
-  </data>
-  <data name="2Description" xml:space="preserve">
-    <value>As soon as you register, BETWEEN US offers you a certain number of points that you can spend immediately.</value>
-  </data>
-  <data name="2Part1" xml:space="preserve">
-    <value>REGISTER NOW</value>
-  </data>
-  <data name="2Part2" xml:space="preserve">
-    <value>AND GET YOUR FIRST POINTS FOR FREE</value>
-  </data>
-  <data name="3Btn1" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="3Description" xml:space="preserve">
-    <value>Choose an individual among those corresponding to your request.
-                        You just have to make an appointment directly with the latter.</value>
-  </data>
-  <data name="3Part1" xml:space="preserve">
-    <value>DO YOU NEED SERVICE?</value>
-  </data>
-  <data name="3Part2" xml:space="preserve">
-    <value>FIND THE ONE YOU NEED</value>
+  <data name="Vous" xml:space="preserve">
+    <value>Me</value>
   </data>
 </root>
