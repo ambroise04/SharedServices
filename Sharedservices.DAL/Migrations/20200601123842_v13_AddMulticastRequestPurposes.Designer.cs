@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SharedServices.DAL;
 
 namespace SharedServices.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20200601123842_v13_AddMulticastRequestPurposes")]
+    partial class v13_AddMulticastRequestPurposes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -651,7 +653,7 @@ namespace SharedServices.DAL.Migrations
             modelBuilder.Entity("SharedServices.DAL.Entities.RequestMulticast", b =>
                 {
                     b.HasOne("SharedServices.DAL.ApplicationUser", "RequesterMulticast")
-                        .WithMany("RequestMulticasts")
+                        .WithMany()
                         .HasForeignKey("RequesterMulticastId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

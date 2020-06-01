@@ -14,6 +14,7 @@ namespace SharedServices.DAL.UnitOfWork
 
         private readonly IDiscussionRepository discussionRepository;
         private readonly IRequestRepository requestRepository;
+        private readonly IRequestMulticastRepository requestMulticastRepository;
         private readonly IServiceGroupRepository serviceGroupRepository;
         private readonly IServiceRepository serviceRepository;
         private readonly IFeedbackRepository feedbackRepository;
@@ -29,6 +30,7 @@ namespace SharedServices.DAL.UnitOfWork
         public IDiscussionRepository DiscussionRepository => discussionRepository ?? new DiscussionRepository(_context);
 
         public IRequestRepository RequestRepository => requestRepository ?? new RequestRepository(_context);
+        public IRequestMulticastRepository RequestMulticastRepository => requestMulticastRepository ?? new RequestMulticastRepository(_context);
 
         public IServiceGroupRepository ServiceGroupRepository => serviceGroupRepository ?? new ServiceGroupRepository(_context);
 

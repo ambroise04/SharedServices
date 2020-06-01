@@ -36,8 +36,10 @@
         <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" id="login" asp-action="Profile" asp-controller="User"><i class="far fa-address-card prefix mr-2"></i>@Localizer["Profile"]</a>
             <div class="dropdown-divider mt-0"></div>
+            <a class="dropdown-item" asp-action="Multicast" asp-controller="Request"><i class="fas fa-bullhorn mr-2"></i>@Localizer["Multicast"]</a>
+            <div class="dropdown-divider mt-0"></div>
             <form style="width:inherit" id="logoutForm" class="" asp-action="Logout" asp-controller="Account" asp-route-returnUrl="@Url.Action("Index", "Home")">
-                <button id="logout" type="submit" class="nav-link btn-sm btn-outline-my-green text-dark hoverable btn-logout"><i class="fas fa-sign-out-alt prefix"></i>@Localizer["Deconnexion"]</button>
+                <button id="logout" type="submit" class="nav-link btn-sm btn-outline-my-green text-dark hoverable btn-logout form-control"><i class="fas fa-sign-out-alt prefix"></i>@Localizer["Deconnexion"]</button>
             </form>
         </div>
     </li>

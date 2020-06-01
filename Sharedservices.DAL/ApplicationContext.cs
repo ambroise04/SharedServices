@@ -36,6 +36,7 @@ namespace SharedServices.DAL
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //Many to many between Service and ApplicationUser
             builder.Entity<ApplicationUserServices>().HasKey(s => new { s.ServiceId, s.ApplicationUserId });
 
             builder.Entity<ApplicationUserServices>()
@@ -48,6 +49,19 @@ namespace SharedServices.DAL
                    .WithMany(x => x.UserServices)
                    .HasForeignKey(x => x.ApplicationUserId);
 
+            //Many to many between RequestMulticast and ApplicationUser
+            builder.Entity<ResponseMulticastRequest>().HasKey(r => new { r.RequestMulticastId, r.ApplicationUserId });
+
+            builder.Entity<ResponseMulticastRequest>()
+                   .HasOne(x => x.RequestMulticast)
+                   .WithMany(x => x.Responses)
+                   .HasForeignKey(x => x.RequestMulticastId);
+
+            builder.Entity<ResponseMulticastRequest>()
+                   .HasOne(x => x.Responder)
+                   .WithMany(x => x.Responses)
+                   .HasForeignKey(x => x.ApplicationUserId);
+
             builder.Entity<GlobalInfo>().HasData(GlobalInfoSeed.GlobalInfo());
 
             base.OnModelCreating(builder);
@@ -56,6 +70,7 @@ namespace SharedServices.DAL
         public DbSet<ServiceGroup> ServiceGroups { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<RequestMulticast> RequestMulticasts { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Picture> Pictures { get; set; }

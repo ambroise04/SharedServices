@@ -126,6 +126,9 @@
   <data name="Messagerie" xml:space="preserve">
     <value>Messaging</value>
   </data>
+  <data name="Multicast" xml:space="preserve">
+    <value>Broadcast a request</value>
+  </data>
   <data name="Notifications" xml:space="preserve">
     <value>Notifications</value>
   </data>

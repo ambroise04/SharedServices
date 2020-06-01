@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200601122743_v13_AddMulticastRequestPurposes.cs" />
+    <Compile Remove="Migrations\20200601122743_v13_AddMulticastRequestPurposes.Designer.cs" />
+    <Compile Remove="Migrations\20200601123639_v13_AddMulticastRequestPurposes.cs" />
+    <Compile Remove="Migrations\20200601123639_v13_AddMulticastRequestPurposes.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />

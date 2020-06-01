@@ -13,6 +13,12 @@ namespace SharedServices.BL.Mapping
             CreateMap<DAL.Entities.Request, Request>();
             CreateMap<Request, DAL.Entities.Request> ();
 
+            CreateMap<DAL.Entities.RequestMulticast, RequestMulticast>();
+            CreateMap<RequestMulticast, DAL.Entities.RequestMulticast>();
+
+            CreateMap<DAL.Entities.ResponseMulticastRequest, ResponseMulticastRequest>();
+            CreateMap<ResponseMulticastRequest, DAL.Entities.ResponseMulticastRequest>();
+
             CreateMap<DAL.Entities.Service, Service>();
             CreateMap<DAL.Entities.Service, Service>().ReverseMap();
 

@@ -7,6 +7,7 @@ namespace SharedServices.DAL.UnitOfWork
     {
         IDiscussionRepository DiscussionRepository { get; }
         IRequestRepository RequestRepository { get; }
+        IRequestMulticastRepository RequestMulticastRepository { get; }
         IServiceGroupRepository ServiceGroupRepository { get; }
         IServiceRepository ServiceRepository { get; }
         IFeedbackRepository FeedbackRepository { get; }

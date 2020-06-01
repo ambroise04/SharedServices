@@ -23,6 +23,9 @@ namespace SharedServices.DAL
         public ICollection<Request> RequestsReceived { get; set; }
         [InverseProperty("Requester")]
         public ICollection<Request> RequestsSent { get; set; }
+        [InverseProperty("RequesterMulticast")]
+        public ICollection<RequestMulticast> RequestMulticasts { get; set; }
+        public ICollection<ResponseMulticastRequest> Responses { get; set; }
         public ICollection<ApplicationUser> Contacts { get; set; }
         public ICollection<Discussion> Discussions { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }

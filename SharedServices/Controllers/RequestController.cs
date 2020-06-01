@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
 using SharedServices.BL.Extensions;
+using SharedServices.BL.UseCases.Admin;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
@@ -22,12 +23,14 @@ namespace SharedServices.UI.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private Client _client;
+        private readonly Adminitrator _admin;
 
         public RequestController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _client = new Client(_unitOfWork, _userManager);
+            _admin = new Adminitrator(_unitOfWork);
         }
         class RequestViewModel
         {
@@ -139,6 +142,12 @@ namespace SharedServices.UI.Controllers
         public IActionResult All()
         {
             return View();
+        }
+
+        public IActionResult Multicast()
+        {
+            var services = _admin.GetAllServicesGrouped();
+            return View(services);
         }
     }
 }
