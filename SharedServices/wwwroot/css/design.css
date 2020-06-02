@@ -82,6 +82,12 @@ element.style {
 } 
 /*End Search*/
 
+/*Toastr*/
+#toast-container > div {
+    opacity: 1;
+}
+/*End Toastr*/
+
 .form-control:focus {
     border-color: #0e9c9c;
 }

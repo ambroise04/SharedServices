@@ -42,7 +42,8 @@
     </div>
     <div class="row my-4 my-md-5">
         <div class="col-12 card">
-            <form autocomplete="off" class="card-body">
+            <form autocomplete="off" class="card-body" id="form-request">
+                @Html.AntiForgeryToken()
                 <div class="row">
                     <div class="col-md-6">
                         <label for="sve">Service</label>
@@ -68,7 +69,7 @@
                 </div>
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-4">
-                        <button class="btn bg-color-green waves-effect form-control white-text">Valider</button>
+                        <button class="btn bg-color-green waves-effect form-control white-text" id="btn-submit">Valider</button>
                     </div>
                 </div>
             </form>
@@ -79,16 +80,10 @@
 @section Scripts{
     <script src="~/js/moment.js"></script>
     <script src="~/js/bootstrap-material-datetimepicker-bs4.min.js"></script>
+    <script src="~/js/business/request-multicast.js"></script>
 
 
     <script type="text/javascript">
         var lang = "@ViewBag.Culture";
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-
-            $(".dtp-select-hour").attr("fill", "#0e9c9c");
-
-            $('.mdb-select').materialSelect();
-        })
     </script>
 }

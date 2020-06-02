@@ -106,6 +106,7 @@ namespace SharedServices
 
             services.Configure<AuthMessageSenderOptions>(Configuration);
             services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<IBroadcastEmailSender, BroadcastEmailSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
