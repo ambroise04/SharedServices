@@ -146,9 +146,12 @@ namespace SharedServices.UI.Controllers
         
         public IActionResult All()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var requests = _client.GetNotAcceptedRequestMulticasts(userId);
+            return View(requests);
         }
         
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Multicast()
         {

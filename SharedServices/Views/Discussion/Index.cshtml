@@ -14,6 +14,15 @@
     var hasContact = discussions.Count() > 0;
 }
 
+@section Styles {
+    <style>
+        #col-chat {
+            display: block;
+            position: relative;
+        }
+    </style>
+}
+
 <div class="container-fluid py-lg-5 py-md-3 py-sm-2">
     <div class="container chat-room">
         <div class="row px-lg-2 px-2">
@@ -60,7 +69,7 @@
             <!-- Grid column -->
             <div class="col-md-7 col-xl-9 pl-md-3 px-lg-2 px-sm-2 py-md-2 py-sm-1">
                 <div class="chat-message">
-                    <ul class="list-unstyled chat-1 scrollbar-light-my-green chat-content">
+                    <ul class="list-unstyled chat-1 scrollbar-light-my-green chat-content" id="col-chat">
                         @if (hasContact)
                         {
                             foreach (var discussion in discussions.Reverse())

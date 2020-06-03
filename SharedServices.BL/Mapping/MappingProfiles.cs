@@ -13,8 +13,12 @@ namespace SharedServices.BL.Mapping
             CreateMap<DAL.Entities.Request, Request>();
             CreateMap<Request, DAL.Entities.Request> ();
 
-            CreateMap<DAL.Entities.RequestMulticast, RequestMulticast>();
-            CreateMap<RequestMulticast, DAL.Entities.RequestMulticast>();
+            CreateMap<DAL.Entities.RequestMulticast, RequestMulticast>()
+                .ForMember(dest => dest.DateOfRequest, opt => opt.MapFrom(s => s.DateOfRequest.ToLocalTime()))
+                .ForMember(dest => dest.DateOfAddition, opt => opt.MapFrom(s => s.DateOfAddition.ToLocalTime()));
+            CreateMap<RequestMulticast, DAL.Entities.RequestMulticast>()
+                .ForMember(dest => dest.DateOfRequest, opt => opt.MapFrom(s => s.DateOfRequest.ToUniversalTime()))
+                .ForMember(dest => dest.DateOfAddition, opt => opt.MapFrom(s => s.DateOfAddition.ToUniversalTime()));
 
             CreateMap<DAL.Entities.ResponseMulticastRequest, ResponseMulticastRequest>();
             CreateMap<ResponseMulticastRequest, DAL.Entities.ResponseMulticastRequest>();

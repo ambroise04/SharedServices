@@ -31,7 +31,7 @@ namespace SharedServices.BL.UseCases.Clients
                 throw new ArgumentException(nameof(id));
             }
 
-            var result = unitOfWork.RequestRepository.GetById(id);
+            var result = unitOfWork.RequestMulticastRepository.GetById(id);
 
             return Mapping.Mapping.Mapper.Map<RequestMulticast>(result);
         }
@@ -43,8 +43,8 @@ namespace SharedServices.BL.UseCases.Clients
                 throw new ArgumentNullException(nameof(userId));
             }
 
-            var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId))
+            var requests = unitOfWork.RequestMulticastRepository
+                                     .GetByPredicate(r => r.RequesterMulticast.Id.Equals(userId))
                                      .OrderByDescending(r => r.DateOfRequest)
                                      .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
                                      .ToList();
@@ -52,15 +52,10 @@ namespace SharedServices.BL.UseCases.Clients
             return requests;
         }
 
-        public List<RequestMulticast> GetAcceptedRequestMulticastsByUser(string userId)
+        public List<RequestMulticast> GetAcceptedRequestMulticasts()
         {
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
-
-            var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId) && r.Accepted)
+            var requests = unitOfWork.RequestMulticastRepository
+                                     .GetByPredicate(r => r.Accepted)
                                      .OrderByDescending(r => r.DateOfRequest)
                                      .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
                                      .ToList();
@@ -68,15 +63,10 @@ namespace SharedServices.BL.UseCases.Clients
             return requests;
         }
 
-        public List<RequestMulticast> GetNotAcceptedRequestMulticastsByUser(string userId)
+        public List<RequestMulticast> GetNotAcceptedRequestMulticasts(string userId)
         {
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
-
-            var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId) && !r.Accepted)
+            var requests = unitOfWork.RequestMulticastRepository
+                                     .GetByPredicate(r => !r.RequesterMulticast.Id.Equals(userId) && !r.Accepted)
                                      .OrderByDescending(r => r.DateOfRequest)
                                      .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
                                      .ToList();

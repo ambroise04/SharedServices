@@ -19,6 +19,7 @@ $(document).ready(function () {
     activate($(".friend-list").children("li").first());
 
     $(".contact a").on("click", function () {
+        startLoading($("#col-chat"), "Chargement en cours...");
         getDiscussion(this.getAttribute("id"), this.getAttribute("current"));
     })
 })
@@ -100,11 +101,12 @@ function getDiscussion(id, current) {
             if (data["status"]) {
                 fillContent(data["discussions"], current);
             } else {
+                stopLoading($("#col-chat"));
                 console.log(data["message"])
             }
         },
-        error: function (data) {
-            console.log(data);
+        error: function () {
+            stopLoading($("#col-chat"));
         }
     })
 }
@@ -148,5 +150,6 @@ function fillContent(data, current) {
                     `
         }
     })
+    stopLoading($("#col-chat"));
     $container.html(content);
 }
