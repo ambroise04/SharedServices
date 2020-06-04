@@ -85,5 +85,19 @@ namespace SharedServices.BL.UseCases.Clients
                                   .FirstOrDefault(u => u.Id.Equals(userId));
             return user;
         }
+
+        public RequestMulticast UpdateRequestMulticast(RequestMulticast request)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            var dalRequest = Mapping.Mapping.Mapper.Map<DAL.Entities.RequestMulticast>(request);
+            dalRequest.Service = unitOfWork.ServiceRepository.GetById(request.Service.Id);
+            var addedRequest = unitOfWork.RequestMulticastRepository
+                      .Update(dalRequest);
+
+            return Mapping.Mapping.Mapper.Map<RequestMulticast>(addedRequest);
+        }
     }
 }

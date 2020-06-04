@@ -8,6 +8,7 @@ using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.Mutual.Extensions;
+using SharedServices.UI.Attributes;
 using SharedServices.UI.Models;
 using System;
 using System.Collections.Generic;
@@ -90,7 +91,7 @@ namespace SharedServices.UI.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [Ajax(HttpVerb = "POST")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Discuss(string target, string message)
         {

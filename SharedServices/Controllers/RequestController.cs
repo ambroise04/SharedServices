@@ -8,6 +8,7 @@ using SharedServices.BL.UseCases.Admin;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
+using SharedServices.UI.Attributes;
 using SharedServices.UI.Models;
 using SharedServices.UI.Services;
 using System;
@@ -161,7 +162,7 @@ namespace SharedServices.UI.Controllers
         }
 
         // POST: Request/Multicast
-        [HttpPost]
+        [Ajax(HttpVerb = "POST")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Multicast(int service, string date)
         {
@@ -208,7 +209,7 @@ namespace SharedServices.UI.Controllers
                     return Json(new { status = false, message = errorMessage });
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 _unitOfWork.RollbackTransaction();
                 var errorMessage = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
@@ -217,6 +218,66 @@ namespace SharedServices.UI.Controllers
             }
         }
 
+        [Ajax(HttpVerb = "GET")]
+        public IActionResult Postulate(int request)
+        {
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+            if (request <= 0)
+            {
+                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontré! Veuillez réessayer s'il vous plaît."
+                    : "Parameter related errors have been encountered! Try again, please.";
+                return Json(new { status = false, message = errorMessage });
+            }
+
+            var retrievedRequest = _client.GetRequestMulticastById(request);
+            if (retrievedRequest != null)
+            {
+                var currentUser = _userManager.GetUserAsync(User).Result;
+                if (retrievedRequest.Responses != null && retrievedRequest.Responses.Count() != 0)
+                {
+                    if(retrievedRequest.Responses.Any(r => r.Responder.Id.Equals(currentUser.Id)))
+                    {
+                        var errorMessage = cultureFR ? "Vous avez déjà postulé pour cette demande. Vous aurez une réponse très bientôt."
+                         : "Vous have already applied for this request. Please wait for a response from the publisher";
+                        return Json(new { status = false, message = errorMessage });
+                    }
+                }
+
+                var response = new ResponseMulticastRequest
+                {
+                    //RequestMulticastId = retrievedRequest.Id,
+                    ApplicationUserId = currentUser.Id,
+                    //RequestMulticast = retrievedRequest,
+                    Responder = currentUser
+                };
+
+                if (retrievedRequest.Responses is null)
+                    retrievedRequest.Responses = new List<ResponseMulticastRequest>();
+
+                _unitOfWork.CreateTransaction();
+                try
+                {
+                    retrievedRequest.Responses.Add(response);
+                    _client.UpdateRequestMulticast(retrievedRequest);
+                    _unitOfWork.CommitTransaction();
+                    var successMessage = cultureFR ? "Merci pour votre réponse à cette demande."
+                     : "Thank you for your response to this request.";
+                    return Json(new { status = true, message = successMessage });
+                }
+                catch (Exception)
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var errorMessage = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
+                        : "A problem has been encountered! Try again, please.";
+                    return Json(new { status = false, message = errorMessage });
+                }
+            }
+
+            var message = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
+                        : "A problem has been encountered! Try again, please.";
+            return Json(new { status = false, message });
+        }
+        
         public async Task Broadcast(RequestMulticast request)
         {
             var serviceId = request.Service.Id;
@@ -227,10 +288,10 @@ namespace SharedServices.UI.Controllers
                                     .Select(u =>  u.Email)
                                     .ToList();
             string requestUrl = "#";
-            string message = $"Cher(ère) abonné(e), <br /> " +
+            string message = $"Cher(ère) abonné(e), <br /><br /> " +
                              $"Une nouvelle demande de service a été publiée : " +
                              $"<bold><em>{request.Service.Title}</em></bold> <br /> " +
-                             $"Soyez l'un des premiers à répondre.<br />" +
+                             $"Soyez l'un des premiers à répondre.<br /><br />" +
                              $"<a href=\"{requestUrl}\" class=\"btn btn-primary waves-effect form-control white-text\">Répondre</a>";
 
             await _broadcastEmailSender.SendEmailAsync(userEmails, "Nouvelle demande de service", message);

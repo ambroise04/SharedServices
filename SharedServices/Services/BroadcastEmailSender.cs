@@ -23,7 +23,7 @@ namespace SharedServices.UI.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("info@betweenus.be", "Information"),
+                From = new EmailAddress("info@betweenus.be", "Information | Between us"),
                 Subject = subject,
                 HtmlContent = message
             };
@@ -34,8 +34,6 @@ namespace SharedServices.UI.Services
             }
             msg.AddTos(emailAddresses);
 
-            // Disable click tracking.
-            // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
             msg.SetClickTracking(false, false);
 
             return client.SendEmailAsync(msg);

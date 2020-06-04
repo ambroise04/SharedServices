@@ -30,6 +30,7 @@ namespace SharedServices.DAL.Repositories
         public IEnumerable<RequestMulticast> GetAll()
         {
             return Context.RequestMulticasts
+                          .AsNoTracking()
                           .Include(r => r.Responses)
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
@@ -43,6 +44,7 @@ namespace SharedServices.DAL.Repositories
                 throw new ArgumentException("A bad id was submitted.");
 
             return Context.RequestMulticasts
+                          .AsNoTracking()
                           .Include(r => r.Responses)
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
@@ -53,6 +55,7 @@ namespace SharedServices.DAL.Repositories
         public IEnumerable<RequestMulticast> GetByPredicate(Expression<Func<RequestMulticast, bool>> predicate)
         {
             return Context.RequestMulticasts
+                          .AsNoTracking()
                           .Include(r => r.Responses)
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
