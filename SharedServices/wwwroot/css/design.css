@@ -64,6 +64,13 @@ element.style {
 }
 /*Nav*/
 
+/*Styles for loading*/
+.loading-content {
+    position:relative;
+    display:block;
+}
+/*End Styles for loading*/
+
 /*Search*/
 @media (max-width : 768px) {
     .margin {

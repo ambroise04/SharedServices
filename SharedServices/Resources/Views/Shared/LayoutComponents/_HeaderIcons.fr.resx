@@ -129,6 +129,9 @@
   <data name="Multicast" xml:space="preserve">
     <value>Publier une demande</value>
   </data>
+  <data name="MyRequests" xml:space="preserve">
+    <value>Mes demandes</value>
+  </data>
   <data name="Notifications" xml:space="preserve">
     <value>Notifications</value>
   </data>

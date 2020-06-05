@@ -277,7 +277,21 @@ namespace SharedServices.UI.Controllers
                         : "A problem has been encountered! Try again, please.";
             return Json(new { status = false, message });
         }
-        
+
+        public IActionResult MyRequests()
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = _userManager.Users
+                                   .Include(u => u.RequestMulticasts)
+                                   .ThenInclude(rm => rm.Responses)
+                                   .ThenInclude(r => r.Responder)
+                                   .ThenInclude(resp => resp.Picture)
+                                   .Include(u => u.RequestMulticasts)
+                                   .ThenInclude(rm => rm.Service)
+                                   .FirstOrDefault(u => u.Id.Equals(userId));
+            return View(user);
+        }
+
         public async Task Broadcast(RequestMulticast request)
         {
             var serviceId = request.Service.Id;

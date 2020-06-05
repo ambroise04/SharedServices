@@ -33,10 +33,11 @@
             <img width="24" src="@currentUser.PictureSource()" height="24" alt="@currentUser.FirstName @currentUser.LastName" class="nav-item__profile-member-photo nav-item__icon">
             <span class="font-13">@Localizer["Vous"]</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" id="login" asp-action="Profile" asp-controller="User"><i class="far fa-address-card prefix mr-2"></i>@Localizer["Profile"]</a>
             <div class="dropdown-divider mt-0"></div>
             <a class="dropdown-item" asp-action="Multicast" asp-controller="Request"><i class="fas fa-bullhorn mr-2"></i>@Localizer["Multicast"]</a>
+            <a class="dropdown-item" asp-action="MyRequests" asp-controller="Request"><i class="fas fa-hands-helping mr-2"></i>@Localizer["MyRequests"]</a>
             <div class="dropdown-divider mt-0"></div>
             <form style="width:inherit" id="logoutForm" class="" asp-action="Logout" asp-controller="Account" asp-route-returnUrl="@Url.Action("Index", "Home")">
                 <button id="logout" type="submit" class="nav-link btn-sm btn-outline-my-green text-dark hoverable btn-logout form-control"><i class="fas fa-sign-out-alt prefix"></i>@Localizer["Deconnexion"]</button>

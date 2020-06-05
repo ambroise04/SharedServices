@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     $("#btn-submit").on("click", function (event) {
         event.preventDefault();
+        startLoading($(".loading-content"), "Envoi en cours...");
         sendRequest();
     })
 })
@@ -68,16 +69,19 @@ function sendRequest() {
             if (data["status"]) {
                 sendSuccess(data["message"]);
             } else {
+                stopLoading($(".loading-content"));
                 toastr.error(data["message"]);
             }
         },
-        error: function() {
+        error: function () {
+            stopLoading($(".loading-content"));
             toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
         }
     })
 }
 
 function sendSuccess(message) {
+    stopLoading($(".loading-content"));
     $("#form-request").trigger("reset");
     toastr.success(message);
 }
