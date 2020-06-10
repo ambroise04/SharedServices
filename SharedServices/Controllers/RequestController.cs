@@ -89,7 +89,7 @@ namespace SharedServices.UI.Controllers
 
             if (string.IsNullOrEmpty(flag) || string.IsNullOrEmpty(date) || service <= 0)
             {
-                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontré! Veuillez réessayer s'il vous plaît."
+                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontrée! Veuillez réessayer s'il vous plaît."
                     : "Parameter related errors have been encountered! Try again, please.";
                 return Json(new { status = false, message = errorMessage });
             }
@@ -169,7 +169,7 @@ namespace SharedServices.UI.Controllers
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
             if (service <= 0)
             {
-                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontré! Veuillez réessayer s'il vous plaît."
+                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontrée! Veuillez réessayer s'il vous plaît."
                     : "Parameter related errors have been encountered! Try again, please.";
                 return Json(new { status = false, message = errorMessage });
             }
@@ -224,7 +224,7 @@ namespace SharedServices.UI.Controllers
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
             if (request <= 0)
             {
-                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontré! Veuillez réessayer s'il vous plaît."
+                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontrée! Veuillez réessayer s'il vous plaît."
                     : "Parameter related errors have been encountered! Try again, please.";
                 return Json(new { status = false, message = errorMessage });
             }
@@ -290,6 +290,111 @@ namespace SharedServices.UI.Controllers
                                    .ThenInclude(rm => rm.Service)
                                    .FirstOrDefault(u => u.Id.Equals(userId));
             return View(user);
+        }
+
+        [Ajax(HttpVerb = "POST")]
+        public IActionResult Choose(int request, string target)
+        {
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+            if (request <= 0 || string.IsNullOrEmpty(target))
+            {
+                var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontrée! Veuillez réessayer s'il vous plaît."
+                    : "Parameter related errors have been encountered! Try again, please.";
+                return Json(new { status = false, message = errorMessage });
+            }
+
+            var retrievingRequest = _client.GetRequestMulticastById(request);
+            var choosenUser = _userManager.Users.AsNoTracking().FirstOrDefault(u=>u.Id.Equals(target));
+            if (retrievingRequest == null || choosenUser == null)
+            {
+                var errorMessage = cultureFR ? "De mauvaises données a été envoyées! Veuillez réessayer s'il vous plaît."
+                    : "Bad data have been sent! Try again, please.";
+                return Json(new { status = false, message = errorMessage });
+            }
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                retrievingRequest.Accepted = true;
+                var updatedRequest = _client.UpdateRequestMulticastForChoice(retrievingRequest);
+                
+                var user = _userManager.Users
+                                       .Include(u => u.RequestMulticasts)
+                                       .ThenInclude(rm => rm.Responses)
+                                       .FirstOrDefault(u => u.Id.Equals(target));
+                var response = user.Responses.First(r => r.RequestMulticastId == retrievingRequest.Id);
+                response.Choosen = true;
+                var updatedUser = _userManager.UpdateAsync(user).Result;
+                var create = CreateRequest(service: retrievingRequest.Service.Id, 
+                                           flag: choosenUser.Id,
+                                           date: retrievingRequest.DateOfRequest.ToString()
+                                           );                
+                
+                if (create)
+                {
+                    _unitOfWork.CommitTransaction();
+                    var successMessage = cultureFR ? "Votre choix a été enregistré avec succes."
+                        : "Your choice has been successfully saved.";
+                    return Json(new { status = true, message = successMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var errorMessage = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
+                            : "A problem has been encountered! Try again, please.";
+                return Json(new { status = false, message = errorMessage });
+            }
+            var message = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
+                            : "A problem has been encountered! Try again, please.";
+            return Json(new { status = false, message });
+        }
+
+        private bool CreateRequest(int service, string flag, string date)
+        {
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+
+            if (string.IsNullOrEmpty(flag) || string.IsNullOrEmpty(date) || service <= 0)
+            {
+                return false;
+            }
+            date = cultureFR ? date : string.Join('-', date.Split("/"));
+
+            var requestDate = DateTime.Parse(date);
+            var serviceRetrieved = _client.GetServiceById(service);
+            var receiver = _userManager.FindByIdAsync(flag).Result;
+            var user = _userManager.GetUserAsync(User).Result;
+
+            if (receiver.Id.Equals(user.Id))
+            {
+                return false;
+            }
+
+            var request = new Request
+            {
+                Service = serviceRetrieved,
+                Accepted = false,
+                DateOfAddition = DateTime.Now,
+                DateOfRequest = requestDate,
+                Requester = user,
+                Receiver = receiver
+            };
+
+            try
+            {
+                var result = _client.AddRequest(request);
+                if (request != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task Broadcast(RequestMulticast request)

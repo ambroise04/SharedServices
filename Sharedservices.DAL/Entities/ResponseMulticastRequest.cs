@@ -8,5 +8,6 @@ namespace SharedServices.DAL.Entities
         public string ApplicationUserId { get; set; }
         public RequestMulticast RequestMulticast { get; set; }
         public ApplicationUser Responder { get; set; }
+        public bool Choosen { get; set; }
     }
 }

@@ -52,6 +52,19 @@ namespace SharedServices.DAL.Repositories
                           .FirstOrDefault(r => r.Id == id);
         }
 
+        public RequestMulticast GetByIdWithTracking(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("A bad id was submitted.");
+
+            return Context.RequestMulticasts
+                          .Include(r => r.Responses)
+                          .ThenInclude(resp => resp.Responder)
+                          .ThenInclude(resp => resp.Picture)
+                          .Include(r => r.Service)
+                          .FirstOrDefault(r => r.Id == id);
+        }
+
         public IEnumerable<RequestMulticast> GetByPredicate(Expression<Func<RequestMulticast, bool>> predicate)
         {
             return Context.RequestMulticasts

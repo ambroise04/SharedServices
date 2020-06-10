@@ -5,5 +5,6 @@ namespace SharedServices.DAL.Interfaces
 {
     public interface IRequestMulticastRepository : IRepository<RequestMulticast>
     {
+        public RequestMulticast GetByIdWithTracking(int id);
     }
 }

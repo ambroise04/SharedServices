@@ -95,7 +95,22 @@ namespace SharedServices.BL.UseCases.Clients
             var dalRequest = Mapping.Mapping.Mapper.Map<DAL.Entities.RequestMulticast>(request);
             dalRequest.Service = unitOfWork.ServiceRepository.GetById(request.Service.Id);
             var addedRequest = unitOfWork.RequestMulticastRepository
-                      .Update(dalRequest);
+                                         .Update(dalRequest);
+
+            return Mapping.Mapping.Mapper.Map<RequestMulticast>(addedRequest);
+        }
+
+        public RequestMulticast UpdateRequestMulticastForChoice(RequestMulticast request)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            var dalRequest = unitOfWork.RequestMulticastRepository.GetByIdWithTracking(request.Id);
+            dalRequest.Service = unitOfWork.ServiceRepository.GetById(request.Service.Id);
+            dalRequest.Accepted = true;
+            var addedRequest = unitOfWork.RequestMulticastRepository
+                                         .Update(dalRequest);
 
             return Mapping.Mapping.Mapper.Map<RequestMulticast>(addedRequest);
         }

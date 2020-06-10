@@ -1,0 +1,68 @@
+[
+  {
+    "outputFileName": "wwwroot/css/design.min.css",
+    "inputFiles": [
+      "wwwroot/css/design.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/register.min.css",
+    "inputFiles": [
+      "wwwroot/css/register.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/mypolices.min.css",
+    "inputFiles": [
+      "wwwroot/css/mypolices.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/mycolors.min.css",
+    "inputFiles": [
+      "wwwroot/css/mycolors.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/jqloader.min.css",
+    "inputFiles": [
+      "wwwroot/css/jqloader.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/template/css/custom.min.css",
+    "inputFiles": [
+      "wwwroot/template/css/custom.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/business/discussion.min.js",
+    "inputFiles": [
+      "wwwroot/js/business/discussion.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/business/reg.min.js",
+    "inputFiles": [
+      "wwwroot/js/business/reg.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/business/request.min.js",
+    "inputFiles": [
+      "wwwroot/js/business/request.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/business/request-multicast.min.js",
+    "inputFiles": [
+      "wwwroot/js/business/request-multicast.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/business/request-response.min.js",
+    "inputFiles": [
+      "wwwroot/js/business/request-response.js"
+    ]
+  }
+]

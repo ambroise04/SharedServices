@@ -14,7 +14,7 @@ namespace SharedServices.UI.Extensions
 
             if (!string.IsNullOrEmpty(httpVerb))
             {
-                if (request.Method != httpVerb)
+                if (request.Method.ToLower() != httpVerb.ToLower())
                 {
                     return false;
                 }
