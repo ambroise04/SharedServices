@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = Localizer["Titre"];
 
-    var requests = Model.RequestMulticasts;
+    var requests = Model.RequestMulticasts.OrderByDescending(r => r.DateOfRequest);
 
     var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
     var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
@@ -25,132 +25,157 @@
 <div class="container">
     <div class="row my-4 my-md-5">
         <div class="col-md-12">
-            <!--Accordion wrapper-->
-            <div class="accordion md-accordion" id="accordionEx1" role="tablist" aria-multiselectable="true">
-                <!-- Accordion card -->
-                @foreach (var request in requests)
-                {
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header" role="tab" id="hnls-bz-ju-loading-screen-@request.Id">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#bnls-bz-ju-loading-screen-@request.Id"
-                           aria-expanded="false" aria-controls="collapseTwo1">
-                            <div class="row mb-2 text-color-green">
-                                <div class="col-md-12">
-                                    <h5 class="mb-0">
-                                        @request.Service.Title <i class="fas fa-angle-down rotate-icon"></i>
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 black-text">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <p>
-                                                @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
-                                                    {
-                                                <span><i class="far fa-calendar-alt mr-2"></i>Date prévue : </span><span>@request.DateOfRequest.ToString("dd MMM yyyy", culture)</span>
-                                                    }
-                                                    else
-                                                    {
-                                                <span><i class="far fa-calendar-alt mr-2"></i>Date prévue : Non renseignée</span>
-                                                    }
-                                            </p>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <p>
-                                                @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
-                                                    {
-                                                <span><i class="far fa-clock mr-2"></i>Heure : </span><span>@request.DateOfRequest.ToString("H:mm tt", culture)</span>
-                                                    }
-                                                    else
-                                                    {
-                                                <span><i class="far fa-clock mr-2"></i>Heure : Non renseignée</span>
-                                                    }
-
-                                            </p>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <p class="text-color-green">
-                                                <span><i class="fas fa-users mr-2"></i>Nombre de réponses : </span><span>@request.Responses.Count()</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
+            @if (requests.Count() == 0)
+            {
+                <div class="card p-3" style="box-shadow : none">
+                    <p class="text-center">
+                        <span>Vous n'avez pas encore de demandes de service.</span>
+                    </p>
+                </div>
+            }
+            else
+            {
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion" id="accordionEx1" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card -->
+                    @foreach (var request in requests)
+                    {
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="hnls-bz-ju-loading-screen-@request.Id">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#bnls-bz-ju-loading-screen-@request.Id"
+                                   aria-expanded="false" aria-controls="collapseTwo1">
+                                    <div class="row mb-2 text-color-green">
                                         <div class="col-md-12">
-                                            <small>Veuillez dérouler pour voir les réponses à cette demande.</small>
+                                            <h5 class="mb-0">
+                                                @request.Service.Title <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h5>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col-md-12 grey-text">
-                                    <small>Demande publiée le @request.DateOfAddition.ToString("dd MMM yyyy | H:mm tt", culture)</small>
-                                </div>
-                            </div>
-
-                        </a>
-                    </div>
-                    <!-- Card body -->
-                    <div id="bnls-bz-ju-loading-screen-@request.Id" class="collapse" role="tabpanel" aria-labelledby="hnls-bz-ju-loading-screen-@request.Id"
-                         data-parent="#accordionEx1">
-                        <div class="card-body">
-                            <div class="list-group-flush">
-                                @if (request.Responses.Count() != 0)
-                                    {
-                                        foreach (var response in request.Responses)
-                                        {
-                                <div class="list-group-item">
-                                    <div class="row mb-0">
-                                        <div class="col-md-6">
-                                            <div class="d-flex">
-                                                <img src="@response.Responder.ResizePicture(60, 60)" class="mr-4 blue rounded" aria-hidden="true" />
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <a class="black-text" asp-action="Details" asp-controller="Search" asp-route-id="@response.Responder.Id" target="_blank">
-                                                        <h6 class="user">@response.Responder.FirstName @response.Responder.LastName</h6>
-                                                        <p>
-                                                            @{var location = string.Concat(response.Responder.PostalCode, " ", response.Responder.City, " | ", response.Responder.Country);}
-                                                            <small class="grey-text"><i class="fas fa-map-marker-alt mr-1"></i>@location</small>
-                                                        </p>
-                                                    </a>
-                                                    <ul class="rating pb-xl-2 mt-2">
-                                                        @for (int i = 0; i < response.Responder.Start; i++)
-                                                                    {
-                                                        <li>
-                                                            <i class="fas fa-star text-color-green"></i>
-                                                        </li>
-                                                                    }
-                                                    </ul>
+                                    <div class="row">
+                                        <div class="col-md-12 black-text">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <p>
+                                                        @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
+                                                        {
+                                                            <span><i class="far fa-calendar-alt mr-2"></i>Date prévue : </span><span>@request.DateOfRequest.ToString("dd MMM yyyy", culture)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span><i class="far fa-calendar-alt mr-2"></i>Date prévue : Non renseignée</span>
+                                                        }
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <p>
+                                                        @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
+                                                        {
+                                                            <span><i class="far fa-clock mr-2"></i>Heure : </span><span>@request.DateOfRequest.ToString("H:mm tt", culture)</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span><i class="far fa-clock mr-2"></i>Heure : Non renseignée</span>
+                                                        }
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <p class="text-color-green">
+                                                        <span><i class="fas fa-users mr-2"></i>Nombre de réponses : </span><span>@request.Responses.Count()</span>
+                                                        @if (request.Accepted)
+                                                        {
+                                                            <i class="fas fa-user-check float-right"></i>
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-12">
+                                                    <small>Veuillez dérouler pour voir les réponses à cette demande.</small>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <p class="mb-0 text-center">
-                                                <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose" request="@request.Id" target="@response.Responder.Id">Choisir</button>
-                                            </p>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-md-12 grey-text">
+                                            <small>Demande publiée le @request.DateOfAddition.ToString("dd MMM yyyy | H:mm tt", culture)</small>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
+                            </div>
+                            <!-- Card body -->
+                            <div id="bnls-bz-ju-loading-screen-@request.Id" class="collapse" role="tabpanel" aria-labelledby="hnls-bz-ju-loading-screen-@request.Id"
+                                 data-parent="#accordionEx1">
+                                <div class="card-body">
+                                    <div class="list-group-flush">
+                                        @if (request.Responses.Count() != 0)
+                                        {
+                                            foreach (var response in request.Responses)
+                                            {
+                                                <div class="list-group-item">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="d-flex">
+                                                                <img src="@response.Responder.ResizePicture(60, 60)" class="mr-4 blue rounded" aria-hidden="true" />
+                                                                <div class="d-flex flex-column justify-content-center">
+                                                                    <a class="black-text" asp-action="Details" asp-controller="Search" asp-route-id="@response.Responder.Id" target="_blank">
+                                                                        <h6 class="user">@response.Responder.FirstName @response.Responder.LastName</h6>
+                                                                        <p>
+                                                                            @{var location = string.Concat(response.Responder.PostalCode, " ", response.Responder.City, " | ", response.Responder.Country);}
+                                                                            <small class="grey-text"><i class="fas fa-map-marker-alt mr-1"></i>@location</small>
+                                                                        </p>
+                                                                    </a>
+                                                                    <ul class="rating pb-xl-2 mt-2">
+                                                                        @for (int i = 0; i < response.Responder.Start; i++)
+                                                                        {
+                                                                            <li>
+                                                                                <i class="fas fa-star text-color-green"></i>
+                                                                            </li>
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p class="mb-0 text-center">
+                                                                @if (response.Choosen)
+                                                                {
+                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose disabled" request="@request.Id" target="@response.Responder.Id">Votre choix <i class="fas fa-user-check ml-2"></i></button>
+                                                                }
+                                                                else if (request.Accepted)
+                                                                {
+                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose disabled" request="@request.Id" target="@response.Responder.Id">Choix effectué</button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose" request="@request.Id" target="@response.Responder.Id">Choisir</button>
+                                                                }
+
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                <div class="list-group-item">
-                                    <div class="row mb-0">
-                                        <div class="col-md-12">
-                                            <p>Aucune réponse pour l'instant</p>
-                                        </div>
+                                        else
+                                        {
+                                            <div class="list-group-item">
+                                                <div class="row mb-0">
+                                                    <div class="col-md-12">
+                                                        <p>Aucune réponse pour l'instant</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
-                                    }
                             </div>
                         </div>
-                    </div>
+                    }
+                    <!-- Accordion card -->
                 </div>
-                }
-                <!-- Accordion card -->
-            </div>
-            <!-- Accordion wrapper -->
+                <!-- Accordion wrapper -->
+            }
         </div>
     </div>
 </div>

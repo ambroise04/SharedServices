@@ -1,4 +1,5 @@
 ﻿using SharedServices.DAL;
+using SharedServices.Mutual.Enumerations;
 using System;
 
 namespace SharedServices.BL.Domain
@@ -13,5 +14,6 @@ namespace SharedServices.BL.Domain
         public DateTime DateOfAddition { get; set; }
         public int Point { get; set; }
         public bool Accepted { get; set; }
+        public RequestSource Source { get; set; }
     }
 }

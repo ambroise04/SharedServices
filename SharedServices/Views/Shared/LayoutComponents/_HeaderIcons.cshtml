@@ -30,7 +30,7 @@
     <li class="nav-item dropdown text-center">
         <a title="Profil" class="nav-link dropdown-toggle fables-third-text-color px-2 d-flex flex-column justify-content-center"
            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img width="24" src="@currentUser.PictureSource()" height="24" alt="@currentUser.FirstName @currentUser.LastName" class="nav-item__profile-member-photo nav-item__icon">
+            <img width="24" src="@currentUser.ResizePicture(24, 24)" height="24" alt="@currentUser.FirstName @currentUser.LastName" class="nav-item__profile-member-photo nav-item__icon">
             <span class="font-13">@Localizer["Vous"]</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">

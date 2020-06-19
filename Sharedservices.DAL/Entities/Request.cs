@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedServices.Mutual.Enumerations;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SharedServices.DAL.Entities
@@ -17,5 +18,6 @@ namespace SharedServices.DAL.Entities
         public int Point { get; set; }
         [Required]
         public bool Accepted { get; set; }
+        public RequestSource Source { get; set; }
     }
 }

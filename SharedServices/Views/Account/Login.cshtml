@@ -30,21 +30,25 @@
         animation-name: bounceInDown;">
                 <!-- Default form login -->
                 <form class="border border-light p-5" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+                    <div asp-validation-summary="ModelOnly" class="mb-3 text-color-red"></div>
                     <!-- Email -->
-                    <label asp-for="Email"></label>
-                    <input asp-for="Email" class="form-control mb-4">
-                    <span asp-validation-for="Email" class="text-danger"></span>
-
-                    <!-- Password -->
-                    <label asp-for="Password"></label>
-                    <input asp-for="Password" class="form-control mb-4">
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control">
+                        <span asp-validation-for="Email" class="text-color-red"></span>
+                    </div>
+                    <div class="form-group">
+                        <!-- Password -->
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" class="form-control">
+                        <span asp-validation-for="Password" class="text-color-red"></span>
+                    </div>
 
                     <div class="d-flex flex-wrap justify-content-around">
                         <div>
                             <!-- Remember me -->
                             <div class="form-check">
-                                <input class="form-check-input ml-0"  asp-for="RememberMe">
+                                <input class="form-check-input ml-0" asp-for="RememberMe">
                                 <label class="form-check-label" asp-for="RememberMe"></label>
                             </div>
                         </div>
@@ -58,9 +62,9 @@
                     <button class="btn btn-info btn-block my-4" type="submit">@Localizer["Valider"]</button>
                     <!-- Register -->
                     <p class="text-center">
-                        @Localizer["NotMember"] 
+                        @Localizer["NotMember"]
                         <a asp-action="Register">@Localizer["Register"]</a>
-                    </p>                    
+                    </p>
                 </form>
                 <!-- Default form login -->
             </div>
