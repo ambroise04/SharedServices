@@ -132,6 +132,9 @@
   <data name="MyRequests" xml:space="preserve">
     <value>Mes demandes</value>
   </data>
+  <data name="MyServices" xml:space="preserve">
+    <value>Mes services</value>
+  </data>
   <data name="Notifications" xml:space="preserve">
     <value>Notifications</value>
   </data>

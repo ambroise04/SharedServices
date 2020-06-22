@@ -46,7 +46,11 @@ namespace SharedServices.DAL.Repositories
 
         public IEnumerable<Service> GetByPredicate(Expression<Func<Service, bool>> predicate)
         {
-            return Context.Services.Where(predicate);
+            return Context.Services
+                          .Include(s => s.Group)
+                          .Include(s => s.UserServices)
+                          .ThenInclude(us => us.User)
+                          .Where(predicate);
         }
 
         public Service Insert(Service entity)

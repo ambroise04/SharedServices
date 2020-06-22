@@ -113,12 +113,11 @@ namespace SharedServices.UI.Controllers
                     }
                 }
 
-                var response = new ResponseMulticastRequest
+                var response = new DAL.Entities.ResponseMulticastRequest
                 {
-                    //RequestMulticastId = retrievedRequest.Id,
+                    RequestMulticastId = retrievedRequest.Id,
                     ApplicationUserId = currentUser.Id,
-                    //RequestMulticast = retrievedRequest,
-                    Responder = currentUser,
+                    Choosen = false
                 };
 
                 if (retrievedRequest.Responses is null)
@@ -127,8 +126,9 @@ namespace SharedServices.UI.Controllers
                 _unitOfWork.CreateTransaction();
                 try
                 {
-                    retrievedRequest.Responses.Add(response);
-                    _client.UpdateRequestMulticast(retrievedRequest);
+                    if (currentUser.Responses is null)
+                        currentUser.Responses = new List<DAL.Entities.ResponseMulticastRequest>();
+                    currentUser.Responses.Add(response);
                     _unitOfWork.CommitTransaction();
                     var successMessage = cultureFR ? "Merci pour votre réponse à cette demande."
                      : "Thank you for your response to this request.";

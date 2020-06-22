@@ -1,14 +1,14 @@
 ﻿using ImageProcessor;
-using ImageProcessor.Imaging.Formats;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Internal;
 using SharedServices.BL.UseCases.Admin;
 using SharedServices.DAL;
 using SharedServices.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 
 namespace SharedServices.BL.Extensions
 {
@@ -21,11 +21,16 @@ namespace SharedServices.BL.Extensions
                 if (user.UserServices is null)
                     user.UserServices = new List<ApplicationUserServices>();
 
-                user.UserServices.Add(new ApplicationUserServices
+                if (!user.UserServices.Any(us => us.ServiceId == service.Id && us.ApplicationUserId.Equals(user.Id)))
                 {
-                    User = user,
-                    Service = adminitrator.GetServiceByIdWithoutConverting(service.Id)
-                });
+                    user.UserServices.Add(new ApplicationUserServices
+                    {
+                        ApplicationUserId = user.Id,
+                        User = user,
+                        ServiceId = service.Id,
+                        Service = adminitrator.GetServiceByIdWithoutConverting(service.Id)
+                    });
+                }
             }
         }
 

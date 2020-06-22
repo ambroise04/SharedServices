@@ -39,6 +39,8 @@
             <a class="dropdown-item" asp-action="Multicast" asp-controller="Request"><i class="fas fa-bullhorn mr-2"></i>@Localizer["Multicast"]</a>
             <a class="dropdown-item" asp-action="MyRequests" asp-controller="Request"><i class="fas fa-hands-helping mr-2"></i>@Localizer["MyRequests"]</a>
             <div class="dropdown-divider mt-0"></div>
+            <a class="dropdown-item" asp-action="MyServices" asp-controller="Service"><i class="fas fa-clipboard-list mr-2"></i>@Localizer["MyServices"]</a>
+            <div class="dropdown-divider mt-0"></div>
             <form style="width:inherit" id="logoutForm" class="" asp-action="Logout" asp-controller="Account" asp-route-returnUrl="@Url.Action("Index", "Home")">
                 <button id="logout" type="submit" class="nav-link btn-sm btn-outline-my-green text-dark hoverable btn-logout form-control"><i class="fas fa-sign-out-alt prefix"></i>@Localizer["Deconnexion"]</button>
             </form>

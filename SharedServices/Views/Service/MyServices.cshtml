@@ -1,0 +1,122 @@
+﻿@model SharedServices.UI.Models.ServiceModels.MyServicesViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["PageTitle"];
+    var userServices = Model.UserServices;
+    var selectServices = Model.SelectServices;
+}
+@section Styles{
+    <style>
+        .service-select:focus {
+            border-color: #0e9c9c !important;
+            box-shadow: 0 0 0 0.2rem rgba(14, 156, 156, .25) !important;
+        }
+
+        .card {
+            box-shadow: none;
+        }
+
+        .link.active {
+            background-color: #0e9c9c !important;
+        }
+
+        .select-wrapper.md-form > ul li label {
+            color: #0e9c9c !important;
+        }
+    </style>
+}
+
+<div class="container card mt-5">
+    <div class="row mt-4 card-body">
+        <div class="col-md-3">
+            <ul class="nav md-pills flex-column" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link link active" data-toggle="tab" href="#my-services" role="tab">
+                        Mes services
+                        <i class="fas fa-clipboard-list ml-2"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link" data-toggle="tab" href="#add-services" role="tab">
+                        Ajouter des services
+                        <i class="fas fa-plus-square ml-2"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            <!-- Tab panels -->
+            <div class="tab-content vertical">
+                <!-- Panel 1 -->
+                <div class="tab-pane fade in show active" id="my-services" role="tabpanel">
+                    <div class="row text-center">
+                        <h2 class="ubuntu-light font-weight-bold mt-2">Mes services</h2>
+                    </div>
+                    <div class="row mb-4 mb-md-5">
+                        <div class="col-md-12">
+                            @foreach (var group in userServices)
+                            {
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <span><i class="fas fa-clipboard-list"></i></span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>@group.ServiceGroup.Title</p>
+                                        <div>
+                                            @foreach (var service in group.Services)
+                                            {
+                                                <p>@service.Title</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- Panel 1 -->
+                <!-- Panel 2 -->
+                <div class="tab-pane fade" id="add-services" role="tabpanel">
+                    <div class="row text-center">
+                        <h2 class="ubuntu-light font-weight-bold mt-2">Ajouter des services</h2>
+                    </div>
+                    <div class="row my-2 my-md-2">
+                        <div class="col-12 card loading-content">
+                            <form autocomplete="off" class="card-body" id="form-add-service">
+                                @Html.AntiForgeryToken()
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="sve">Sélectionnez vos services</label>
+                                        <select name="Services" id="sve" class="mdb-select md-form md-outline service-select mt-0" searchable="Rechercher..." multiple>
+                                            @foreach (var group in selectServices)
+                                            {
+                                                <optgroup label="@group.ServiceGroup.Title (@group.ServiceGroup.PointsByHour points/heure)">
+                                                    @foreach (var service in group.Services)
+                                                    {
+                                                        <option value="@service.Id">@service.Title</option>
+                                                    }
+                                                </optgroup>
+                                            }
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="row d-flex justify-content-end">
+                                    <div class="col-md-4">
+                                        <button class="btn btn-sm bg-color-green waves-effect form-control white-text" id="btn-add-service">Ajouter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Panel 2 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/business/service.js"></script>
+}

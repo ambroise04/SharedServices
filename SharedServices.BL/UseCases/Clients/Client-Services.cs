@@ -65,7 +65,7 @@ namespace SharedServices.BL.UseCases.Clients
         public List<Service> GetAllServices()
         {
             var services = unitOfWork.ServiceRepository
-                      .GetAll()                      
+                      .GetAll()
                       .Select(s => Mapping.Mapping.Mapper.Map<Service>(s))
                       .ToList();
 
@@ -78,7 +78,7 @@ namespace SharedServices.BL.UseCases.Clients
                       .GetAll()
                       .GroupBy(s => s.Group, s => s, (key, serv) =>
                             new { Group = key, Services = serv.ToList() })
-                      .OrderBy(s => s.Group.Title)                      
+                      .OrderBy(s => s.Group.Title)
                       .Select(s => new ServiceTO
                       {
                           ServiceGroup = Mapping.Mapping.Mapper.Map<ServiceGroup>(s.Group),
@@ -97,6 +97,23 @@ namespace SharedServices.BL.UseCases.Clients
                       .Select(s => Mapping.Mapping.Mapper.Map<Service>(s))
                       .ToList();
 
+            return services;
+        }
+
+        public ICollection<ServiceTO> UserServices(string user)
+        {
+            var services = unitOfWork.ServiceRepository
+                                     .GetByPredicate(s => s.UserServices.Any(us => us.ApplicationUserId.Equals(user)))
+                                     .GroupBy(s => s.Group, s => s, (key, serv) =>
+                                            new { Group = key, Services = serv.ToList() })
+                                     .OrderBy(s => s.Group.Title)
+                                     .Select(s => new ServiceTO
+                                     {
+                                          ServiceGroup = Mapping.Mapping.Mapper.Map<ServiceGroup>(s.Group),
+                                          Services = s.Services.Select(service => Mapping.Mapping.Mapper.Map<Service>(service))
+                                                               .OrderBy(service => service.Title)
+                                                               .ToList()
+                                      }).ToList();
             return services;
         }
     }
