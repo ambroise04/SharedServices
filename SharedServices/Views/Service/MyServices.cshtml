@@ -50,20 +50,17 @@
             <div class="tab-content vertical">
                 <!-- Panel 1 -->
                 <div class="tab-pane fade in show active" id="my-services" role="tabpanel">
-                    <div class="row text-center">
-                        <h2 class="ubuntu-light font-weight-bold mt-2">Mes services</h2>
+                    <div class="row mb-2">
+                        <h2 class="ubuntu-light font-weight-bold mt-2 col-md-12">Mes services</h2>
                     </div>
                     <div class="row mb-4 mb-md-5">
                         <div class="col-md-12">
                             @foreach (var group in userServices)
                             {
                                 <div class="row">
-                                    <div class="col-md-2">
-                                        <span><i class="fas fa-clipboard-list"></i></span>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <p>@group.ServiceGroup.Title</p>
-                                        <div>
+                                    <div class="col-md-12">
+                                        <h5 class="text-color-green my-2"><i class="far fa-hand-point-right mr-2"></i>@group.ServiceGroup.Title</h5>
+                                        <div class="ml-4">
                                             @foreach (var service in group.Services)
                                             {
                                                 <p>@service.Title</p>
@@ -78,37 +75,30 @@
                 <!-- Panel 1 -->
                 <!-- Panel 2 -->
                 <div class="tab-pane fade" id="add-services" role="tabpanel">
-                    <div class="row text-center">
-                        <h2 class="ubuntu-light font-weight-bold mt-2">Ajouter des services</h2>
+                    <div class="row mb-2">
+                        <h2 class="ubuntu-light font-weight-bold mt-2 col-md-12">Ajouter des services</h2>
                     </div>
                     <div class="row my-2 my-md-2">
-                        <div class="col-12 card loading-content">
-                            <form autocomplete="off" class="card-body" id="form-add-service">
-                                @Html.AntiForgeryToken()
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label for="sve">Sélectionnez vos services</label>
-                                        <select name="Services" id="sve" class="mdb-select md-form md-outline service-select mt-0" searchable="Rechercher..." multiple>
-                                            @foreach (var group in selectServices)
-                                            {
-                                                <optgroup label="@group.ServiceGroup.Title (@group.ServiceGroup.PointsByHour points/heure)">
-                                                    @foreach (var service in group.Services)
-                                                    {
-                                                        <option value="@service.Id">@service.Title</option>
-                                                    }
-                                                </optgroup>
-                                            }
-                                        </select>
-                                    </div>
-
+                        <form class="col-md-12 card card-body loading-content" autocomplete="off" id="form-add-service">
+                            @Html.AntiForgeryToken()
+                            <label for="sve">Sélectionnez vos services</label>
+                            <select name="Services" id="sve" class="mdb-select md-form md-outline service-select mt-0" searchable="Rechercher..." multiple>
+                                @foreach (var group in selectServices)
+                                {
+                                    <optgroup label="@group.ServiceGroup.Title (@group.ServiceGroup.PointsByHour points/heure)">
+                                        @foreach (var service in group.Services)
+                                        {
+                                            <option value="@service.Id">@service.Title</option>
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                            <div class="row d-flex justify-content-end">
+                                <div class="col-md-4">
+                                    <button class="btn btn-sm bg-color-green waves-effect form-control white-text" id="btn-add-service">Ajouter</button>
                                 </div>
-                                <div class="row d-flex justify-content-end">
-                                    <div class="col-md-4">
-                                        <button class="btn btn-sm bg-color-green waves-effect form-control white-text" id="btn-add-service">Ajouter</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <!-- Panel 2 -->

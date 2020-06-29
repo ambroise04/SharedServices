@@ -1,0 +1,64 @@
+﻿@inject IViewLocalizer Localizer;
+
+@{
+    ViewBag.Title = Localizer["Titre"];
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
+}
+
+@section Styles {
+    <style>
+        
+    </style>
+}
+
+<div class="container">
+    <div class="row my-4 my-md-5">
+        <div class="col-md-7 card py-3" style="box-shadow:none">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5 class="text-color-green mb-2">Etape 1</h5>
+                    <p>
+                        Insvrivez-vous, renseignez vos services.
+                    </p>
+                </div>
+                <div class="my-4">
+                    <h5 class="text-color-green mb-2">Etape 2</h5>
+                    <p>
+                        Dès votre inscription, gagnez vos premiers points. Vous avez besoin d'un service ? 
+                    </p>
+                </div>
+                <div class="my-4">
+                    <h5 class="text-color-green mb-2">Etape 3</h5>
+                    <p>
+                        ... Rechercher la personne qu'il vous faut. Fixez directement rendez-vous avec une discussion privée.
+                    </p>
+                </div>
+                <div class="my-4">
+                    <h5 class="text-color-green mb-2">Etape 4</h5>
+                    <p>
+                        Ca y est! Le rendez-vous est fixé.
+                    </p>
+                </div>
+                <div class="mt-4">
+                    <h5 class="text-color-green mb-2">Etape 5</h5>
+                    <p>
+                        Le travail est effectué. Les points ont été transférés. Bravo, vous savez comment Between Us fonction.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <img src="~/images/steps-bgless.png" alt="Step show" style="width:inherit; height:auto" usemap="#Map" border="0"/>
+            <map name="Map" id="Map" class="hoverable">
+                <area shape="circle" coords="243,805,68" href="#" alt="step-1" />
+                <area shape="circle" coords="443,912,68" href="#" alt="step-2" />
+                <area shape="circle" coords="409,594,68" href="#" alt="step-3" />
+                <area shape="circle" coords="237,384,68" href="#" alt="step-4" />
+                <area shape="circle" coords="409,175,68" href="#" alt="step-5" />
+                <area shape="circle" coords="198,72,68" href="#" alt="step-6" />
+            </map>
+        </div>
+    </div>
+</div>

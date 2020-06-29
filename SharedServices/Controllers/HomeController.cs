@@ -19,6 +19,11 @@ namespace SharedServices.UI.Controllers
             return View();
         }
 
+        public IActionResult Steps()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
