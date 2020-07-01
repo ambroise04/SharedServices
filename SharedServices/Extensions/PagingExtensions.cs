@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharedServices.UI.Extensions
 {
-    public static class Extensions
+    public static class PagingExtensions
     {
         public static Task<List<TSource>> ToListAsyncSafe<TSource>(
             this IQueryable<TSource> source)

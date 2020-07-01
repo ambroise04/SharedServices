@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
 using SharedServices.DAL;
+using SharedServices.Mutual.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,15 +64,53 @@ namespace SharedServices.BL.UseCases.Clients
             return requests;
         }
 
-        public List<RequestMulticast> GetNotAcceptedRequestMulticasts(string userId)
+        public List<RequestMulticast> GetNotAcceptedRequestMulticasts(ApplicationUser user, SearchOptions search)
         {
-            var requests = unitOfWork.RequestMulticastRepository
-                                     .GetByPredicate(r => !r.RequesterMulticast.Id.Equals(userId) && !r.Accepted)
-                                     .OrderByDescending(r => r.DateOfRequest)
-                                     .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
-                                     .ToList();
+            var requests = new List<RequestMulticast>();
 
-            return requests;
+            try
+            {
+                switch (search)
+                {
+                    case SearchOptions.MyServices:
+                        List<int> userSericesId = user.UserServices.Select(us => us.ServiceId).Distinct().ToList();
+                        requests = unitOfWork.RequestMulticastRepository
+                                         .GetByPredicate(r => !r.RequesterMulticast.Id.Equals(user.Id)
+                                                        && !r.Accepted
+                                                        && userSericesId.Contains(r.Service.Id))
+                                         .OrderByDescending(r => r.DateOfRequest)
+                                         .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
+                                         .ToList();
+                        break;
+                    case SearchOptions.NearMe:
+                        requests = unitOfWork.RequestMulticastRepository
+                                         .GetByPredicate(r => !r.RequesterMulticast.Id.Equals(user.Id)
+                                                        && !r.Accepted)
+                                         .OrderByDescending(r => r.DateOfRequest)
+                                         .ThenByDescending(r => r.DateOfRequest)
+                                         .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
+                                         .ToList();
+                        break;
+                    default:
+                        requests = unitOfWork.RequestMulticastRepository
+                                         .GetByPredicate(r => !r.RequesterMulticast.Id.Equals(user.Id) && !r.Accepted)
+                                         .OrderByDescending(r => r.DateOfRequest)
+                                         .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
+                                         .ToList();
+                        break;
+                }
+
+                return requests;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }             
+        }
+
+        public bool IsRelatedTo(ApplicationUser user, int serviceId)
+        {
+            return user.UserServices.Any(us => us.ServiceId == serviceId);
         }
 
         public ApplicationUser UserRequestMulticasts(string userId)

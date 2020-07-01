@@ -4,6 +4,6 @@ namespace SharedServices.UI.Models
 {
     public class SearchModel
     {
-        public PaginatedList<ApplicationUser> Users { get; set; }
+        public PaginatedRequests<ApplicationUser> Users { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model ICollection<RequestMulticast>
+﻿@model PaginatedRequests<RequestMulticast>
 @inject IViewLocalizer Localizer;
 
 @{
@@ -23,20 +23,13 @@
                     <form>
                         <div class="form-group mb-0">
                             <label for="filter">Trier par : </label>
-                            <select class="form-control rounded-0 browser-default custom-select" id="filter">
-                                <option value="1">Vos services</option>
-                                <option value="2">Près de chez vous</option>
+                            <select class="form-control rounded-0 browser-default custom-select" id="filter" 
+                                    asp-items="Html.GetEnumSelectList(typeof(SharedServices.Mutual.Enumerations.SearchOptions))">
                             </select>
                         </div>
                     </form>
                 </div>
-                <div class="col-md-5">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input ml-0" id="my-services" name="check">
-                        <label class="form-check-label" for="my-services">Afficher seulement les services me correspondant</label>
-                    </div>
-                </div>
-                <div class="col-md-2 offset-md-1 text-center pl-0 d-none d-lg-block">
+                <div class="col-md-7 offset-md-1 text-center pl-0 d-none d-lg-block">
                     <span class="fables-iconlist fa-fw fables-view-btn fables-list-btn fables-third-border-color fables-third-text-color"></span>
                     <span class="fables-icongrid active fa-fw fables-view-btn fables-grid-btn fables-third-border-color fables-third-text-color"></span>
                 </div>
@@ -45,7 +38,7 @@
                 @foreach (var request in requests)
                 {
                     <div class="col-12 col-sm-6 col-lg-4 fables-product-block">
-                        <div class="card rounded-0 mb-4">
+                        <div class="card rounded-0 mb-4" style="box-shadow:none">
                             <div class="row">
                                 <div class="fables-product-img col-12">
                                     <img class="card-img-top rounded-0" src="@request.RequesterMulticast.ResizePicture(256, 150)" alt="@request.RequesterMulticast.LastName picture">
@@ -98,13 +91,23 @@
                     </div>
                 }
             </div>
+
+            @{
+                var prevDisabled = !requests.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !requests.HasNextPage ? "disabled" : "";
+            }
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link rounded-circle fables-forth-text-color fables-page-link fables-second-hover-background-color" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link rounded-circle fables-forth-text-color fables-page-link fables-second-hover-background-color" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link rounded-circle fables-forth-text-color fables-page-link fables-page-link fables-second-hover-background-color" href="#">3</a></li>
-                    <li><span class="fables-pagi-dots fables-forth-text-color"> .... </span></li>
-                    <li class="page-item"><a class="page-link rounded-circle fables-forth-text-color fables-page-link fables-second-hover-background-color" href="#">20</a></li>
+                    <li class="page-item">
+                        <a asp-action="All" asp-route-pageIndex="@(requests.PageIndex - 1)" class="page-link rounded-circle fables-forth-text-color fables-page-link fables-second-hover-background-color @prevDisabled">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a asp-action="All" asp-route-pageIndex="@(requests.PageIndex + 1)" class="page-link rounded-circle fables-forth-text-color fables-page-link fables-second-hover-background-color @nextDisabled">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -118,6 +121,7 @@
     <script src="~/js/moment.js"></script>
     <script src="~/js/bootstrap-material-datetimepicker-bs4.min.js"></script>
     <script src="~/js/business/request-response.min.js"></script>
+    <script src="~/js/business/all-search.js"></script>
 
     <script type="text/javascript">
         var lang = "@ViewBag.Culture";

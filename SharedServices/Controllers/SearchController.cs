@@ -40,7 +40,7 @@ namespace SharedServices.UI.Controllers
             {
                 applicationUsers = _client.SearchAllUsers();
             }
-            var users = await PaginatedList<ApplicationUser>.CreateAsync(applicationUsers.AsQueryable().AsNoTracking(), pageIndex ?? 1, pageSize);
+            var users = await PaginatedRequests<ApplicationUser>.CreateAsync(applicationUsers.AsQueryable().AsNoTracking(), pageIndex ?? 1, pageSize);
             var model = new SearchModel
             {
                 Users = users

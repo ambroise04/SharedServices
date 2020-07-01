@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
 using SharedServices.Mutual.Enumerations;
 using SharedServices.UI.Attributes;
+using SharedServices.UI.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,11 +16,14 @@ namespace SharedServices.UI.Controllers
     [Authorize]
     public partial class RequestController : Controller
     {
-        public IActionResult All()
+        public async Task<IActionResult> All(int? pageIndex, SearchOptions search)
         {
             var userId = _userManager.GetUserId(User);
-            var requests = _client.GetNotAcceptedRequestMulticasts(userId);
-            return View(requests);
+            var user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
+            var requests = _client.GetNotAcceptedRequestMulticasts(user, search).AsQueryable();
+            var data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
+
+            return View(data);
         }
 
         [AllowAnonymous]
