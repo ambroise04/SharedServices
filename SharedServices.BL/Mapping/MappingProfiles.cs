@@ -26,6 +26,9 @@ namespace SharedServices.BL.Mapping
             CreateMap<DAL.Entities.Service, Service>();
             CreateMap<DAL.Entities.Service, Service>().ReverseMap();
 
+            CreateMap<DAL.Entities.Place, Place>();
+            CreateMap<DAL.Entities.Place, Place>().ReverseMap();
+
             CreateMap<DAL.Entities.ServiceGroup, ServiceGroup>();
             CreateMap<DAL.Entities.ServiceGroup, ServiceGroup>().ReverseMap();
 

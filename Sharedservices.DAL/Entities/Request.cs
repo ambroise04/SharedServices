@@ -19,5 +19,6 @@ namespace SharedServices.DAL.Entities
         [Required]
         public bool Accepted { get; set; }
         public RequestSource Source { get; set; }
+        public Place Place { get; set; }
     }
 }

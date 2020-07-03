@@ -55,7 +55,7 @@
                                 <div class="col-lg-4 col-md-3 col-sm-12 text-center">
                                     <a href="#" class="avatar">
                                         <img src="@request.Requester.ResizePicture(134, 103)" width="150" height="150"
-                                             alt="@request.Requester.FirstName @request.Requester.LastName picture" class="rounded img-thumbnail">
+                                             alt="@request.Requester.FirstName @request.Requester.LastName picture" class="rounded-circle img-thumbnail">
                                     </a>
                                     <p>@request.Requester.FirstName @request.Requester.LastName</p>
                                 </div>
@@ -69,6 +69,8 @@
                                         <span class="ml-1"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
                                         <i class="fas fa-gift text-color-green ml-3 mr-1"></i>
                                         <a href="" class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</a>
+                                        <i class="fas fa-map-marker-alt text-color-green ml-3 mr-1"></i>
+                                        <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
                                     </div>
                                 </div>
                                 @if (request.Source == SharedServices.Mutual.Enumerations.RequestSource.Personal)
@@ -104,7 +106,7 @@
                                 <div class="col-lg-4 col-md-3 col-sm-12 text-center">
                                     <a href="#" class="avatar">
                                         <img src="@request.Receiver.ResizePicture(134, 103)" width="150" height="150"
-                                             alt="@request.Receiver.FirstName @request.Receiver.LastName picture" class="rounded img-thumbnail">
+                                             alt="@request.Receiver.FirstName @request.Receiver.LastName picture" class="rounded-circle img-thumbnail">
                                     </a>
                                     <p>@request.Receiver.FirstName @request.Receiver.LastName</p>
                                 </div>
@@ -117,7 +119,9 @@
                                         <span class="fables-icondata text-color-red"></span>
                                         <span class="ml-1"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
                                         <i class="fas fa-gift text-color-green ml-3 mr-1"></i>
-                                        <a href="" class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</a>
+                                        <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</span>
+                                        <i class="fas fa-map-marker-alt text-color-green ml-3 mr-1"></i>
+                                        <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">                                    

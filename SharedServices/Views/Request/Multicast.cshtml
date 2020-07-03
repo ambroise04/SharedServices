@@ -34,8 +34,8 @@
             box-shadow: inset 0 0 0 1px #4285f4;
         }*/
 
-        .card{
-            box-shadow : none;
+        .card {
+            box-shadow: none;
         }
     </style>
 }
@@ -48,6 +48,8 @@
         <div class="col-12 card loading-content">
             <form autocomplete="off" class="card-body" id="form-request">
                 @Html.AntiForgeryToken()
+                <input type="hidden" value="" id="lat" name="lat" />
+                <input type="hidden" value="" id="lng" name="lng" />
                 <div class="row">
                     <div class="col-md-6">
                         <label for="sve">Service</label>
@@ -69,8 +71,35 @@
                             <input type="text" id="date" class="form-control request-date">
                             <input type="hidden" id="dateSubmit" class="form-control request-date" name="date">
                         </div>
-                        <small>La date est optionnelle pour certains service. <br />
-                        Elle est par contre nécessaire pour d'autres services (Ex: Babysitting)</small>
+                        <small>
+                            La date est optionnelle pour certains service. <br />
+                            Elle est par contre nécessaire pour d'autres services (Ex: Babysitting)
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p class="ubuntu-medium">Lieu où le service sera effectué</p><br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">City</label>
+                                <input type="text" class="form-control" id="inputCity" name="city">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">Country</label>
+                                <select id="inputState" class="form-control browser-default custom-select ubuntu-light" name="country">
+                                    <partial name="/Views/Shared/_Countries.cshtml" />
+                                </select>
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputZip">Postal code</label>
+                                <input type="text" class="form-control" id="inputZip" name="postalcode">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row d-flex justify-content-end">
@@ -86,7 +115,9 @@
 @section Scripts{
     <script src="~/js/moment.js"></script>
     <script src="~/js/bootstrap-material-datetimepicker-bs4.min.js"></script>
-    <script src="~/js/business/request-multicast.min.js"></script>
+    <script src="~/js/business/request-multicast.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLI9riil_9An2u7RA8zp8wXy0CGRZljvU"></script>
+    <script src="~/js/business/google-coordinates.js"></script>
 
 
     <script type="text/javascript">

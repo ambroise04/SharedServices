@@ -15,5 +15,6 @@ namespace SharedServices.BL.Domain
         public int Point { get; set; }
         public bool Accepted { get; set; }
         public RequestSource Source { get; set; }
+        public Place Place { get; set; }
     }
 }

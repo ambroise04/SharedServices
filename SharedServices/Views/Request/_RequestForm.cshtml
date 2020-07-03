@@ -24,8 +24,33 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-0">
+            <div class="col-md-12">
+                <div class="row mb-0">
+                    <div class="col-md-12 text-center">
+                        <p class="ubuntu-medium">Lieu où le service sera effectué</p><br />
+                    </div>
+                </div>
+                <div class="row mt-0">
+                    <div class="form-group col-md-6">
+                        <label for="inputCity">City</label>
+                        <input type="text" class="form-control" id="inputCity" name="city">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputState">Country</label>
+                        <select id="inputState" class="form-control browser-default custom-select ubuntu-light" name="country">
+                            <partial name="/Views/Shared/_Countries.cshtml" />
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">Postal code</label>
+                        <input type="text" class="form-control" id="inputZip" name="postalcode">
+                    </div>
+                </div>
+            </div>
+        </div>
         <input type="hidden" value="@Model.ServiceId" name="service" />
-        <input type="hidden" value="@Model.TargetId" name="flag" />        
+        <input type="hidden" value="@Model.TargetId" name="flag" />
     </form>
 </div>
 <div class="d-flex justify-content-between" style="padding: 1rem; border-top: 1px solid #e9ecef;">

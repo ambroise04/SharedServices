@@ -14,5 +14,6 @@ namespace SharedServices.BL.Domain
         public DateTime DateOfAddition { get; set; }
         public int Point { get; set; }
         public bool Accepted { get; set; }
+        public Place Place { get; set; }
     }
 }

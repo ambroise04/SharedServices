@@ -11,7 +11,9 @@ $(document).ready(function () {
     $("#btn-submit").on("click", function (event) {
         event.preventDefault();
         startLoading($(".loading-content"), "Envoi en cours...");
-        sendRequest();
+        var address = `${$("#inputZip").val()} ${$("#inputCity").val()} ${$("#inputState").val()}`;
+        //sendRequest called in getCoordinates method defined in google-coordinates.js
+        getCoordinates(address);
     })
 })
 
@@ -58,7 +60,8 @@ function initializeDatePicker(lang) {
 }
 
 
-function sendRequest() {
+function sendRequest(latLng) {
+    fillCoordinates(latLng)
     var data = $("#form-request").serialize();
     $.ajax({
         url: "Multicast",
@@ -78,6 +81,14 @@ function sendRequest() {
             toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
         }
     })
+}
+
+function fillCoordinates(latLng) {
+    let lat = latLng.lat();
+    let lng = latLng.lng();
+
+    $("#lat").attr("value", lat);
+    $("#lng").attr("value", lng);
 }
 
 function sendSuccess(message) {

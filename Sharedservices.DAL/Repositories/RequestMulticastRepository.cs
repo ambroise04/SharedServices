@@ -73,6 +73,7 @@ namespace SharedServices.DAL.Repositories
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
                           .Include(r => r.Service)
+                          .Include(r => r.Place)
                           .Include(r => r.RequesterMulticast)
                           .ThenInclude(rm => rm.Picture)
                           .Where(predicate);

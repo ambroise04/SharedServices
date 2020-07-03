@@ -8,7 +8,7 @@ $(document).ready(function () {
     })
 })
 
-function requestSending() {
+function requestSending() {   
     sendRequest();
 }
 
@@ -16,15 +16,17 @@ function getForm(service, flag) {
     $.ajax({
         url: "Request/Create",
         type: "GET",
-        dataType: "html",
         data: { service: service, flag: flag },
-        success: function(data) {
-            $(".request-modal-content").html(data);            
-            initializeDatePicker(lang);
-            
-            $("#request-modal").modal("show");
+        success: function (data) {
+            if (data["status"] != undefined) {
+                toastr.error(data["message"]);
+            } else {
+                $(".request-modal-content").html(data);
+                initializeDatePicker(lang);
+                $("#request-modal").modal("show");
+            }
         },
-        error: function() {
+        error: function (xhr) {
             toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
         }
     })
@@ -71,7 +73,6 @@ function initializeDatePicker(lang) {
     })
 }
 
-
 function sendRequest() {
     var data = $("#request-form").serialize();
     $.ajax({
@@ -79,14 +80,14 @@ function sendRequest() {
         type: "post",
         dataType: "json",
         data: data,
-        success: function(data) {
+        success: function (data) {
             if (data["status"]) {
                 sendSuccess(data["message"]);
             } else {
                 toastr.error(data["message"]);
             }
         },
-        error: function() {
+        error: function () {
             toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
         }
     })

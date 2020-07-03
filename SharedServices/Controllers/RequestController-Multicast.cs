@@ -38,7 +38,8 @@ namespace SharedServices.UI.Controllers
         // POST: Request/Multicast
         [Ajax(HttpVerb = "POST")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Multicast(int service, string date)
+        public async Task<IActionResult> Multicast(int service, string date, 
+            string city, string country, int postalcode, string lat, string lng)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
             if (service <= 0)
@@ -56,6 +57,14 @@ namespace SharedServices.UI.Controllers
             {
                 date = cultureFR ? date : string.Join('-', date?.Split("/"));
                 var requestDate = !string.IsNullOrEmpty(date) ? DateTime.Parse(date) : DateTime.MinValue;
+                var place = new Place
+                {
+                    City = city,
+                    Country = country,
+                    PostalCode = postalcode,
+                    Latitude = double.Parse(lat.Replace('.', ',')),
+                    Longitude = double.Parse(lng.Replace('.', ','))
+                };
                 var request = new RequestMulticast
                 {
                     Accepted = false,
@@ -63,7 +72,8 @@ namespace SharedServices.UI.Controllers
                     DateOfRequest = requestDate,
                     Service = retrievedService,
                     RequesterMulticast = requester,
-                    Point = retrievedService.Group.PointsByHour
+                    Point = retrievedService.Group.PointsByHour,
+                    Place = place
                 };
 
                 var result = _client.AddRequestMulticast(request);

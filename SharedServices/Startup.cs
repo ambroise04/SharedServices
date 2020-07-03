@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -34,7 +33,8 @@ namespace SharedServices
         public void ConfigureServices(IServiceCollection services)
         {
             //Trying to resolve session error for sign in manager
-            services.AddSession();
+            //services.AddSession();
+            services.AddSignalR();
 
             //i18n service
             services.AddLocalization(options => options.ResourcesPath = "Resources")
@@ -45,7 +45,7 @@ namespace SharedServices
             //Framework services
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
             {
-                services.AddDbContext<ApplicationContext>(options => 
+                services.AddDbContext<ApplicationContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("Default"))
                 );
             }
@@ -68,7 +68,7 @@ namespace SharedServices
                 }
             ).AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<ApplicationContext>()
-             .AddSignInManager()             
+             .AddSignInManager()
              .AddDefaultTokenProviders();
 
             services.AddAuthentication(options =>
@@ -108,6 +108,7 @@ namespace SharedServices
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<IBroadcastEmailSender, BroadcastEmailSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -124,6 +125,8 @@ namespace SharedServices
                 app.UseHsts();
             }
 
+            app.UseSession();
+
             //i18n params
             var supportedCultures = new List<CultureInfo>
             {
@@ -138,21 +141,19 @@ namespace SharedServices
                 DefaultRequestCulture = new RequestCulture("en-US"),
                 SupportedCultures = supportedCultures,
                 SupportedUICultures = supportedCultures
-            };            
+            };
 
             app.UseRequestLocalization(localizationOptions);
             localizationOptions.RequestCultureProviders.Insert(0, new UrlRequestCultureProvider());
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            
+
             app.UseAuthentication();
 
             app.UseRouting();
-            
-            app.UseAuthorization();
 
-            app.UseSession();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -167,6 +168,8 @@ namespace SharedServices
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapHub<SignalRHub>("/params");
             });
         }
     }

@@ -19,5 +19,6 @@ namespace SharedServices.DAL.Entities
         public int Point { get; set; }
         [Required]
         public bool Accepted { get; set; }
+        public Place Place { get; set; }
     }
 }

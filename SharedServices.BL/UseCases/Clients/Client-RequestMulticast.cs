@@ -5,7 +5,6 @@ using SharedServices.Mutual.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SharedServices.BL.UseCases.Clients
 {
@@ -105,7 +104,7 @@ namespace SharedServices.BL.UseCases.Clients
             catch (Exception ex)
             {
                 throw;
-            }             
+            }
         }
 
         public bool IsRelatedTo(ApplicationUser user, int serviceId)
@@ -119,7 +118,7 @@ namespace SharedServices.BL.UseCases.Clients
                                   .Include(u => u.Responses)
                                   .ThenInclude(r => r.Responder)
                                   .ThenInclude(resp => resp.Picture)
-                                  .Include(u => u.Responses)                                  
+                                  .Include(u => u.Responses)
                                   .ThenInclude(r => r.RequestMulticast)
                                   .FirstOrDefault(u => u.Id.Equals(userId));
             return user;

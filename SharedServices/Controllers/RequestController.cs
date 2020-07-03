@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
 using SharedServices.BL.Extensions;
@@ -9,6 +11,7 @@ using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.Mutual.Enumerations;
+using SharedServices.UI.Extensions;
 using SharedServices.UI.Models;
 using SharedServices.UI.Services;
 using System;
@@ -25,12 +28,19 @@ namespace SharedServices.UI.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IBroadcastEmailSender _broadcastEmailSender;
+        private readonly IHubContext<SignalRHub> _hubContext;
         private readonly Client _client;
         private readonly Adminitrator _admin;
+        private readonly IHttpContextAccessor _httpContext;
         private readonly string _culture;
 
 
-        public RequestController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, IBroadcastEmailSender broadcastEmailSender)
+        public RequestController(
+            IUnitOfWork unitOfWork, 
+            UserManager<ApplicationUser> userManager, 
+            IBroadcastEmailSender broadcastEmailSender,
+            IHttpContextAccessor httpContext,
+            IHubContext<SignalRHub> hubContext)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -38,6 +48,8 @@ namespace SharedServices.UI.Controllers
             _client = new Client(_unitOfWork, _userManager);
             _admin = new Adminitrator(_unitOfWork);
             _culture = CultureInfo.CurrentCulture.Name;
+            _httpContext = httpContext;
+            _hubContext = hubContext;
         }
         class RequestViewModel
         {
@@ -56,10 +68,15 @@ namespace SharedServices.UI.Controllers
         [HttpGet]
         public IActionResult Create(int service, string flag)
         {
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
             if (service <= 0 || string.IsNullOrEmpty(flag))
             {
-                throw new Exception("Bad request.");
+                var message = cultureFR ? "Veuillez saisir le service dont vous avez besoin dans le champs de recherche."
+                    : "Please type the service you need in the search input.";
+
+                return Json(new { status = false, message });
             }
+
             var serviceRetrieved = _client.GetServiceById(service);
             var user = _userManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(flag));
 
@@ -83,7 +100,8 @@ namespace SharedServices.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int service, string flag, string date)
+        public async Task<IActionResult> Create(int service, string flag, string date, 
+            string city, string country, int postalcode)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
 
@@ -107,20 +125,28 @@ namespace SharedServices.UI.Controllers
                 return Json(new { status = false, message = errorMessage });
             }
 
-            var request = new Request
-            {
-                Service = serviceRetrieved,
-                Accepted = false,
-                DateOfAddition = DateTime.Now,
-                DateOfRequest = requestDate,
-                Requester = user,
-                Receiver = receiver,
-                Source = RequestSource.Personal
-            };
-
             _unitOfWork.CreateTransaction();
             try
             {
+                var place = new Place 
+                { 
+                    City = city, 
+                    Country = country, 
+                    PostalCode = postalcode
+                };
+
+                var request = new Request
+                {
+                    Service = serviceRetrieved,
+                    Accepted = false,
+                    DateOfAddition = DateTime.Now,
+                    DateOfRequest = requestDate,
+                    Requester = user,
+                    Receiver = receiver,
+                    Source = RequestSource.Personal,
+                    Place = place
+                };
+
                 var result = _client.AddRequest(request);
                 if (request != null)
                 {
@@ -137,7 +163,7 @@ namespace SharedServices.UI.Controllers
                     return Json(new { status = false, message = errorMessage });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _unitOfWork.RollbackTransaction();
                 var errorMessage = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."

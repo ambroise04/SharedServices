@@ -65,6 +65,13 @@
                                     <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-3 ubuntu-medium text-color-green">
                                         @request.Service.Title <span class="ubuntu-light">(@request.Point points/H)</span>
                                     </p>
+                                    @{
+                                        var place = string.Concat(request.Place.PostalCode, " ",
+                                            request.Place.City, " - ", request.Place.Country);
+                                    }
+                                    <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-3 ubuntu-medium text-color-green">
+                                         <i class="fas fa-map-marker-alt mr-1"></i><span class="ubuntu-light">@place</span>
+                                    </p>
                                     <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-3">
                                         @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
                                         {
@@ -117,6 +124,7 @@
 <partial name="/Views/Discussion/_SearchMessageHeader.cshtml" />
 <partial name="/Views/Request/_RequestHeader.cshtml" />
 @section Scripts{
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLI9riil_9An2u7RA8zp8wXy0CGRZljvU&callback=initMap"></script>
     <script src="~/js/search.js"></script>
     <script src="~/js/moment.js"></script>
     <script src="~/js/bootstrap-material-datetimepicker-bs4.min.js"></script>
