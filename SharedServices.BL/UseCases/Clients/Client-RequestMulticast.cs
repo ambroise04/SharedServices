@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Geolocation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
+using SharedServices.BL.Services;
 using SharedServices.DAL;
 using SharedServices.Mutual.Enumerations;
 using System;
@@ -63,7 +66,7 @@ namespace SharedServices.BL.UseCases.Clients
             return requests;
         }
 
-        public List<RequestMulticast> GetNotAcceptedRequestMulticasts(ApplicationUser user, SearchOptions search)
+        public List<RequestMulticast> GetNotAcceptedRequestMulticasts(ApplicationUser user, SearchOptions search, Coordinate coordinate)
         {
             var requests = new List<RequestMulticast>();
 
@@ -85,7 +88,7 @@ namespace SharedServices.BL.UseCases.Clients
                         requests = unitOfWork.RequestMulticastRepository
                                          .GetByPredicate(r => !r.RequesterMulticast.Id.Equals(user.Id)
                                                         && !r.Accepted)
-                                         .OrderByDescending(r => r.DateOfRequest)
+                                         .OrderBy(r => Geocoding.DistanceCalculator(coordinate, new Coordinate { Latitude = r.Place.Latitude, Longitude = r.Place.Longitude }))
                                          .ThenByDescending(r => r.DateOfRequest)
                                          .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
                                          .ToList();
@@ -105,11 +108,6 @@ namespace SharedServices.BL.UseCases.Clients
             {
                 throw;
             }
-        }
-
-        public bool IsRelatedTo(ApplicationUser user, int serviceId)
-        {
-            return user.UserServices.Any(us => us.ServiceId == serviceId);
         }
 
         public ApplicationUser UserRequestMulticasts(string userId)

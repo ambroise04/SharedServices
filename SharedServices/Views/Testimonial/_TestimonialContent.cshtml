@@ -1,0 +1,32 @@
+﻿@model TestimonialViewModel
+<div class="modal-header d-flex justify-content-center bg-color-green">
+    <div class="d-flex justify-content-center flex-wrap">
+        <img src="@Model.ImageSource" alt="Contact picture" class="avatar rounded-circle" />
+        <p class="heading">Votre avis à propos de @Model.FullName</p>
+    </div>
+</div>
+<div class="modal-body">
+    <form action="/" method="post" id="form-testimonial" class="ubuntu-light">
+        @Html.AntiForgeryToken()
+        <input type="hidden" value="@Model.Id" name="target" />
+        <input type="hidden" value="1" name="rate" id="rate"/>
+        <div class="mb-md-2">
+            <span class="ubuntu-medium">Donner une note : </span><span id="rate-user"></span>
+        </div>
+        <div class="form-group green-border">
+            <label for="message">
+                <span class="ubuntu-medium">
+                    Dites quelque chose à propos de
+                </span>
+                <span class="text-color-green">
+                    @Model.FullName
+                </span>
+            </label>
+            <textarea class="form-control py-1" id="advice" rows="2" name="advice"></textarea>
+        </div>
+    </form>
+</div>
+<div class="d-flex justify-content-between" style="padding: 1rem; border-top: 1px solid #e9ecef;">
+    <a class="btn btn-sm btn-outline-my-green waves-effect" data-dismiss="modal">Annuler</a>
+    <a class="btn btn-sm bg-color-green waves-effect" id="btn-message" onclick="sendRating();">Envoyer</a>
+</div>

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -108,6 +110,7 @@ namespace SharedServices
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<IBroadcastEmailSender, BroadcastEmailSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession();
         }
 
@@ -116,7 +119,7 @@ namespace SharedServices
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();                
             }
             else
             {

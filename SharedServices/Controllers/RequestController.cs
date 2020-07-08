@@ -11,7 +11,6 @@ using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.Mutual.Enumerations;
-using SharedServices.UI.Extensions;
 using SharedServices.UI.Models;
 using SharedServices.UI.Services;
 using System;
@@ -36,8 +35,8 @@ namespace SharedServices.UI.Controllers
 
 
         public RequestController(
-            IUnitOfWork unitOfWork, 
-            UserManager<ApplicationUser> userManager, 
+            IUnitOfWork unitOfWork,
+            UserManager<ApplicationUser> userManager,
             IBroadcastEmailSender broadcastEmailSender,
             IHttpContextAccessor httpContext,
             IHubContext<SignalRHub> hubContext)
@@ -100,7 +99,7 @@ namespace SharedServices.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int service, string flag, string date, 
+        public async Task<IActionResult> Create(int service, string flag, string date,
             string city, string country, int postalcode)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
@@ -128,10 +127,10 @@ namespace SharedServices.UI.Controllers
             _unitOfWork.CreateTransaction();
             try
             {
-                var place = new Place 
-                { 
-                    City = city, 
-                    Country = country, 
+                var place = new Place
+                {
+                    City = city,
+                    Country = country,
                     PostalCode = postalcode
                 };
 

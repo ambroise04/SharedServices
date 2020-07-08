@@ -1,5 +1,7 @@
 ﻿using SharedServices.BL.Domain;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SharedServices.BL.UseCases.Clients
 {
@@ -29,6 +31,16 @@ namespace SharedServices.BL.UseCases.Clients
                       .GetById(groupId);
 
             return Mapping.Mapping.Mapper.Map<ServiceGroup>(addedGroup);
+        }
+
+        public ICollection<ServiceGroup> GetAllGroupService()
+        {
+            var groups = unitOfWork.ServiceGroupRepository
+                      .GetAll()
+                      .Select(sg => Mapping.Mapping.Mapper.Map<ServiceGroup>(sg))
+                      .ToList();
+
+            return groups;
         }
     }
 }

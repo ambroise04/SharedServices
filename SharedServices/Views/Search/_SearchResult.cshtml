@@ -1,0 +1,79 @@
+﻿@model SearchModel
+@inject IViewLocalizer Localizer;
+
+@{
+    ViewBag.Title = Localizer["Titre"];
+    var users = Model.Users;
+}
+
+<div class="row">
+    @foreach (var user in users)
+    {
+        <div class="col-12 col-sm-6 col-lg-4 fables-product-block">
+            <div class="card rounded-0 mb-4" style="box-shadow:none">
+                <div class="row">
+                    <div class="fables-product-img col-12">
+                        <img class="card-img-top rounded-0" src="@user.ResizePicture(256, 206)" alt="@user.LastName picture">
+                        <div class="fables-img-overlay">
+                            <ul class="nav fables-product-btns">
+                                <li>
+                                    <a asp-action="Details" asp-controller="Search" asp-route-id="@user.Id" asp-route-flag="@ViewBag.Service" class="fables-product-btn" data-toggle="tooltip" data-placement="top"
+                                       title="Plus de détails"><span class="fables-iconeye"></span></a>
+                                </li>
+                                <li>
+                                    <a href="#" id="@user.Id" class="fables-product-btn search-message-a" data-toggle="tooltip" data-placement="top"
+                                       title="Envoyer un message"><i class="far fa-envelope"></i></a>
+                                </li>
+                                <li>
+                                    <a href="" id="@user.Id" class="fables-product-btn search-testi-c" data-toggle="tooltip" data-placement="top"
+                                       title="Noter">
+                                        <i class="far fa-star"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body col-12">
+                        <h5 class="card-title mx-xl-3 mb-0">
+                            <a href="#" class="fables-main-text-color fables-store-product-title fables-second-hover-color">@user.FirstName @user.LastName</a>
+                        </h5>
+                        <ul class="rating mx-xl-3 pb-xl-2 mt-0">
+                            @for (int i = 0; i < user.Start; i++)
+                            {
+                                <li>
+                                    <i class="fas fa-star text-color-green"></i>
+                                </li>
+                            }
+                        </ul>
+                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-2">@user.PostalCode @user.City - @user.Country</p>
+                        <p class="fables-product-info">
+                            <a service="@ViewBag.Service" flag="@user.Id" class="btn btn-sm btn-outline-green-light btn-rounded
+                                           fables-hover-btn-color fables-second-text-color font-14 p-2 px-2 px-xl-4 request">
+                                <i class="fas fa-hands-helping fables-btn-value"></i>
+                                <span class="fables-btn-value">ENVOYER LA DEMANDE</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@{
+    var prevDisabled = !users.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !users.HasNextPage ? "disabled" : "";
+}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a asp-action="Index" asp-route-pageIndex="@(users.PageIndex - 1)" class="page-link rounded-circle fables-forth-text-color fables-page-link fables-second-hover-background-color @prevDisabled">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        </li>
+        <li class="page-item">
+            <a asp-action="Index" asp-route-pageIndex="@(users.PageIndex + 1)" class="page-link rounded-circle fables-forth-text-color fables-page-link fables-second-hover-background-color @nextDisabled">
+                <i class="fas fa-angle-right"></i>
+            </a>
+        </li>
+    </ul>
+</nav>

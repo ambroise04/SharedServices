@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Geolocation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
@@ -16,14 +17,28 @@ namespace SharedServices.UI.Controllers
     [Authorize]
     public partial class RequestController : Controller
     {
-        public async Task<IActionResult> All(int? pageIndex, SearchOptions search)
-        {
+        public async Task<IActionResult> All(int? pageIndex, SearchOptions search, double latitude, double longitude)
+        {            
             var userId = _userManager.GetUserId(User);
             var user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
-            var requests = _client.GetNotAcceptedRequestMulticasts(user, search).AsQueryable();
+            var coordinate = new Coordinate { Latitude = latitude, Longitude = longitude };
+            var requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinate).AsQueryable();
             var data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
 
             return View(data);
+        }
+
+        [AllowAnonymous]
+        [Ajax(HttpVerb = "GET")]
+        public async Task<IActionResult> Filter(int? pageIndex, SearchOptions search, double latitude, double longitude)
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
+            var coordinate = new Coordinate { Latitude = latitude, Longitude = longitude };
+            var requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinate).AsQueryable();
+            var data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
+
+            return PartialView("_AllRequestMulticast", data);
         }
 
         [AllowAnonymous]
