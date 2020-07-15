@@ -9,7 +9,7 @@ namespace SharedServices.UI.Attributes
     {
         public string HttpVerb { get; set; }
         public override bool IsValidForRequest(RouteContext routeContext, ActionDescriptor action)
-        {
+        {            
             return routeContext.HttpContext.Request.IsAjax(HttpVerb);
         }
     }

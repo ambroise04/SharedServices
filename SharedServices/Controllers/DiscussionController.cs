@@ -22,12 +22,13 @@ namespace SharedServices.UI.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly Client client;
-        public DiscussionController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
+        public DiscussionController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-
             this.unitOfWork = unitOfWork;
             this.userManager = userManager;
+            this.signInManager = signInManager;
             client = new Client(this.unitOfWork, userManager);
         }
         // GET: Discussion
@@ -71,10 +72,12 @@ namespace SharedServices.UI.Controllers
 
         public IActionResult UserInfo(string target)
         {
-            if (string.IsNullOrEmpty(target))
-            {
+            if (!signInManager.IsSignedIn(User))            
+                return StatusCode(401);
+            
+            if (string.IsNullOrEmpty(target))            
                 throw new ArgumentException("Bad params", nameof(target));
-            }
+            
             var user = userManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(target));
             if (user is null)
             {
@@ -90,7 +93,6 @@ namespace SharedServices.UI.Controllers
             return PartialView("_SearchMessage", infos);
         }
 
-        [Authorize]
         [Ajax(HttpVerb = "POST")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Discuss(string target, string message)

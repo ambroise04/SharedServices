@@ -11,17 +11,20 @@ function postulate(request) {
     $.ajax({
         url: "Postulate",
         type: "GET",
-        dataType: "json",
         data: { request: request },
-        success: function(data) {
+        success: function (data) {
             if (data["status"]) {
                 toastr.success(data["message"]);
             } else {
                 toastr.warning(data["message"]);
             }
         },
-        error: function() {
-            toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+        error: function (xhr) {
+            if (xhr.status == 401) {
+                window.location.href = "Acount/Login";
+            } else {
+                toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+            }
         }
     })
 }

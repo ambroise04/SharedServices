@@ -26,6 +26,7 @@ namespace SharedServices.UI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBroadcastEmailSender _broadcastEmailSender;
         private readonly IHubContext<SignalRHub> _hubContext;
         private readonly Client _client;
@@ -33,16 +34,17 @@ namespace SharedServices.UI.Controllers
         private readonly IHttpContextAccessor _httpContext;
         private readonly string _culture;
 
-
         public RequestController(
             IUnitOfWork unitOfWork,
             UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IBroadcastEmailSender broadcastEmailSender,
             IHttpContextAccessor httpContext,
             IHubContext<SignalRHub> hubContext)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            _signInManager = signInManager;
             _broadcastEmailSender = broadcastEmailSender;
             _client = new Client(_unitOfWork, _userManager);
             _admin = new Adminitrator(_unitOfWork);
@@ -65,8 +67,13 @@ namespace SharedServices.UI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Create(int service, string flag)
         {
+            if (!_signInManager.IsSignedIn(User))
+            {
+                return StatusCode(401);
+            }
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
             if (service <= 0 || string.IsNullOrEmpty(flag))
             {

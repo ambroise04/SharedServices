@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     initializeDatePicker(lang);
 
     $('[data-toggle="tooltip"]').tooltip();

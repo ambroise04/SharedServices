@@ -1,8 +1,10 @@
 ﻿using Geolocation;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
+using SharedServices.DAL;
 using SharedServices.Mutual.Enumerations;
 using SharedServices.UI.Attributes;
 using SharedServices.UI.Models;
@@ -17,15 +19,25 @@ namespace SharedServices.UI.Controllers
     [Authorize]
     public partial class RequestController : Controller
     {
+        [AllowAnonymous]
         public async Task<IActionResult> All(int? pageIndex, SearchOptions search, double latitude, double longitude)
-        {            
+        {
             var userId = _userManager.GetUserId(User);
             var user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
             var coordinate = new Coordinate { Latitude = latitude, Longitude = longitude };
-            var requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinate).AsQueryable();
-            var data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
+            PaginatedRequests<RequestMulticast> data;
+            try
+            {
+                var requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinate).AsQueryable();
+                data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
 
-            return View(data);
+                return View(data);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+                //return View("Error", nameof(HomeController), new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         [AllowAnonymous]
@@ -53,7 +65,7 @@ namespace SharedServices.UI.Controllers
         // POST: Request/Multicast
         [Ajax(HttpVerb = "POST")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Multicast(int service, string date, 
+        public async Task<IActionResult> Multicast(int service, string date,
             string city, string country, int postalcode, string lat, string lng)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
@@ -119,7 +131,7 @@ namespace SharedServices.UI.Controllers
 
         [Ajax(HttpVerb = "GET")]
         public IActionResult Postulate(int request)
-        {
+        {            
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
             if (request <= 0)
             {

@@ -27,7 +27,11 @@ function getForm(service, flag) {
             }
         },
         error: function (xhr) {
-            toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+            if (xhr.status == 401) {
+                window.location.href = "Account/Login";
+            } else {
+                toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+            }
         }
     })
 }

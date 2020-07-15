@@ -19,10 +19,10 @@
 $(".search-message-a").on("click", function (event) {
     event.preventDefault();
     var id = this.getAttribute("id");
-    retrieveInfos(id);
+    retrieveInfos_a(id);
 })
 
-function retrieveInfos(target) {
+function retrieveInfos_a(target) {
     $.ajax({
         url: "Discussion/UserInfo",
         type: "GET",
@@ -31,8 +31,12 @@ function retrieveInfos(target) {
         success: function (data) {
             perform(data);
         },
-        error: function () {
-            toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+        error: function (xhr) {
+            if (xhr.status == 401) {
+                window.location.href = "Account/Login";
+            } else {
+                toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+            }
         }
     })
 }
