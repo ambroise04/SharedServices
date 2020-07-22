@@ -86,7 +86,7 @@ function sendRequest() {
         data: data,
         success: function (data) {
             if (data["status"]) {
-                sendSuccess(data["message"]);
+                sendSuccessRequest(data["message"]);
             } else {
                 toastr.error(data["message"]);
             }
@@ -97,7 +97,8 @@ function sendRequest() {
     })
 }
 
-function sendSuccess(message) {
+function sendSuccessRequest(message) {
+    $("#request-form").trigger("reset");
     $("#request-modal").modal("hide");
     toastr.success(message);
 }

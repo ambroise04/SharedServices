@@ -125,7 +125,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">                                    
-                                    <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect">Annuler</a>
+                                    <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect" onclick="removeRequest(this)" data-source="@request.Source" data-target="@request.Id">Annuler</a>
                                 </div>
                             </div>
                         }
@@ -136,3 +136,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/business/manage-self-requests.js"></script>
+} 

@@ -177,5 +177,52 @@ namespace SharedServices.UI.Controllers
                 return Json(new { status = false, message = errorMessage });
             }
         }
+
+        [HttpPost]
+        public IActionResult CancelRequest(int id, RequestSource source)
+        {
+            if (id <= 0)
+                return StatusCode(403);
+
+            var request = _client.GetRequestById(id);
+            if (request is null)
+                return StatusCode(404);
+
+            var currentUser = _userManager.GetUserAsync(User).Result;
+
+            if (!currentUser.Id.Equals(request.Requester.Id))
+                return StatusCode(403);
+
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                var result = _client.CancelRequest(request);
+                if (result)
+                {
+                    _unitOfWork.CommitTransaction();
+                    var message = cultureFR ? "Demande annulée avec succès."
+                    : "Request canceled successfully.";
+
+                    return Json(new { status = true, message });
+                }
+                else
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var message = cultureFR ? "L'opération a échoué. Veuillez réessayer s'il vous plaît."
+                    : "Operation failed. Try again, please.";
+
+                    return Json(new { status = false, message });
+                }
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer plus tard."
+                    : "An error was encountered. Please, try again later.";
+
+                return Json(new { status = false, message });
+            }
+        }
     }
 }
