@@ -93,7 +93,8 @@ namespace SharedServices.BL.UseCases.Clients
                                   //Requests received service
                                   .Include(u => u.RequestsReceived)
                                   .ThenInclude(rs => rs.Service)
-                                  .ThenInclude(serv => serv.Group).Include(u => u.RequestsSent)
+                                  .ThenInclude(serv => serv.Group)
+                                  .Include(u => u.RequestsReceived)
                                   .ThenInclude(rs => rs.Place)
                                   //Requests sent
                                   .Include(u => u.RequestsSent)

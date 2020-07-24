@@ -16,5 +16,7 @@ namespace SharedServices.BL.Domain
         public bool Accepted { get; set; }
         public RequestSource Source { get; set; }
         public Place Place { get; set; }
+        public bool RequesterValidation { get; set; }
+        public bool ReceiverValidation { get; set; }
     }
 }

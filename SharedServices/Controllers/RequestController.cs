@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
@@ -15,6 +16,7 @@ using SharedServices.UI.Models;
 using SharedServices.UI.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,6 +30,7 @@ namespace SharedServices.UI.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IBroadcastEmailSender _broadcastEmailSender;
+        private readonly ICompositeViewEngine _viewEngine;
         private readonly IHubContext<SignalRHub> _hubContext;
         private readonly Client _client;
         private readonly Adminitrator _admin;
@@ -39,6 +42,7 @@ namespace SharedServices.UI.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IBroadcastEmailSender broadcastEmailSender,
+            ICompositeViewEngine viewEngine,
             IHttpContextAccessor httpContext,
             IHubContext<SignalRHub> hubContext)
         {
@@ -46,6 +50,7 @@ namespace SharedServices.UI.Controllers
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager;
             _broadcastEmailSender = broadcastEmailSender;
+            _viewEngine = viewEngine;
             _client = new Client(_unitOfWork, _userManager);
             _admin = new Adminitrator(_unitOfWork);
             _culture = CultureInfo.CurrentCulture.Name;
@@ -223,6 +228,110 @@ namespace SharedServices.UI.Controllers
 
                 return Json(new { status = false, message });
             }
+        }
+
+        public IActionResult AcceptRequest(int id)
+        {
+            if (id <= 0)
+                return StatusCode(403);
+
+            var request = _client.GetRequestById(id);
+            if (request is null)
+                return StatusCode(404);
+
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (!currentUserId.Equals(request.Receiver.Id))
+                return StatusCode(403);
+
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                var result = _client.AcceptRequest(request);
+                if (result)
+                {
+                    var message = cultureFR ? "Demande acceptée avec succès."
+                    : "Request accepted successfully.";
+
+                    _unitOfWork.CommitTransaction();
+
+                    return Json(new { status = true, message });
+                }
+                else
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var message = cultureFR ? "L'opération a échoué. Veuillez réessayer s'il vous plaît."
+                    : "Operation failed. Try again, please.";
+
+                    return Json(new { status = false, message });
+                }
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer plus tard."
+                    : "An error was encountered. Please, try again later.";
+
+                return Json(new { status = false, message });
+            }
+        }
+
+        public IActionResult ValidateRequest(int id)
+        {
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            if (id <= 0)
+                return StatusCode(403);
+
+            var request = _client.GetRequestById(id);
+            if (request is null)
+                return StatusCode(404);
+
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (!currentUserId.Equals(request.Receiver.Id))
+                return StatusCode(403);
+
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                var direction = currentUserId.Equals(request.Requester.Id) ? 0 : 1;
+                var result = _client.ValidateRequest(request, direction);
+                if (result)
+                {
+                    _unitOfWork.CommitTransaction();
+                    var message = cultureFR ? "Le service a été marqué comme rendu avec succès."
+                    : "The service has been marked as rendered successfully.";
+
+                    return Json(new { status = true, message });
+                }
+                else
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var message = cultureFR ? "L'opération a échoué. Veuillez réessayer s'il vous plaît."
+                    : "Operation failed. Try again, please.";
+
+                    return Json(new { status = false, message });
+                }
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer plus tard."
+                    : "An error was encountered. Please, try again later.";
+
+                return Json(new { status = false, message });
+            }
+        }
+
+        public IActionResult RefreshReceivedView()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var user = _client.UserRequests(currentUserId);
+
+            return PartialView("_ReceivedRequests", user);
         }
     }
 }

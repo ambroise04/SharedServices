@@ -1,10 +1,8 @@
 ﻿using Geolocation;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
-using SharedServices.DAL;
 using SharedServices.Mutual.Enumerations;
 using SharedServices.UI.Attributes;
 using SharedServices.UI.Models;
@@ -131,7 +129,7 @@ namespace SharedServices.UI.Controllers
 
         [Ajax(HttpVerb = "GET")]
         public IActionResult Postulate(int request)
-        {            
+        {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
             if (request <= 0)
             {
@@ -199,6 +197,8 @@ namespace SharedServices.UI.Controllers
                                    .ThenInclude(resp => resp.Picture)
                                    .Include(u => u.RequestMulticasts)
                                    .ThenInclude(rm => rm.Service)
+                                   .Include(u => u.RequestMulticasts)
+                                   .ThenInclude(rm => rm.Place)
                                    .FirstOrDefault(u => u.Id.Equals(userId));
             return View(user);
         }
@@ -236,11 +236,12 @@ namespace SharedServices.UI.Controllers
                 response.Choosen = true;
                 var updatedUser = _userManager.UpdateAsync(user).Result;
                 var create = CreateRequest
-                                (
-                                    service: retrievingRequest.Service.Id,
-                                    flag: choosenUser.Id,
-                                    date: retrievingRequest.DateOfRequest.ToString()
-                                );
+                (
+                    service: retrievingRequest.Service.Id,
+                    flag: choosenUser.Id,
+                    date: retrievingRequest.DateOfRequest.ToString(),
+                    place: updatedRequest.Place
+                );
 
                 if (create)
                 {
@@ -262,7 +263,7 @@ namespace SharedServices.UI.Controllers
             return Json(new { status = false, message });
         }
 
-        private bool CreateRequest(int service, string flag, string date)
+        private bool CreateRequest(int service, string flag, string date, Place place)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
 
@@ -281,7 +282,8 @@ namespace SharedServices.UI.Controllers
             {
                 return false;
             }
-
+            Place newPlace = place;
+            newPlace.Id = 0;
             var request = new Request
             {
                 Service = serviceRetrieved,
@@ -290,7 +292,8 @@ namespace SharedServices.UI.Controllers
                 DateOfRequest = requestDate,
                 Requester = user,
                 Receiver = receiver,
-                Source = RequestSource.Broadcast
+                Source = RequestSource.Broadcast,
+                Place = newPlace
             };
 
             try
@@ -305,7 +308,7 @@ namespace SharedServices.UI.Controllers
                     return false;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

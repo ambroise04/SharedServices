@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -95,6 +96,7 @@ namespace SharedServices
             //});
 
             // Add application services.
+            services.AddTransient<ICompositeViewEngine, CompositeViewEngine>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IDiscussionRepository, DiscussionRepository>();

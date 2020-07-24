@@ -1,0 +1,61 @@
+﻿@model ApplicationUser
+@inject IViewLocalizer Localizer;
+@inject UserManager<ApplicationUser> UserManager;
+
+@{
+    ViewBag.Title = Localizer["Titre"];
+    var user = Model;
+    var sent = user.RequestsSent;
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
+}
+
+@foreach (var request in sent)
+{
+    <hr>
+    <div class="row mb-3">
+        <div class="col-lg-4 col-md-3 col-sm-12 text-center">
+            <a href="#" class="avatar">
+                <img src="@request.Receiver.ResizePicture(134, 103)" width="150" height="150"
+                     alt="@request.Receiver.FirstName @request.Receiver.LastName picture" class="rounded-circle img-thumbnail">
+            </a>
+            <p>@request.Receiver.FirstName @request.Receiver.LastName</p>
+        </div>
+        <div class="col-lg-5 col-md-7 col-sm-12 pl-0 align">
+            <a href="#" class="fables-main-text-color semi-font fables-second-hover-color">@request.Service.Title </a>
+            <p class="fables-fifth-text-color font-14 my-2">
+                Envoyée le @request.DateOfAddition.ToString("dddd, dd MMMM yyyy", culture) à @request.DateOfAddition.ToString("HH:mm", culture)
+            </p>
+            <div class="fables-forth-text-color font-14">
+                <span class="fables-icondata text-color-red"></span>
+                <span class="ml-1"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
+                <i class="fas fa-gift text-color-green ml-3 mr-1"></i>
+                <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</span>
+                <i class="fas fa-map-marker-alt text-color-green ml-3 mr-1"></i>
+                <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
+            </div>
+        </div>
+        @if (!request.Accepted)
+        {
+            <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
+                <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect" onclick="removeRequest(this)" data-source="@request.Source" data-target="@request.Id">Annuler</a>
+            </div>
+        }
+        else
+        {
+            if (request.RequesterValidation)
+            {
+                <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
+                    <span class="badge badge-pill white-text bg-color-red">Clôturé</span>
+                </div>
+            }
+            else
+            {
+                <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
+                    <a class="btn btn-sm btn-outline-my-green btn-rounded waves-effect">Marquer comme effectué</a>
+                </div>
+            }
+        }
+    </div>
+}

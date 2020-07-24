@@ -66,6 +66,12 @@
                                                             <span><i class="far fa-calendar-alt mr-2"></i>Date prévue : Non renseignée</span>
                                                         }
                                                     </p>
+                                                    <p>
+                                                        <span>
+                                                            <i class="fas fa-map-marker-alt mr-2"></i>                                                            
+                                                            @string.Concat(request.Place.PostalCode, " ", request.Place.City, " - ", request.Place.Country)
+                                                        </span>
+                                                    </p>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <p>

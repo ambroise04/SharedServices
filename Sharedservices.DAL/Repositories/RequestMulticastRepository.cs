@@ -35,6 +35,7 @@ namespace SharedServices.DAL.Repositories
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
                           .Include(r => r.Service)
+                          .Include(r => r.Place)
                           .ToList();
         }
 
@@ -49,6 +50,7 @@ namespace SharedServices.DAL.Repositories
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
                           .Include(r => r.Service)
+                          .Include(r => r.Place)
                           .FirstOrDefault(r => r.Id == id);
         }
 
@@ -62,6 +64,7 @@ namespace SharedServices.DAL.Repositories
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
                           .Include(r => r.Service)
+                          .Include(r => r.Place)
                           .FirstOrDefault(r => r.Id == id);
         }
 
