@@ -36,10 +36,16 @@
                 <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
             </div>
         </div>
-        @if (!request.Accepted)
+        @if (request.State == SharedServices.Mutual.Enumerations.RequestStates.Waiting)
         {
             <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
                 <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect" onclick="removeRequest(this)" data-source="@request.Source" data-target="@request.Id">Annuler</a>
+            </div>
+        }
+        else if (request.State == SharedServices.Mutual.Enumerations.RequestStates.Rejected)
+        {
+            <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
+                <span class="badge badge-pill white-text bg-color-red">Rejeté</span>
             </div>
         }
         else
@@ -53,7 +59,8 @@
             else
             {
                 <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
-                    <a class="btn btn-sm btn-outline-my-green btn-rounded waves-effect">Marquer comme effectué</a>
+                    <a class="btn btn-sm btn-outline-my-green btn-rounded waves-effect" data-target="@request.Id" onclick="validation(this);">
+                    Marquer comme effectué</a>
                 </div>
             }
         }

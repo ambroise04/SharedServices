@@ -75,10 +75,10 @@
                     </a>
                 </div>
                 <div class="col-6 text-right">
-                    <a asp-action="Message" asp-controller="Discussion" asp-route-target="@user.Id" class="fables-product-btn" data-toggle="tooltip" data-placement="top" title="Envoyer un message">
+                    <a href="#" id="@user.Id" class="fables-product-btn search-message-a" data-toggle="tooltip" data-placement="top" title="Envoyer un message">
                         <i class="far fa-envelope"></i>
                     </a>
-                    <a asp-action="Mark" asp-controller="User" asp-route-target="@user.Id" class="fables-product-btn" data-toggle="tooltip" data-placement="top" title="Noter">
+                    <a href="" id="@user.Id" class="fables-product-btn search-testi-c" data-toggle="tooltip" data-placement="top" title="Noter">
                         <i class="far fa-star"></i>
                     </a>
                 </div>
@@ -110,7 +110,7 @@
                     <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Avis sur @user.FirstName</h2>
                     @foreach (var feedback in user.Feedbacks)
                     {
-                        var advisor = UserManager.Users.Include(u => u.Picture).FirstOrDefault( u => u.Id.Equals(feedback.Advisor)); 
+                        var advisor = UserManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(feedback.Advisor));
                         <div class="fables-testimonial-block border fables-third-text-color py-4 px-6 mb-2 rounded position-relative">
                             <div class="row">
                                 <div class="col-12 col-sm-3 text-center image-container shine-effect">
@@ -147,10 +147,14 @@
         </div>
     </div>
 </div>
-<!-- /End page content -->
 
+<partial name="/Views/Testimonial/_TestimonialHeader.cshtml" />
+<partial name="/Views/Discussion/_SearchMessageHeader.cshtml" />
 
 @section Scripts{
+    <script src="~/mdb/js/rating.js"></script>
+    <script src="~/js/business/testimonial.js"></script>
+    <script src="~/js/business/send-search-message.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();

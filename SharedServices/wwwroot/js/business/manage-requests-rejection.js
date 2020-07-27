@@ -1,19 +1,23 @@
 ﻿"use strict";
-function validation(object) {
+function rejection(object) {
     window.event.preventDefault();
     let id = $(object).attr("data-target");
-    validateRequest(id);
+    rejectRequest(id);
 }
 
 
-function validateRequest(id) {
+function rejectRequest(id) {
     $.ajax({
-        url: "Request/ValidateRequest",
+        url: "Request/RejectRequest",
         type: "POST",
         data: { id: id },
         success: function (data) {
             if (data.status) {
                 refreshViews(data.message); //Defined in manage-requests-acceptance.js
+            } else if (data.status == 403) {
+                toastr.error("Cette opération ne peut être effectuée. Veuillez réessayer s'il vous plaît!");
+            }else if (data.status == 404) {
+                toastr.error("Données introuvables. Veuillez réessayer s'il vous plaît!");
             } else {
                 toastr.error(data.message);
             }
@@ -21,10 +25,6 @@ function validateRequest(id) {
         error: function (xhr) {
             if (xhr.status == 401) {
                 window.location.href = "Account/Login";
-            } else if (xhr.status == 403) {
-                toastr.error("Cette opération ne peut être effectuée. Veuillez réessayer s'il vous plaît!");
-            } else if (xhr.status == 404) {
-                toastr.error("Données introuvables. Veuillez réessayer s'il vous plaît!");
             } else {
                 toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
             }

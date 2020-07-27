@@ -15,10 +15,6 @@ function cancelRequest(id, source, $object) {
         success: function (data) {
             if (data.status) {
                 doRefreshList(data.message, $object);
-            } else if (data.status == 403) {
-                toastr.error("Cette opération ne peut être effectuée. Veuillez réessayer s'il vous plaît!");
-            }else if (data.status == 404) {
-                toastr.error("Données introuvables. Veuillez réessayer s'il vous plaît!");
             } else {
                 toastr.error(data.message);
             }
@@ -26,6 +22,10 @@ function cancelRequest(id, source, $object) {
         error: function (xhr) {
             if (xhr.status == 401) {
                 window.location.href = "Account/Login";
+            } else if(xhr.status == 403) {
+                toastr.error("Cette opération ne peut être effectuée. Veuillez réessayer s'il vous plaît!");
+            } else if (xhr.status == 404) {
+                toastr.error("Données introuvables. Veuillez réessayer s'il vous plaît!");
             } else {
                 toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
             }

@@ -12,6 +12,7 @@ using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.Mutual.Enumerations;
+using SharedServices.UI.Attributes;
 using SharedServices.UI.Models;
 using SharedServices.UI.Services;
 using System;
@@ -149,7 +150,7 @@ namespace SharedServices.UI.Controllers
                 var request = new Request
                 {
                     Service = serviceRetrieved,
-                    Accepted = false,
+                    State = RequestStates.Waiting,
                     DateOfAddition = DateTime.Now,
                     DateOfRequest = requestDate,
                     Requester = user,
@@ -183,7 +184,7 @@ namespace SharedServices.UI.Controllers
             }
         }
 
-        [HttpPost]
+        [Ajax(HttpVerb = "POST")]
         public IActionResult CancelRequest(int id, RequestSource source)
         {
             if (id <= 0)
@@ -230,6 +231,7 @@ namespace SharedServices.UI.Controllers
             }
         }
 
+        [Ajax(HttpVerb = "POST")]
         public IActionResult AcceptRequest(int id)
         {
             if (id <= 0)
@@ -277,10 +279,9 @@ namespace SharedServices.UI.Controllers
             }
         }
 
+        [Ajax(HttpVerb = "POST")]
         public IActionResult ValidateRequest(int id)
         {
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
             if (id <= 0)
                 return StatusCode(403);
 
@@ -290,7 +291,7 @@ namespace SharedServices.UI.Controllers
 
             var currentUserId = _userManager.GetUserId(User);
 
-            if (!currentUserId.Equals(request.Receiver.Id))
+            if (!currentUserId.Equals(request.Receiver.Id) && !currentUserId.Equals(request.Requester.Id))
                 return StatusCode(403);
 
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
@@ -326,12 +327,68 @@ namespace SharedServices.UI.Controllers
             }
         }
 
+        [Ajax(HttpVerb = "POST")]
+        public IActionResult RejectRequest(int id)
+        {
+            if (id <= 0)
+                return StatusCode(403);
+
+            var request = _client.GetRequestById(id);
+            if (request is null)
+                return StatusCode(404);
+
+            var currentUserId = _userManager.GetUserId(User);
+
+            if (!currentUserId.Equals(request.Receiver.Id))
+                return StatusCode(403);
+
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                var direction = currentUserId.Equals(request.Requester.Id) ? 0 : 1;
+                var result = _client.RejectRequest(request);
+                if (result)
+                {
+                    _unitOfWork.CommitTransaction();
+                    var message = cultureFR ? "Le service a été rejeté avec succès."
+                    : "The service has been rejected successfully.";
+
+                    return Json(new { status = true, message });
+                }
+                else
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var message = cultureFR ? "L'opération a échoué. Veuillez réessayer s'il vous plaît."
+                    : "Operation failed. Try again, please.";
+
+                    return Json(new { status = false, message });
+                }
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer plus tard."
+                    : "An error was encountered. Please, try again later.";
+
+                return Json(new { status = false, message });
+            }
+        }
+
         public IActionResult RefreshReceivedView()
         {
             var currentUserId = _userManager.GetUserId(User);
             var user = _client.UserRequests(currentUserId);
 
             return PartialView("_ReceivedRequests", user);
+        }
+
+        public IActionResult RefreshSentView()
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var user = _client.UserRequests(currentUserId);
+
+            return PartialView("_SentRequests", user);
         }
     }
 }

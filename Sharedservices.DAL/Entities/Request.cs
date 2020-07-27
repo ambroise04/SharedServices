@@ -17,7 +17,7 @@ namespace SharedServices.DAL.Entities
         [Required]
         public int Point { get; set; }
         [Required]
-        public bool Accepted { get; set; }
+        public RequestStates State { get; set; }
         public RequestSource Source { get; set; }
         public Place Place { get; set; }
         public bool RequesterValidation { get; set; }

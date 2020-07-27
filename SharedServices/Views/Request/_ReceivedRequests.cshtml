@@ -5,7 +5,7 @@
 @{
     ViewBag.Title = Localizer["Titre"];
     var user = Model;
-    var received = user.RequestsReceived;
+    var received = user.RequestsReceived.Where(r => r.State != SharedServices.Mutual.Enumerations.RequestStates.Rejected);
 
     var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
     var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
@@ -36,21 +36,22 @@
                 <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
             </div>
         </div>
-        @if (request.Accepted)
+
+        @if (request.State == SharedServices.Mutual.Enumerations.RequestStates.Closed)
         {
-            @if (request.ReceiverValidation)
+            <div class="col-lg-3 col-md-3 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
+                <span class="badge badge-pill white-text bg-color-red">Clôturé</span>
+            </div>
+        }
+        else if (request.State == SharedServices.Mutual.Enumerations.RequestStates.Accepted)
+        {
+            if (request.ReceiverValidation)
             {
-                if (request.RequesterValidation)
-                {
-                    <div class="col-lg-3 col-md-3 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
-                        <span class="badge badge-pill white-text bg-color-red">Clôturé</span>
-                    </div>
-                }
-                else
+                if (!request.RequesterValidation)
                 {
                     <div class="col-lg-3 col-md-3 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
                         <span class="badge badge-pill white-text bg-color-green">En attente de validation</span>
-                    </div>
+                    </div>                    
                 }
             }
             else
@@ -60,19 +61,19 @@
                 </div>
             }
         }
-        else
+        else if (request.State == SharedServices.Mutual.Enumerations.RequestStates.Waiting)
         {
             if (request.Source == SharedServices.Mutual.Enumerations.RequestSource.Personal)
             {
                 <div class="col-lg-3 col-md-3 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
                     <p class="fables-product-info">
-                        <a href="#" class="btn btn-sm btn-outline-green-light btn-rounded fables-hover-btn-color 
+                        <a href="#" class="btn btn-sm btn-outline-green-light btn-rounded fables-hover-btn-color
                            fables-second-text-color font-14 p-2 px-2 px-xl-4" data-target="@request.Id" onclick="acceptation(this);">
                             <i class="fas fa-hands-helping fables-btn-value"></i>
                             <span class="fables-btn-value">Accepter</span>
                         </a>
                     </p>
-                    <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect">Refuser</a>
+                    <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect" data-target="@request.Id" onclick="rejection(this);">Refuser</a>
                 </div>
             }
             else

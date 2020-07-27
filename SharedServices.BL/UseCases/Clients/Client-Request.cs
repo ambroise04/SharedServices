@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
 using SharedServices.DAL;
+using SharedServices.Mutual.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,38 +45,6 @@ namespace SharedServices.BL.UseCases.Clients
 
             var requests = unitOfWork.RequestRepository
                                      .GetByPredicate(r => r.Receiver.Id.Equals(userId))
-                                     .OrderByDescending(r => r.DateOfRequest)
-                                     .Select(r => Mapping.Mapping.Mapper.Map<Request>(r))
-                                     .ToList();
-
-            return requests;
-        }
-
-        public List<Request> GetAcceptedRequestsByUser(string userId)
-        {
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
-
-            var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId) && r.Accepted)
-                                     .OrderByDescending(r => r.DateOfRequest)
-                                     .Select(r => Mapping.Mapping.Mapper.Map<Request>(r))
-                                     .ToList();
-
-            return requests;
-        }
-
-        public List<Request> GetNotAcceptedRequestsByUser(string userId)
-        {
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new ArgumentNullException(nameof(userId));
-            }
-
-            var requests = unitOfWork.RequestRepository
-                                     .GetByPredicate(r => r.Receiver.Id.Equals(userId) && !r.Accepted)
                                      .OrderByDescending(r => r.DateOfRequest)
                                      .Select(r => Mapping.Mapping.Mapper.Map<Request>(r))
                                      .ToList();

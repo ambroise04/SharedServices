@@ -49,19 +49,17 @@
                     <div class="">
                         <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes reçues</h2>
                         <div class="row">
-                            <div class="col-md-12 receivedCol">
+                            <div class="col-md-12 card card-body receivedCol" style="box-shadow: none;">
                                 <partial name="_ReceivedRequests.cshtml" />
                             </div>
                         </div>
                     </div>
-                    <hr>
                 </div>
                 <div class="tab-pane fade" id="nav-sent" role="tabpanel" aria-labelledby="nav-send-tab">
-                    <div class="">
-                        <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes envoyées</h2>
+                    <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Demandes envoyées</h2>
+                    <div class="card card-body sentCol" style="box-shadow: none;">
                         <partial name="_SentRequests.cshtml" />
                     </div>
-                    <hr>
                 </div>
             </div>
         </div>
@@ -72,4 +70,5 @@
     <script src="~/js/business/manage-self-requests.js"></script>
     <script src="~/js/business/manage-requests-acceptance.js"></script>
     <script src="~/js/business/manage-requests-validation.js"></script>
+    <script src="~/js/business/manage-requests-rejection.js"></script>
 } 

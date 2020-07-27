@@ -8,7 +8,7 @@ $(".search-testi-c").on("click", function (event) {
 
 function retrieveInfos(target) {
     $.ajax({
-        url: "Testimonial/UserInfos",
+        url: "/Testimonial/UserInfos",
         type: "GET",
         dataType: "html",
         data: { "target": target },
@@ -43,7 +43,7 @@ function rating() {
 function sendRating() {
     var data = $("#form-testimonial").serialize();
     $.ajax({
-        url: "Testimonial/Rate",
+        url: "/Testimonial/Rate",
         type: "post",
         dataType: "json",
         data: data,

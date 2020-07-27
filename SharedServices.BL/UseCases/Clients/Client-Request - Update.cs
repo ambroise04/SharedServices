@@ -1,4 +1,5 @@
 ﻿using SharedServices.BL.Domain;
+using SharedServices.Mutual.Enumerations;
 using System;
 
 namespace SharedServices.BL.UseCases.Clients
@@ -24,7 +25,7 @@ namespace SharedServices.BL.UseCases.Clients
                 throw new ArgumentNullException(nameof(request));
             }
             var dalRequest = Mapping.Mapping.Mapper.Map<DAL.Entities.Request>(unitOfWork.RequestRepository.GetById(request.Id));
-            dalRequest.Accepted = true;
+            dalRequest.State = RequestStates.Accepted;
             var result = unitOfWork.RequestRepository
                       .Update(dalRequest);
 
@@ -49,8 +50,27 @@ namespace SharedServices.BL.UseCases.Clients
             }
             var result = unitOfWork.RequestRepository
                       .Update(dalRequest);
-
+            if (result.RequesterValidation && result.ReceiverValidation)
+            {
+                result.State = RequestStates.Closed;
+                result = unitOfWork.RequestRepository
+                      .Update(result);
+            }
             return !(result is null);
         }
+
+        public bool RejectRequest(Request request)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            var dalRequest = Mapping.Mapping.Mapper.Map<DAL.Entities.Request>(unitOfWork.RequestRepository.GetById(request.Id));
+            dalRequest.State = RequestStates.Rejected;
+            var result = unitOfWork.RequestRepository
+                      .Update(dalRequest);
+
+            return !(result is null);
+        }        
     }
 }

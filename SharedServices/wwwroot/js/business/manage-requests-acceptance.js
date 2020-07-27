@@ -13,7 +13,7 @@ function acceptRequest(id) {
         data: { id: id },
         success: function (data) {
             if (data.status) {
-                refreshReceivedView(data.message);
+                refreshViews(data.message);
             } else if (data.status == 403) {
                 toastr.error("Cette opération ne peut être effectuée. Veuillez réessayer s'il vous plaît!");
             }else if (data.status == 404) {
@@ -51,7 +51,27 @@ function refreshReceived() {
     })
 }
 
-function refreshReceivedView(message) {
+function refreshSent() {
+    $.ajax({
+        url: "Request/RefreshSentView",
+        type: "GET",
+        dataType: "html",
+        success: function (data) {
+            let $container = $(".sentCol");
+            $container.html(data);
+        },
+        error: function (xhr) {
+            if (xhr.status == 401) {
+                window.location.href = "Account/Login";
+            } else {
+                toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+            }
+        }
+    })
+}
+
+function refreshViews(message) {
     toastr.success(message);
     refreshReceived();
+    refreshSent();
 }
