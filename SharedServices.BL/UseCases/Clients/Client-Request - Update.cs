@@ -1,6 +1,7 @@
 ﻿using SharedServices.BL.Domain;
 using SharedServices.Mutual.Enumerations;
 using System;
+using System.Threading.Tasks;
 
 namespace SharedServices.BL.UseCases.Clients
 {
@@ -55,6 +56,8 @@ namespace SharedServices.BL.UseCases.Clients
                 result.State = RequestStates.Closed;
                 result = unitOfWork.RequestRepository
                       .Update(result);
+
+                PointTransfer(Mapping.Mapping.Mapper.Map<Request>(result));
             }
             return !(result is null);
         }
@@ -71,6 +74,13 @@ namespace SharedServices.BL.UseCases.Clients
                       .Update(dalRequest);
 
             return !(result is null);
-        }        
+        }
+
+        public async void PointTransfer(Request request)
+        {
+            var workMaker = await userManager.FindByIdAsync(request.Receiver.Id);
+            var serviceGroup = GetServiceGroup(request.Service.Id);
+            workMaker.Point += serviceGroup.PointsByHour;
+        }
     }
 }

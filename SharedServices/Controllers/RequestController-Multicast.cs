@@ -287,7 +287,7 @@ namespace SharedServices.UI.Controllers
             var request = new Request
             {
                 Service = serviceRetrieved,
-                State = RequestStates.Waiting,
+                State = RequestStates.Accepted,
                 DateOfAddition = DateTime.Now,
                 DateOfRequest = requestDate,
                 Requester = user,

@@ -32,6 +32,10 @@
                     </div>
                 </div>
                 <div class="row mt-0">
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">Postal code</label>
+                        <input type="text" class="form-control" id="inputZip" name="postalcode">
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="inputCity">City</label>
                         <input type="text" class="form-control" id="inputCity" name="city">
@@ -41,10 +45,6 @@
                         <select id="inputState" class="form-control browser-default custom-select ubuntu-light" name="country">
                             <partial name="/Views/Shared/_Countries.cshtml" />
                         </select>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="inputZip">Postal code</label>
-                        <input type="text" class="form-control" id="inputZip" name="postalcode">
                     </div>
                 </div>
             </div>

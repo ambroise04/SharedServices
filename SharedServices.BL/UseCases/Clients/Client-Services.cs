@@ -116,5 +116,18 @@ namespace SharedServices.BL.UseCases.Clients
                                       }).ToList();
             return services;
         }
+
+        public ServiceGroup GetServiceGroup(int serviceId)
+        {
+            if (serviceId <= 0)
+            {
+                throw new ArgumentException(nameof(serviceId));
+            }
+
+            var retrieveServiceWithGroup = unitOfWork.ServiceRepository.GetById(serviceId);
+            var serviceGroup = retrieveServiceWithGroup.Group;
+
+            return Mapping.Mapping.Mapper.Map<ServiceGroup>(serviceGroup);
+        }
     }
 }

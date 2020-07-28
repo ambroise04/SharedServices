@@ -11,6 +11,15 @@
     var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
 }
 
+@if (received.Count() == 0)
+{
+    <div class="row mb-3">
+        <div class="col-lg-4 col-md-3 col-sm-12 text-center">
+            <p>Aucune demande reçue</p>
+        </div>
+    </div>
+}
+
 @foreach (var request in received)
 {
     <hr>
@@ -51,7 +60,7 @@
                 {
                     <div class="col-lg-3 col-md-3 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
                         <span class="badge badge-pill white-text bg-color-green">En attente de validation</span>
-                    </div>                    
+                    </div>
                 }
             }
             else

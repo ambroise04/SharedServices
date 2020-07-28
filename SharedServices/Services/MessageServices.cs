@@ -28,7 +28,7 @@ namespace SharedServices.UI.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("register@sharedservice.be", Options.SendGridUser),
+                From = new EmailAddress("register@betweenus.be", Options.SendGridUser),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

@@ -44,7 +44,8 @@ namespace SharedServices.DAL.Repositories
 
         public IEnumerable<ServiceGroup> GetByPredicate(Expression<Func<ServiceGroup, bool>> predicate)
         {
-            return Context.ServiceGroups.Where(predicate);
+            return Context.ServiceGroups
+                          .Where(predicate);
         }
 
         public ServiceGroup Insert(ServiceGroup entity)
