@@ -29,5 +29,7 @@ namespace SharedServices.DAL
         public ICollection<ApplicationUser> Contacts { get; set; }
         public ICollection<Discussion> Discussions { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
+        [InverseProperty("User")]
+        public ICollection<Notification> Notifications { get; set; }
     }
 }

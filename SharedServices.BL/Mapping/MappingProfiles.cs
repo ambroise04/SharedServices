@@ -37,6 +37,14 @@ namespace SharedServices.BL.Mapping
 
             CreateMap<DAL.Entities.Picture, Picture>();
             CreateMap<DAL.Entities.Picture, Picture>().ReverseMap();
+
+            CreateMap<DAL.Entities.Notification, Notification>()
+                .ForMember(dest => dest.DateOfAddition, opt => opt.MapFrom(s => s.DateOfAddition.ToLocalTime()));
+            CreateMap<Notification, DAL.Entities.Notification>()
+                .ForMember(dest => dest.DateOfAddition, opt => opt.MapFrom(s => s.DateOfAddition.ToUniversalTime()));
+
+            CreateMap<DAL.Entities.NotificationType, NotificationType>();
+            CreateMap<DAL.Entities.NotificationType, NotificationType>().ReverseMap();
         }
     }
 }

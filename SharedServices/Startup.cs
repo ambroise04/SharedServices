@@ -105,6 +105,8 @@ namespace SharedServices
             services.AddScoped<IRequestRepository, RequestRepository>();
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IGlobalInfoRepository, GlobalInfoRepository>();
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+            services.AddScoped<INotificationTypeRepository, NotificationTypeRepository>();
             //Enterprise information
             services.AddTransient<IGlobalInfo, GlobalInfo>();
 
@@ -164,7 +166,7 @@ namespace SharedServices
             {
                 endpoints.MapControllerRoute(
                     name: "cultureRoute",
-                    pattern: "{culture=fr}/{controller=Home}/{action=Index}/{id?}",
+                    pattern: "{culture=fr}/{controller=Notification}/{action=Notifications}/{id?}",
                     constraints: new
                     {
                         culture = new RegexRouteConstraint("^[a-z]{2}(?:-[A-Z]{2})?$")

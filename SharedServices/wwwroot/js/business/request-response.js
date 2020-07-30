@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $(".request").on("click", function (event) {
         event.preventDefault();
         let request = this.getAttribute("request");

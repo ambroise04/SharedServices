@@ -61,8 +61,10 @@ namespace SharedServices.DAL
                    .HasOne(x => x.Responder)
                    .WithMany(x => x.Responses)
                    .HasForeignKey(x => x.ApplicationUserId);
-
+            
+            //Data seeds
             builder.Entity<GlobalInfo>().HasData(GlobalInfoSeed.GlobalInfo());
+            builder.Entity<NotificationType>().HasData(NotificationTypeSeed.SeedTypes());
 
             base.OnModelCreating(builder);
         }
@@ -73,6 +75,8 @@ namespace SharedServices.DAL
         public DbSet<RequestMulticast> RequestMulticasts { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<NotificationType> NotificationTypes { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<GlobalInfo> Infos { get; set; }

@@ -1,0 +1,112 @@
+﻿@model IEnumerable<SharedServices.UI.Models.NotificationViewModels.UserNotificationsVM>
+@inject IViewLocalizer  Localizer
+
+@{
+    ViewData["Title"] = Localizer["Title"];
+    var notifications = Model;
+    var cultureFR = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
+}
+
+@section Styles{
+    <style>
+        li-icon {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+        }
+
+        button {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .shadow-none {
+            box-shadow: none !important;
+        }
+
+        .notif-item {
+            border-top: 1px solid #cfcfcf;
+        }
+
+        @@media (max-width: 768px) {
+            .notif-item {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+        .new {
+            background-color: #eeeeee;
+        }
+    </style>
+}
+
+<div class="container mt-4">
+    <div class="row card shadow-none">
+        <section class="col-md-12 card-body">
+            @foreach (var notification in notifications)
+            {
+                var background = notification.IsTriggered ? "" : "new";
+                <div class="notif-item d-flex flex-row flex-grow-1 py-4 pl-4 pr-4 @background">
+                    <div class="">
+                        <a>
+                            <div id="ember521" class="">
+                                <div id="ember522" class="d-flex">
+                                    <div class="">
+                                        <img title="Voir le profil de @notification.CorrespondentName" width="50" height="50"
+                                             src="@notification.CorrespondentPicture"
+                                             loading="lazy" alt="Voir le profil de @notification.CorrespondentName" class="rounded-circle">
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="d-flex flex-column flex-grow-1 justify-content-between ml-3 mr-auto">
+                        <span aria-hidden="true">
+                            @notification.Message
+                        </span>
+                        <div class="d-flex">
+                            @foreach (var button in notification.Buttons)
+                            {
+                                <div>
+                                    @button
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="dropdown">
+                            <button aria-label="Options de notification" id="actions-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                    class="dropdown-toggle" type="button" tabindex="0">
+                                <li-icon aria-hidden="true" size="large">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" data-supported-dps="24x24" fill="currentColor" width="24" height="24" focusable="false">
+                                        <path d="M2 10h4v4H2v-4zm8 4h4v-4h-4v4zm8-4v4h4v-4h-4z"></path>
+                                    </svg>
+                                </li-icon>
+                            </button>
+                            <div tabindex="-1" aria-hidden="true" class="dropdown-menu dropdown-menu-right" aria-labelledby="actions-menu">
+                                <a class="dropdown-item" id="login" data-source="@notification.Id" onclick="delNot(this);">
+                                    <i class="far fa-trash-alt prefix mr-2"></i>
+                                    Supprimer
+                                </a>
+                            </div>
+                        </div>
+                        <p class="nt-card__time-ago t-12 t-black--light t-normal">
+                            @notification.Date
+                        </p>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(".confirm-btn").click(function () {
+            alert(this.getAttribute("data-source"));
+        })
+    </script>
+}

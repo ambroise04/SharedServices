@@ -1,7 +1,8 @@
-﻿using System;
+﻿using SharedServices.DAL;
+using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SharedServices.DAL.Entities
+namespace SharedServices.BL.Domain
 {
     public class Notification
     {
@@ -11,8 +12,8 @@ namespace SharedServices.DAL.Entities
         [Required]
         public NotificationType Type { get; set; }        
         public Request Request { get; set; }
-        public RequestMulticast RequestMulticast { get; set; }
         public Service Service { get; set; }
+        public RequestMulticast RequestMulticast { get; set; }
         public bool IsTriggered { get; set; }
         [Required]
         public DateTime DateOfAddition { get; set; }

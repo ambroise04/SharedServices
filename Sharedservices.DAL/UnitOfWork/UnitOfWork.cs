@@ -19,6 +19,8 @@ namespace SharedServices.DAL.UnitOfWork
         private readonly IServiceRepository serviceRepository;
         private readonly IFeedbackRepository feedbackRepository;
         private readonly IGlobalInfoRepository globalInfoRepository;
+        private readonly INotificationRepository notificationRepository;
+        private readonly INotificationTypeRepository notificationTypeRepository;
 
         private bool disposedValue = false;
 
@@ -31,13 +33,12 @@ namespace SharedServices.DAL.UnitOfWork
 
         public IRequestRepository RequestRepository => requestRepository ?? new RequestRepository(_context);
         public IRequestMulticastRepository RequestMulticastRepository => requestMulticastRepository ?? new RequestMulticastRepository(_context);
-
         public IServiceGroupRepository ServiceGroupRepository => serviceGroupRepository ?? new ServiceGroupRepository(_context);
-
         public IServiceRepository ServiceRepository => serviceRepository ?? new ServiceRepository(_context);
-
         public IFeedbackRepository FeedbackRepository => feedbackRepository ?? new FeedbackRepository(_context);
         public IGlobalInfoRepository GlobalInfoRepository => globalInfoRepository ?? new GlobalInfoRepository(_context);
+        public INotificationRepository NotificationRepository => notificationRepository ?? new NotificationRepository(_context);
+        public INotificationTypeRepository NotificationTypeRepository => notificationTypeRepository ?? new NotificationTypeRepository(_context);
 
         public void CreateTransaction()
         {
