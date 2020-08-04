@@ -8,7 +8,7 @@ function acceptation(object) {
 
 function acceptRequest(id) {
     $.ajax({
-        url: "Request/AcceptRequest",
+        url: "/Request/AcceptRequest",
         type: "POST",
         data: { id: id },
         success: function (data) {
@@ -34,7 +34,7 @@ function acceptRequest(id) {
 
 function refreshReceived() {
     $.ajax({
-        url: "Request/RefreshReceivedView",
+        url: "/Request/RefreshReceivedView",
         type: "GET",
         dataType : "html",
         success: function (data) {
@@ -53,7 +53,7 @@ function refreshReceived() {
 
 function refreshSent() {
     $.ajax({
-        url: "Request/RefreshSentView",
+        url: "/Request/RefreshSentView",
         type: "GET",
         dataType: "html",
         success: function (data) {

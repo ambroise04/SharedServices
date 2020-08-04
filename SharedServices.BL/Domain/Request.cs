@@ -13,6 +13,7 @@ namespace SharedServices.BL.Domain
         public DateTime DateOfRequest { get; set; }
         public DateTime DateOfAddition { get; set; }
         public int Point { get; set; }
+        public int Duration { get; set; }
         public RequestSource Source { get; set; }
         public RequestStates State { get; set; }
         public Place Place { get; set; }

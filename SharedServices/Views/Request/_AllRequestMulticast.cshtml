@@ -35,10 +35,20 @@
                             var position = string.Concat(request.RequesterMulticast.PostalCode, " ",
                                 request.RequesterMulticast.City, " - ", request.RequesterMulticast.Country);
                         }
-                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-2"><small>@position</small></p>
-                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-3 ubuntu-medium text-color-green">
-                            @request.Service.Title <span class="ubuntu-light">(@request.Point points/H)</span>
+                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 m-2"><small>@position</small></p>
+                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 mt-3 ubuntu-medium text-color-green">
+                            @request.Service.Title
                         </p>
+                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 mb-3 ubuntu-medium text-color-green">
+                            <i class="fas fa-coins mr-1"></i><span class="ubuntu-light">@request.Point points</span>
+                        </p>
+                        @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
+                        {
+                            <p class="store-card-text fables-fifth-text-color font-14 mx-xl-3 my-3">
+                                @request.Description
+                            </p>
+                        }
+
                         @{
                             var place = string.Concat(request.Place.PostalCode, " ",
                                 request.Place.City, " - ", request.Place.Country);
@@ -46,7 +56,7 @@
                         <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-3 ubuntu-medium text-color-green">
                             <i class="fas fa-map-marker-alt mr-1"></i><span class="ubuntu-light">@place</span>
                         </p>
-                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 my-3">
+                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 mt-3">
                             @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
                             {
                                 <span>Date prévue : @request.DateOfRequest.ToString("dd/MM/yyyy - HH:mm", culture)</span>
@@ -54,6 +64,16 @@
                             else
                             {
                                 <span>Date prévue : Non renseignée</span>
+                            }
+                        </p>
+                        <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 mb-3">
+                            @if (request.Duration != 0)
+                            {
+                                <span>Durée prévue : @request.Duration min.</span>
+                            }
+                            else
+                            {
+                                <span>Durée prévue : Non renseignée</span>
                             }
                         </p>
                         <p class="fables-product-info">

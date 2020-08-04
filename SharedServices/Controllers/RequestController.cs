@@ -11,9 +11,11 @@ using SharedServices.BL.UseCases.Admin;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
+using SharedServices.Mutual;
 using SharedServices.Mutual.Enumerations;
 using SharedServices.UI.Attributes;
 using SharedServices.UI.Models;
+using SharedServices.UI.Models.RequestViewModels;
 using SharedServices.UI.Services;
 using System;
 using System.Collections.Generic;
@@ -110,24 +112,23 @@ namespace SharedServices.UI.Controllers
             return PartialView("_RequestForm", model);
         }
 
-        [HttpPost]
+        [Ajax(HttpVerb = "POST")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int service, string flag, string date,
-            string city, string country, int postalcode)
+        public async Task<IActionResult> Create(CreateRequestVM requestVM)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
 
-            if (string.IsNullOrEmpty(flag) || string.IsNullOrEmpty(date) || service <= 0)
+            if (string.IsNullOrEmpty(requestVM.Flag) || string.IsNullOrEmpty(requestVM.Date) || requestVM.Service <= 0)
             {
                 var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontrée! Veuillez réessayer s'il vous plaît."
                     : "Parameter related errors have been encountered! Try again, please.";
                 return Json(new { status = false, message = errorMessage });
             }
-            date = cultureFR ? date : string.Join('-', date.Split("/"));
+            var date = cultureFR ? requestVM.Date : string.Join('-', requestVM.Date.Split("/"));
 
             var requestDate = DateTime.Parse(date);
-            var serviceRetrieved = _client.GetServiceById(service);
-            var receiver = await _userManager.FindByIdAsync(flag);
+            var serviceRetrieved = _client.GetServiceById(requestVM.Service);
+            var receiver = await _userManager.FindByIdAsync(requestVM.Flag);
             var user = await _userManager.GetUserAsync(User);
 
             if (receiver.Id.Equals(user.Id))
@@ -137,14 +138,21 @@ namespace SharedServices.UI.Controllers
                 return Json(new { status = false, message = errorMessage });
             }
 
+            if (user.Point < requestVM.Point)
+            {
+                var errorMessage = cultureFR ? "Nous n'avez pas assez de points pour cette demande."
+                    : "You don't have enough points for this request.";
+                return Json(new { status = false, message = errorMessage });
+            }
+
             _unitOfWork.CreateTransaction();
             try
             {
                 var place = new Place
                 {
-                    City = city,
-                    Country = country,
-                    PostalCode = postalcode
+                    City = requestVM.City,
+                    Country = requestVM.Country,
+                    PostalCode = requestVM.PostalCode
                 };
 
                 var request = new Request
@@ -154,6 +162,8 @@ namespace SharedServices.UI.Controllers
                     DateOfAddition = DateTime.Now,
                     DateOfRequest = requestDate,
                     Requester = user,
+                    Point = requestVM.Point,
+                    Duration = requestVM.Duration,
                     Receiver = receiver,
                     Source = RequestSource.Personal,
                     Place = place
@@ -162,6 +172,11 @@ namespace SharedServices.UI.Controllers
                 var result = _client.AddRequest(request);
                 if (request != null)
                 {
+                    if (!_userManager.IsInRoleAsync(user, Roles.Admin.ToString()).Result)
+                    {
+                        user.Point -= requestVM.Point;
+                        await _userManager.UpdateAsync(user);
+                    }
                     var successMessage = cultureFR ? "Demande envoyée avec succès."
                         : "Request sent successfully";
                     _unitOfWork.CommitTransaction();
@@ -185,7 +200,7 @@ namespace SharedServices.UI.Controllers
         }
 
         [Ajax(HttpVerb = "POST")]
-        public IActionResult CancelRequest(int id, RequestSource source)
+        public async Task<IActionResult> CancelRequest(int id, RequestSource source)
         {
             if (id <= 0)
                 return StatusCode(403);
@@ -206,6 +221,8 @@ namespace SharedServices.UI.Controllers
                 var result = _client.CancelRequest(request);
                 if (result)
                 {
+                    currentUser.Point += request.Point;
+                    await _userManager.UpdateAsync(currentUser);
                     _unitOfWork.CommitTransaction();
                     var message = cultureFR ? "Demande annulée avec succès."
                     : "Request canceled successfully.";
@@ -328,7 +345,7 @@ namespace SharedServices.UI.Controllers
         }
 
         [Ajax(HttpVerb = "POST")]
-        public IActionResult RejectRequest(int id)
+        public async Task<IActionResult> RejectRequest(int id)
         {
             if (id <= 0)
                 return StatusCode(403);
@@ -350,6 +367,9 @@ namespace SharedServices.UI.Controllers
                 var result = _client.RejectRequest(request);
                 if (result)
                 {
+                    var currentUser = await _userManager.FindByIdAsync(request.Requester.Id);
+                    currentUser.Point += request.Point;
+                    await _userManager.UpdateAsync(currentUser);
                     _unitOfWork.CommitTransaction();
                     var message = cultureFR ? "Le service a été rejeté avec succès."
                     : "The service has been rejected successfully.";

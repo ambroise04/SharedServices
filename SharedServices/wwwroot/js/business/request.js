@@ -14,7 +14,7 @@ function requestSending() {
 
 function getForm(service, flag) {
     $.ajax({
-        url: "Request/Create",
+        url: "/Request/Create",
         type: "GET",
         data: { service: service, flag: flag },
         success: function (data) {
@@ -80,7 +80,7 @@ function initializeDatePicker(lang) {
 function sendRequest() {
     var data = $("#request-form").serialize();
     $.ajax({
-        url: "Request/Create",
+        url: "/Request/Create",
         type: "post",
         dataType: "json",
         data: data,

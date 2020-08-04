@@ -36,11 +36,15 @@
             <p class="fables-fifth-text-color font-14 my-2">
                 Reçue le @request.DateOfAddition.ToString("dddd, dd MMMM yyyy", culture) à @request.DateOfAddition.ToString("HH:mm", culture)
             </p>
+            <p class="fables-fifth-text-color font-14 my-2">
+                <i class="fas fa-clock text-color-green mr-1"></i>
+                <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Duration min.</span>
+                <i class="fas fa-coins text-color-green ml-3 mr-1"></i>
+                <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Point points</span>
+            </p>
             <div class="fables-forth-text-color font-14">
                 <span class="fables-icondata text-color-red"></span>
                 <span class="ml-1"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>
-                <i class="fas fa-gift text-color-green ml-3 mr-1"></i>
-                <a href="" class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Service.Group.PointsByHour pts/H</a>
                 <i class="fas fa-map-marker-alt text-color-green ml-3 mr-1"></i>
                 <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
             </div>

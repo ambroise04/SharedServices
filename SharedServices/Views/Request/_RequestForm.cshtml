@@ -1,5 +1,4 @@
 ﻿@model RequestFormViewModel
-
 <div class="modal-header d-flex justify-content-center bg-color-green">
     <div class="d-flex justify-content-center flex-wrap">
         <img src="@Model.TargetUserPictureSource" width="45" height="45" alt="Contact picture" class="avatar rounded-circle" />
@@ -12,24 +11,44 @@
         <div class="row">
             <div class="col-md-6">
                 <p class="py-1"><span class="ubuntu-medium">À :</span><span class="text-color-green"> @Model.TargetFullName</span></p>
-                <p class="py-1"><span class="ubuntu-medium">Service :</span> <span class="text-color-green"> @Model.ServiceTitle</span></p>
-                <p class="py-1"><span class="ubuntu-medium">Coût du service :</span><span class="text-color-green"> @Model.OperationPoint points par heure</span></p>
             </div>
             <div class="col-md-6">
-                <p class="ubuntu-medium pb-2">Date et heure</p>
+                <p class="py-1"><span class="ubuntu-medium">Service :</span> <span class="text-color-green"> @Model.ServiceTitle</span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="duration">Durée du service (en minutes)</label>
+                <div class="def-number-input number-input safari_only form-control">
+                    <a onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus text-center"></a>
+                    <input id="duration" class="quantity form-control" min="0" step="10" name="duration" value="1" type="number">
+                    <a onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus text-center"></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group green-border mb-0">
+                    <label for="point">Point</label>
+                    <input type="text" id="point" name="point" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group green-border">
-                    <label for="date">Cliquez pour sélectionner la date et l'heure</label>
+                    <label for="date">Date et heure</label>
                     <input type="text" id="date" class="form-control request-date">
                     <input type="hidden" id="dateSubmit" class="form-control request-date" name="date">
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="description">Description du service</label>
+                <textarea class="form-control" id="description" name="description" rows="2"></textarea>
+            </div>
+        </div>
         <div class="row mb-0">
             <div class="col-md-12">
                 <div class="row mb-0">
-                    <div class="col-md-12 text-center">
-                        <p class="ubuntu-medium">Lieu où le service sera effectué</p><br />
-                    </div>
+                    <p class="ubuntu-medium mt-3 col">Lieu où le service sera effectué</p><br />
                 </div>
                 <div class="row mt-0">
                     <div class="form-group col-md-2">

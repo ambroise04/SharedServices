@@ -9,7 +9,7 @@ function removeRequest(object) {
 
 function cancelRequest(id, source, $object) {
     $.ajax({
-        url: "Request/CancelRequest",
+        url: "/Request/CancelRequest",
         type: "POST",
         data: { id: id, source: source },
         success: function (data) {

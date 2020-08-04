@@ -8,7 +8,7 @@ function validation(object) {
 
 function validateRequest(id) {
     $.ajax({
-        url: "Request/ValidateRequest",
+        url: "/Request/ValidateRequest",
         type: "POST",
         data: { id: id },
         success: function (data) {

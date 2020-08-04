@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
+using SharedServices.Mutual;
 using SharedServices.Mutual.Enumerations;
 using SharedServices.UI.Attributes;
 using SharedServices.UI.Models;
+using SharedServices.UI.Models.RequestMulticastViewModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -63,45 +65,46 @@ namespace SharedServices.UI.Controllers
         // POST: Request/Multicast
         [Ajax(HttpVerb = "POST")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Multicast(int service, string date,
-            string city, string country, int postalcode, string lat, string lng)
+        public async Task<IActionResult> Multicast(CreateMulticastVM request)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
-            if (service <= 0)
+            if (request.Service <= 0)
             {
                 var errorMessage = cultureFR ? "Une erreur liée aux données a été rencontrée! Veuillez réessayer s'il vous plaît."
                     : "Parameter related errors have been encountered! Try again, please.";
                 return Json(new { status = false, message = errorMessage });
             }
 
-            var retrievedService = _client.GetServiceById(service);
+            var retrievedService = _client.GetServiceById(request.Service);
             var requester = _userManager.GetUserAsync(User).Result;
 
             _unitOfWork.CreateTransaction();
             try
             {
-                date = cultureFR ? date : string.Join('-', date?.Split("/"));
-                var requestDate = !string.IsNullOrEmpty(date) ? DateTime.Parse(date) : DateTime.MinValue;
+                request.Date = cultureFR ? request.Date : string.Join('-', request.Date?.Split("/"));
+                var requestDate = !string.IsNullOrEmpty(request.Date) ? DateTime.Parse(request.Date) : DateTime.MinValue;
                 var place = new Place
                 {
-                    City = city,
-                    Country = country,
-                    PostalCode = postalcode,
-                    Latitude = double.Parse(lat.Replace('.', ',')),
-                    Longitude = double.Parse(lng.Replace('.', ','))
+                    City = request.City,
+                    Country = request.Country,
+                    PostalCode = request.PostalCode,
+                    Latitude = double.Parse(request.Lat.Replace('.', ',')),
+                    Longitude = double.Parse(request.Lng.Replace('.', ','))
                 };
-                var request = new RequestMulticast
+                var newRequest = new RequestMulticast
                 {
                     Accepted = false,
                     DateOfAddition = DateTime.Now,
                     DateOfRequest = requestDate,
                     Service = retrievedService,
                     RequesterMulticast = requester,
-                    Point = retrievedService.Group.PointsByHour,
-                    Place = place
+                    Point = request.Point,
+                    Place = place,
+                    Duration = request.Duration,
+                    Description = request.Description
                 };
 
-                var result = _client.AddRequestMulticast(request);
+                var result = _client.AddRequestMulticast(newRequest);
                 if (result != null)
                 {
                     var successMessage = cultureFR ? "Demande publiée avec succès."
@@ -215,6 +218,14 @@ namespace SharedServices.UI.Controllers
             }
 
             var retrievingRequest = _client.GetRequestMulticastById(request);
+            var currentUser = _userManager.GetUserAsync(User).Result;
+            if (currentUser.Point < retrievingRequest.Point)
+            {
+                var errorMessage = cultureFR ? "Nous n'avez pas assez de points pour cette demande."
+                    : "You don't have enough points for this request.";
+                return Json(new { status = false, message = errorMessage });
+            }
+
             var choosenUser = _userManager.Users.AsNoTracking().FirstOrDefault(u => u.Id.Equals(target));
             if (retrievingRequest == null || choosenUser == null)
             {
@@ -235,16 +246,15 @@ namespace SharedServices.UI.Controllers
                 var response = user.Responses.First(r => r.RequestMulticastId == retrievingRequest.Id);
                 response.Choosen = true;
                 var updatedUser = _userManager.UpdateAsync(user).Result;
-                var create = CreateRequest
-                (
-                    service: retrievingRequest.Service.Id,
-                    flag: choosenUser.Id,
-                    date: retrievingRequest.DateOfRequest.ToString(),
-                    place: updatedRequest.Place
-                );
 
+                var create = CreateRequest(requestM: retrievingRequest, flag: choosenUser.Id, place: updatedRequest.Place);
                 if (create)
-                {
+                {                    
+                    if (!_userManager.IsInRoleAsync(currentUser, Roles.Admin.ToString()).Result)
+                    {
+                        currentUser.Point -= retrievingRequest.Point;
+                        _userManager.UpdateAsync(currentUser);
+                    }
                     _unitOfWork.CommitTransaction();
                     var successMessage = cultureFR ? "Votre choix a été enregistré avec succes."
                         : "Your choice has been successfully saved.";
@@ -263,18 +273,18 @@ namespace SharedServices.UI.Controllers
             return Json(new { status = false, message });
         }
 
-        private bool CreateRequest(int service, string flag, string date, Place place)
+        private bool CreateRequest(RequestMulticast requestM, string flag, Place place)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
 
-            if (string.IsNullOrEmpty(flag) || string.IsNullOrEmpty(date) || service <= 0)
+            if (string.IsNullOrEmpty(flag) || string.IsNullOrEmpty(requestM.DateOfRequest.ToString()) || requestM.Service.Id <= 0)
             {
                 return false;
             }
-            date = cultureFR ? date : string.Join('-', date.Split("/"));
+            var date = cultureFR ? requestM.DateOfRequest.ToString() : string.Join('-', requestM.DateOfRequest.ToString().Split("/"));
 
             var requestDate = DateTime.Parse(date);
-            var serviceRetrieved = _client.GetServiceById(service);
+            var serviceRetrieved = _client.GetServiceById(requestM.Service.Id);
             var receiver = _userManager.FindByIdAsync(flag).Result;
             var user = _userManager.GetUserAsync(User).Result;
 
@@ -287,6 +297,8 @@ namespace SharedServices.UI.Controllers
             var request = new Request
             {
                 Service = serviceRetrieved,
+                Point = requestM.Point,
+                Duration = requestM.Duration,
                 State = RequestStates.Accepted,
                 DateOfAddition = DateTime.Now,
                 DateOfRequest = requestDate,

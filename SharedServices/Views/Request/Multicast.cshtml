@@ -15,28 +15,9 @@
     <link href="~/css/register.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="~/css/bootstrap-material-datetimepicker-bs4.min.css" rel="stylesheet" />
+    <link href="~/css/multicast.css" rel="stylesheet" />
     <style>
-        .dtp-btn-cancel {
-            color: var(--custom-green-color) !important;
-        }
-
-        .dtp-btn-ok {
-            color: var(--custom-green-color) !important;
-        }
-
-        .service-select:focus {
-            border-color: #0e9c9c !important;
-            box-shadow: 0 0 0 0.2rem rgba(14, 156, 156, .25) !important;
-        }
-
-        /*.select-wrapper.md-form.md-outline input.select-dropdown:focus {
-            border-color: #4285f4;
-            box-shadow: inset 0 0 0 1px #4285f4;
-        }*/
-
-        .card {
-            box-shadow: none;
-        }
+        
     </style>
 }
 <!-- Start page content -->
@@ -52,7 +33,7 @@
                 <input type="hidden" value="" id="lng" name="lng" />
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="sve">Service</label>
+                        <label for="sve my-0">Service</label>
                         <select name="service" id="sve" class="mdb-select md-form md-outline service-select mt-0" searchable="Rechercher...">
                             @foreach (var group in services)
                             {
@@ -66,22 +47,42 @@
                         </select>
                     </div>
                     <div class="col-md-6">
+                        <label for="description">Description du service</label>
+                        <textarea class="form-control" id="description" name="description" rows="2"></textarea>                        
+                    </div>
+                </div>
+                <div class="row my-md-4">
+                    <div class="col-md-4">
+                        <label for="duration">Durée du service (en minutes)</label>
+                        <div class="def-number-input number-input safari_only form-control">
+                            <a onclick="management_(this)" class="minus text-center"></a>
+                            <input id="duration" class="quantity form-control" min="0" step="10" name="duration" value="1" type="number">
+                            <a onclick="management_i(this)" class="plus text-center"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group green-border mb-0">
+                            <label for="point">Point</label>
+                            <input type="text" id="point" name="point" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group green-border mb-0">
                             <label for="date">Cliquez pour sélectionner la date et l'heure</label>
                             <input type="text" id="date" class="form-control request-date">
+                            <small>
+                                La date est optionnelle pour certains service. <br />
+                                Elle est par contre nécessaire pour d'autres services (Ex: Babysitting)
+                            </small>
                             <input type="hidden" id="dateSubmit" class="form-control request-date" name="date">
                         </div>
-                        <small>
-                            La date est optionnelle pour certains service. <br />
-                            Elle est par contre nécessaire pour d'autres services (Ex: Babysitting)
-                        </small>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
-                                <p class="ubuntu-medium">Lieu où le service sera effectué</p><br />
+                                <p class="ubuntu-medium place-desc">Lieu où le service sera rendu</p><br />
                             </div>
                         </div>
                         <div class="row">
@@ -122,5 +123,15 @@
 
     <script type="text/javascript">
         var lang = "@ViewBag.Culture";
+
+        function management_(object) {
+            window.event.preventDefault();
+            object.parentNode.querySelector('input[type=number]').stepDown();
+        }
+
+        function management_i(object) {
+            window.event.preventDefault();
+            object.parentNode.querySelector('input[type=number]').stepUp();
+        }
     </script>
 }

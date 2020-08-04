@@ -16,6 +16,7 @@ namespace SharedServices.DAL.Entities
         public DateTime DateOfAddition { get; set; }
         [Required]
         public int Point { get; set; }
+        public int Duration { get; set; }
         [Required]
         public RequestStates State { get; set; }
         public RequestSource Source { get; set; }

@@ -8,7 +8,7 @@ function rejection(object) {
 
 function rejectRequest(id) {
     $.ajax({
-        url: "Request/RejectRequest",
+        url: "/Request/RejectRequest",
         type: "POST",
         data: { id: id },
         success: function (data) {
