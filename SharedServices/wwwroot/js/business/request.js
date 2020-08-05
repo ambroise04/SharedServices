@@ -1,4 +1,6 @@
-﻿var $date_input;
+﻿"use strict";
+
+var $date_input;
 $(document).ready(function () {
     $(".request").on("click", function (event) {
         event.preventDefault();

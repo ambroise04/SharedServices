@@ -76,7 +76,7 @@ namespace SharedServices.UI.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Create(int service, string flag)
+        public async Task<IActionResult> Create(int service, string flag)
         {
             if (!_signInManager.IsSignedIn(User))
             {
@@ -98,12 +98,12 @@ namespace SharedServices.UI.Controllers
             {
                 throw new Exception("One or more parameters are bad.");
             }
-
+            var currentUser = await _userManager.GetUserAsync(User);
             var model = new RequestFormViewModel
             {
                 ServiceId = serviceRetrieved.Id,
                 ServiceTitle = serviceRetrieved.Title,
-                OperationPoint = serviceRetrieved.Group.PointsByHour,
+                UserPoint = currentUser.Point,
                 TargetId = user.Id,
                 TargetFullName = string.Concat(user.FirstName, " ", user.LastName),
                 TargetUserPictureSource = user.PictureSource()

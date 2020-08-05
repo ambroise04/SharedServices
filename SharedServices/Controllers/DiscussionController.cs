@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
@@ -33,7 +32,7 @@ namespace SharedServices.UI.Controllers
         }
         // GET: Discussion
         [HttpGet]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             string user = userManager.GetUserId(User);
 
@@ -47,7 +46,6 @@ namespace SharedServices.UI.Controllers
                     client.GetDiscussionBetweenCurrentUserAndAnOtherUser(user, lastDiscussion.Receiver) :
                     client.GetDiscussionBetweenCurrentUserAndAnOtherUser(user, lastDiscussion.Emitter);
             }
-            await UserContact();                        
 
             ViewBag.Contacts = contacts;
 
@@ -72,22 +70,22 @@ namespace SharedServices.UI.Controllers
 
         public IActionResult UserInfo(string target)
         {
-            if (!signInManager.IsSignedIn(User))            
+            if (!signInManager.IsSignedIn(User))
                 return StatusCode(401);
-            
-            if (string.IsNullOrEmpty(target))            
+
+            if (string.IsNullOrEmpty(target))
                 throw new ArgumentException("Bad params", nameof(target));
-            
+
             var user = userManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(target));
             if (user is null)
             {
                 throw new ArgumentException("Bad target was submitted", nameof(user));
             }
-            var infos = new SearchMessageUserInfos 
-            { 
-                Id = user.Id, 
-                FullName = string.Concat(user.FirstName, " ", user.LastName), 
-                ImageSource = user.ResizePicture(45, 45) 
+            var infos = new SearchMessageUserInfos
+            {
+                Id = user.Id,
+                FullName = string.Concat(user.FirstName, " ", user.LastName),
+                ImageSource = user.ResizePicture(45, 45)
             };
 
             return PartialView("_SearchMessage", infos);
@@ -104,7 +102,7 @@ namespace SharedServices.UI.Controllers
 
             if (string.IsNullOrEmpty(target) || string.IsNullOrEmpty(message))
             {
-                return Json(new { status = false, message = errorMessage});
+                return Json(new { status = false, message = errorMessage });
             }
 
             var targetUser = await userManager.FindByIdAsync(target);
@@ -123,14 +121,14 @@ namespace SharedServices.UI.Controllers
                 Emitter = currentUser.Id,
                 Receiver = targetUser.Id,
                 Message = message,
-                DateHour = DateTime.Now,               
+                DateHour = DateTime.Now,
             };
 
             unitOfWork.CreateTransaction();
             try
             {
                 var result = client.AddDiscussion(discussion);
-                
+
                 if (result is null)
                 {
                     unitOfWork.RollbackTransaction();
@@ -154,28 +152,28 @@ namespace SharedServices.UI.Controllers
             }
         }
 
-        private async Task UserContact()
-        {
-            var currentUser = await userManager.GetUserAsync(User);
-            var user = userManager.Users.Include(u => u.Contacts).FirstOrDefault(u => u.Id.Equals(currentUser.Id));
-            if (user.Contacts is null || user.Contacts.Count() == 0)
-            {
-                user.Contacts = new List<ApplicationUser>();
-                var gauthier = userManager.FindByEmailAsync("gauthier.lallem@gmail.com").Result;
-                var pauline = userManager.FindByEmailAsync("pauline.j@gmail.com").Result;
-                user.Contacts.Add(gauthier);
-                user.Contacts.Add(pauline);
-            }
-            else
-            {
-                while (user.Contacts.Count() > 2)
-                {
-                    user.Contacts.Remove(user.Contacts.Last());
-                    user.Contacts.Remove(user.Contacts.Last());
-                }
-            }
+        //private async Task UserContact()
+        //{
+        //    var currentUser = await userManager.GetUserAsync(User);
+        //    var user = userManager.Users.Include(u => u.Contacts).FirstOrDefault(u => u.Id.Equals(currentUser.Id));
+        //    if (user.Contacts is null || user.Contacts.Count() == 0)
+        //    {
+        //        user.Contacts = new List<ApplicationUser>();
+        //        var gauthier = userManager.FindByEmailAsync("gauthier.lallem@gmail.com").Result;
+        //        var pauline = userManager.FindByEmailAsync("pauline.j@gmail.com").Result;
+        //        user.Contacts.Add(gauthier);
+        //        user.Contacts.Add(pauline);
+        //    }
+        //    else
+        //    {
+        //        while (user.Contacts.Count() > 2)
+        //        {
+        //            user.Contacts.Remove(user.Contacts.Last());
+        //            user.Contacts.Remove(user.Contacts.Last());
+        //        }
+        //    }
 
-            await userManager.UpdateAsync(user);
-        }
+        //    await userManager.UpdateAsync(user);
+        //}
     }
 }

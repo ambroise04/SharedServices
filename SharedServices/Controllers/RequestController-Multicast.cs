@@ -55,10 +55,12 @@ namespace SharedServices.UI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Multicast()
+        public async Task<IActionResult> Multicast()
         {
             var services = _admin.GetAllServicesGrouped();
+            var currentUser = await _userManager.GetUserAsync(User);
             ViewBag.Culture = _culture;
+            ViewBag.Points = currentUser.Point;
             return View(services);
         }
 

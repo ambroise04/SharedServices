@@ -8,6 +8,12 @@
 <div class="modal-body">
     <form action="/" method="post" id="request-form" class="ubuntu-light">
         @Html.AntiForgeryToken()
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <p class="py-1"><span class="ubuntu-light">Vous avez actuellement : </span><span class="text-color-green ubuntu-medium">@Model.UserPoint points</span></p>
+            </div>
+        </div>
+        <hr />
         <div class="row">
             <div class="col-md-6">
                 <p class="py-1"><span class="ubuntu-medium">À :</span><span class="text-color-green"> @Model.TargetFullName</span></p>

@@ -8,57 +8,108 @@
 }
 
 @section Styles {
+    <link href="~/template/css/timeline.css" rel="stylesheet" />
     <style>
-        
     </style>
 }
 
+<!-- Start page content -->
 <div class="container">
-    <div class="row my-4 my-md-5">
-        <div class="col-md-7 card py-3" style="box-shadow:none">
-            <div class="card-body">
-                <div class="mb-4">
-                    <h5 class="text-color-green mb-2">Etape 1</h5>
-                    <p>
-                        Insvrivez-vous, renseignez vos services.
-                    </p>
-                </div>
-                <div class="my-4">
-                    <h5 class="text-color-green mb-2">Etape 2</h5>
-                    <p>
-                        Dès votre inscription, gagnez vos premiers points. Vous avez besoin d'un service ? 
-                    </p>
-                </div>
-                <div class="my-4">
-                    <h5 class="text-color-green mb-2">Etape 3</h5>
-                    <p>
-                        ... Rechercher la personne qu'il vous faut. Fixez directement rendez-vous avec une discussion privée.
-                    </p>
-                </div>
-                <div class="my-4">
-                    <h5 class="text-color-green mb-2">Etape 4</h5>
-                    <p>
-                        Ca y est! Le rendez-vous est fixé.
-                    </p>
-                </div>
-                <div class="mt-4">
-                    <h5 class="text-color-green mb-2">Etape 5</h5>
-                    <p>
-                        Le travail est effectué. Les points ont été transférés. Bravo, vous savez comment Between Us fonction.
-                    </p>
-                </div>
+    <div id="cd-timeline" class="cd-container gallery-timeline my-4 my-md-5">
+        <span class="fables-second-background-color line"></span>
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img"></div>
+            <div class="cd-timeline-content">
+                <a href="#"><img src="~/images/steps/register.jpg" alt="" class="w-100" height="150"></a>
+                <h2 class="font-15 semi-font px-3 mt-2">
+                    <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
+                        Inscription
+                    </a>
+                </h2>
+                <p class="fables-forth-text-color fables-gallery-timeline-details">
+                    Inscrivez-vous, renseignez vos services.
+                </p>
+                <span class="cd-date white-text">1</span>
             </div>
         </div>
-        <div class="col-md-5">
-            <img src="~/images/steps-bgless.png" alt="Step show" style="width:inherit; height:auto" usemap="#Map" border="0"/>
-            <map name="Map" id="Map" class="hoverable">
-                <area shape="circle" coords="243,805,68" href="#" alt="step-1" />
-                <area shape="circle" coords="443,912,68" href="#" alt="step-2" />
-                <area shape="circle" coords="409,594,68" href="#" alt="step-3" />
-                <area shape="circle" coords="237,384,68" href="#" alt="step-4" />
-                <area shape="circle" coords="409,175,68" href="#" alt="step-5" />
-                <area shape="circle" coords="198,72,68" href="#" alt="step-6" />
-            </map>
+
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img"></div>
+            <div class="cd-timeline-content">
+                <a href="#"><img src="~/images/steps/points.jpg" alt="" class="w-100" height="150"></a>
+                <h2 class="font-15 semi-font px-3 mt-2">
+                    <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
+                        Gagnez des points
+                    </a>
+                </h2>
+                <p class="fables-forth-text-color fables-gallery-timeline-details">
+                    Dès votre inscription, gagnez vos premiers points. Vous avez besoin d'un service ?
+                </p>
+
+                <span class="cd-date white-text">2</span>
+            </div>
         </div>
+
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img"></div>
+            <div class="cd-timeline-content">
+                <a href="#"><img src="~/images/steps/search.jpg" alt="" class="w-100" height="150"></a>
+                <h2 class="font-15 semi-font px-3 mt-2">
+                    <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
+                        Rechercher ou publier une demande
+                    </a>
+                </h2>
+                <p class="fables-forth-text-color fables-gallery-timeline-details">
+                    Rechercher la personne qu'il vous faut et envoyez-lui votre demande.
+                    Fixez directement rendez-vous avec une discussion privée.
+                    Ou encore, publier votre demande. Les personnes conpétentes vous répondront et vous aurez le loisir d'en choisir une.
+                </p>
+
+                <span class="cd-date white-text">3</span>
+            </div>
+        </div>
+
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img"></div>
+            <div class="cd-timeline-content">
+                <a href="#"><img src="~/images/steps/service_done.jpg" alt="" class="w-100" height="150"></a>
+                <h2 class="font-15 semi-font px-3 mt-2">
+                    <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
+                        Service rendu
+                    </a>
+                </h2>
+                <p class="fables-forth-text-color fables-gallery-timeline-details">
+                    Le service a été rendu ? Votre correspondant le signalera.
+                    Tout ce que vous aurez à faire, c'est de marquer ce service comme rendu.
+                </p>
+
+                <span class="cd-date white-text">4</span>
+            </div>
+        </div>
+
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img"></div>
+            <div class="cd-timeline-content">
+                <a href="#"><img src="~/images/steps/feedback.jpg" alt="" class="w-100" height="150"></a>
+                <h2 class="font-15 semi-font px-3 mt-2">
+                    <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
+                        Donnez votre avis
+                    </a>
+                </h2>
+                <p class="fables-forth-text-color fables-gallery-timeline-details">
+                    Vous êtes ravi de la prestation de votre correspondant ? Donnez votre avis et une note. Il sera ravi lui aussi.
+                </p>
+
+                <span class="cd-date white-text">5</span>
+            </div>
+        </div>
+
+
     </div>
 </div>
+<!-- /End page content -->
+
+@section Scripts {
+    <script src="~/template/js/timeline.js"></script>
+    <script src="~/template/js/modernizr.js"></script>
+}

@@ -166,7 +166,7 @@ namespace SharedServices
             {
                 endpoints.MapControllerRoute(
                     name: "cultureRoute",
-                    pattern: "{culture=fr}/{controller=Notification}/{action=Notifications}/{id?}",
+                    pattern: "{culture=fr}/{controller=Home}/{action=Index}/{id?}",
                     constraints: new
                     {
                         culture = new RegexRouteConstraint("^[a-z]{2}(?:-[A-Z]{2})?$")

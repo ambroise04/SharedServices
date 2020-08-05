@@ -31,6 +31,12 @@
                 @Html.AntiForgeryToken()
                 <input type="hidden" value="" id="lat" name="lat" />
                 <input type="hidden" value="" id="lng" name="lng" />
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <p class="py-1"><span class="ubuntu-light">Vous avez actuellement : </span><span class="text-color-green ubuntu-medium">@ViewBag.Points  points</span></p>
+                    </div>
+                </div>
+                <hr />
                 <div class="row">
                     <div class="col-md-6">
                         <label for="sve my-0">Service</label>
@@ -48,7 +54,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="description">Description du service</label>
-                        <textarea class="form-control" id="description" name="description" rows="2"></textarea>                        
+                        <textarea class="form-control" id="description" name="description" rows="2"></textarea>
                     </div>
                 </div>
                 <div class="row my-md-4">

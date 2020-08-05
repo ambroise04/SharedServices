@@ -117,7 +117,8 @@
                             <textarea class="form-control pl-2 my-0" name="message" id="message-box" rows="3" placeholder="Type your message here..."></textarea>
                         </div>
                     </form>
-                    <button type="button" class="btn btn-outline-my-green btn-rounded btn-sm waves-effect waves-dark float-right" onclick="sendingMessage()">Envoyer</button>
+                    @{ var disabled = contacts.Count() == 0 ? "disabled" : "";}
+                    <button type="button" class="btn btn-outline-my-green btn-rounded btn-sm waves-effect waves-dark float-right @disabled" onclick="sendingMessage()">Envoyer</button>
                 </div>
             </div>
         </div>
