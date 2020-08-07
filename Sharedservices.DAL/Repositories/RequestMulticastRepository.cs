@@ -46,6 +46,7 @@ namespace SharedServices.DAL.Repositories
 
             return Context.RequestMulticasts
                           .AsNoTracking()
+                          .Include(r => r.RequesterMulticast)
                           .Include(r => r.Responses)
                           .ThenInclude(resp => resp.Responder)
                           .ThenInclude(resp => resp.Picture)
@@ -90,9 +91,9 @@ namespace SharedServices.DAL.Repositories
             if (entity.Id != 0)
                 throw new ArgumentException($"A new object cannot have an id. {nameof(entity)}");
 
-            var tracking = Context.RequestMulticasts.Add(entity);
-
-            return tracking.Entity;
+            var tracking = Context.RequestMulticasts.Add(entity).State = EntityState.Added;
+            Context.SaveChanges();
+            return entity;
         }
 
         public RequestMulticast Update(RequestMulticast entity)

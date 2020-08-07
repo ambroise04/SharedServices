@@ -17,6 +17,8 @@ namespace SharedServices.BL.UseCases.Clients
             var addedFeedback = unitOfWork.FeedbackRepository
                       .Insert(Mapping.Mapping.Mapper.Map<DAL.Entities.Feedback>(feedback));
 
+
+
             return Mapping.Mapping.Mapper.Map<Feedback>(addedFeedback);
         }
 
@@ -38,6 +40,18 @@ namespace SharedServices.BL.UseCases.Clients
                       .ToList();
 
             return feedbacks;
+        }
+
+        public int UserStars(string userId, int newRate)
+        {
+            var userFeedbacks = GetFeedbacksByUser(userId);
+
+            var stars = userFeedbacks.Select(f => f.Mark).ToList();
+            stars.Add(newRate);
+
+            int rate = Convert.ToInt32(stars.Average(x => x));
+
+            return rate == 0 ? 1 : rate;
         }
     }
 }

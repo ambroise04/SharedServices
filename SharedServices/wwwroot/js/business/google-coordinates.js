@@ -8,6 +8,7 @@
                 sendRequest(latLng);
             }
         } else {
+            stopLoading($(".loading-content"));
             toastr.error("Geocode error : " + status);            
         } 
     });

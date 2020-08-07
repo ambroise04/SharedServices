@@ -13,7 +13,7 @@ function retrieveInfos(target) {
         dataType: "html",
         data: { "target": target },
         success: function (data) {
-            perform(data);
+            performUserInfos(data);
         },
         error: function (xhr) {
             console.log(xhr.responseText)
@@ -22,7 +22,7 @@ function retrieveInfos(target) {
     })
 }
 
-function perform(data) {
+function performUserInfos(data) {
     $(".testimonial-content").html(data)
     $("#modal-testimonial").modal("show");
     $("#rate-user").mdbRate();
@@ -49,7 +49,7 @@ function sendRating() {
         data: data,
         success: function (data) {
             if (data["status"]) {
-                sendSuccess(data["message"]);
+                sendSuccessRating(data["message"]);
             } else {
                 toastr.error(data["message"]);
             }
@@ -60,7 +60,7 @@ function sendRating() {
     })
 }
 
-function sendSuccess(message) {
+function sendSuccessRating(message) {
     $("#form-testimonial").trigger("reset");
     $("#modal-testimonial").modal("hide");
     toastr.success(message);

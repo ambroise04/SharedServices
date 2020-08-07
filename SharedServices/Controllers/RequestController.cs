@@ -35,6 +35,7 @@ namespace SharedServices.UI.Controllers
         private readonly IBroadcastEmailSender _broadcastEmailSender;
         private readonly ICompositeViewEngine _viewEngine;
         private readonly IHubContext<SignalRHub> _hubContext;
+        private readonly INotificationService _notificationService;
         private readonly Client _client;
         private readonly Adminitrator _admin;
         private readonly IHttpContextAccessor _httpContext;
@@ -47,7 +48,8 @@ namespace SharedServices.UI.Controllers
             IBroadcastEmailSender broadcastEmailSender,
             ICompositeViewEngine viewEngine,
             IHttpContextAccessor httpContext,
-            IHubContext<SignalRHub> hubContext)
+            IHubContext<SignalRHub> hubContext, 
+            INotificationService notificationService)
         {
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -59,6 +61,7 @@ namespace SharedServices.UI.Controllers
             _culture = CultureInfo.CurrentCulture.Name;
             _httpContext = httpContext;
             _hubContext = hubContext;
+            _notificationService = notificationService;
         }
         class RequestViewModel
         {

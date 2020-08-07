@@ -22,7 +22,7 @@ namespace SharedServices.BL.UseCases.Clients
         public List<Notification> GetUserNotifications(string userId)
         {
             var notifications = unitOfWork.NotificationRepository
-                                          .GetByPredicate(x => x.User.Id.Equals(userId))
+                                          .GetByPredicate(x => x.Correspondent.Id.Equals(userId))
                                           .OrderBy(n => n.IsTriggered)
                                           .ThenByDescending(x => x.DateOfAddition)
                                           .Select(x => Mapping.Mapping.Mapper.Map<Notification>(x))

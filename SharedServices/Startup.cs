@@ -115,6 +115,7 @@ namespace SharedServices
             services.AddTransient<IBroadcastEmailSender, BroadcastEmailSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<INotificationService, NotificationService>();
             services.AddSession();
         }
 

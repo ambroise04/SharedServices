@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SharedServices.Mutual.Enumerations
+﻿namespace SharedServices.Mutual.Enumerations
 {
     public enum NotificationTypes
     {

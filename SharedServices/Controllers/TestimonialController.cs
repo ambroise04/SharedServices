@@ -97,6 +97,9 @@ namespace SharedServices.UI.Controllers
                     : "Sorry, your feedback cannot be sent. Please try again later.";
                     return Json(new { status = false, message });
                 }
+
+                int stars = client.UserStars(userId: target, newRate: rate);
+                userToRate.Start = stars;
                 _unitOfWork.CommitTransaction();
                 var successMessage = cultureFR ? "Votre avis a été envoyé avec succès. Veuillez réessayer plus tard."
                     : "Your feedback has been sent successfully. Please try again later.";

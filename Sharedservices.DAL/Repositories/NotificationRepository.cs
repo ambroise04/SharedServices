@@ -55,6 +55,10 @@ namespace SharedServices.DAL.Repositories
             return Context.Notifications
                           .Include(s => s.Type)
                           .Include(s => s.Request)
+                          .Include(s => s.User)
+                          .ThenInclude(u => u.Picture)
+                          .Include(s => s.RequestMulticast)
+                          .ThenInclude(r => r.Service)
                           .Include(s => s.Correspondent)
                           .ThenInclude(c => c.Picture)
                           .Include(s => s.Service)
@@ -68,7 +72,8 @@ namespace SharedServices.DAL.Repositories
 
             if (entity.Id != 0)
                 throw new ArgumentException($"A new object cannot have an id. {nameof(entity)}");
-
+            entity.Type = Context.NotificationTypes.FirstOrDefault(n => n.Id == entity.Type.Id);
+            entity.RequestMulticast = Context.RequestMulticasts.FirstOrDefault(n => n.Id == entity.RequestMulticast.Id);
             var tracking = Context.Notifications.Add(entity);
 
             return tracking.Entity;

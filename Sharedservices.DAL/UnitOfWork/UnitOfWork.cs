@@ -69,6 +69,10 @@ namespace SharedServices.DAL.UnitOfWork
                 _errorMessage = $"Message : {ex.Message}";
                 throw new Exception(_errorMessage, ex);
             }
+            catch(Exception)
+            {
+                throw;
+            }
         }
 
         protected virtual void Dispose(bool disposing)

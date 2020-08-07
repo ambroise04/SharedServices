@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
+using SharedServices.BL.Mapping;
 using SharedServices.Mutual;
 using SharedServices.Mutual.Enumerations;
 using SharedServices.UI.Attributes;
@@ -111,7 +112,9 @@ namespace SharedServices.UI.Controllers
                 {
                     var successMessage = cultureFR ? "Demande publiée avec succès."
                         : "Request broadcasted successfully";
-                    await Broadcast(result);
+                    result = Mapping.Mapper.Map<RequestMulticast>(_unitOfWork.RequestMulticastRepository.GetById(result.Id));
+                    //await Broadcast(result);
+                    await _notificationService.MulticastNotification(request: result, requester: requester);
                     _unitOfWork.CommitTransaction();
                     return Json(new { status = true, message = successMessage });
                 }
@@ -123,7 +126,7 @@ namespace SharedServices.UI.Controllers
                     return Json(new { status = false, message = errorMessage });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 _unitOfWork.RollbackTransaction();
                 var errorMessage = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
@@ -332,8 +335,6 @@ namespace SharedServices.UI.Controllers
         {
             var serviceId = request.Service.Id;
             var userEmails = _userManager.Users
-                                    .Include(u => u.UserServices)
-                                    .ThenInclude(us => us.Service)
                                     .Where(u => u.UserServices.Any(s => s.ServiceId == serviceId) && !u.Id.Equals(request.RequesterMulticast.Id))
                                     .Select(u => u.Email)
                                     .ToList();

@@ -27,6 +27,11 @@ namespace SharedServices.DAL.Repositories
             return tracking.State == EntityState.Deleted;
         }
 
+        public void Detach(NotificationType notificationType)
+        {
+            Context.Entry(notificationType).State = EntityState.Detached;
+        }
+
         public IEnumerable<NotificationType> GetAll()
         {
             return Context.NotificationTypes.ToList();

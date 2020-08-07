@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SharedServices.UI.Extensions
 {
-    public static class NotificationExtensions
+    public static partial class NotificationExtensions
     {
         public static List<UserNotificationsVM> ToViewModelCollection(this List<Notification> notifications, bool inFR = true)
         {
@@ -16,9 +16,9 @@ namespace SharedServices.UI.Extensions
                 Id = n.Id,
                 Message = inFR ? n.Type.MessageFR : n.Type.MessageEN,
                 Date = inFR ? n.DateOfAddition.ToString("dd/MM/yyyy HH:mm") : n.DateOfAddition.ToString("MM-dd-yyyy H:mm tt"),
-                CorrespondentId = n.Correspondent.Id,
-                CorrespondentPicture = n.Correspondent.PictureSource(),
-                CorrespondentName = string.Concat(n.Correspondent.FirstName, " ", n.Correspondent.LastName),
+                CorrespondentId = n.User?.Id,
+                CorrespondentPicture = n.User?.PictureSource(),
+                CorrespondentName = string.Concat(n.User?.FirstName, " ", n.User?.LastName),
                 IsTriggered = n.IsTriggered,
                 Buttons = GenerateButtons(n, inFR)
             }).ToList();
