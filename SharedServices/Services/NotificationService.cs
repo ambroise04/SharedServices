@@ -14,17 +14,20 @@ namespace SharedServices.UI.Services
 {
     public class NotificationService : INotificationService
     {
-        private IHubContext<SignalRHub> hubContext;
+        private IHubContext<NotificationHub> hubContext;
+        private readonly IUserConnectionManager userConnectionManager;
         private UserManager<ApplicationUser> userManager;
         private IUnitOfWork unitOfWork;
 
-        public NotificationService(IHubContext<SignalRHub> hubContext,
-                                   UserManager<ApplicationUser> userManager, 
-                                   IUnitOfWork unitOfWork)
+        public NotificationService(IHubContext<NotificationHub> hubContext,
+                                   UserManager<ApplicationUser> userManager,
+                                   IUnitOfWork unitOfWork, 
+                                   IUserConnectionManager userConnectionManager)
         {
             this.hubContext = hubContext;
             this.userManager = userManager;
             this.unitOfWork = unitOfWork;
+            this.userConnectionManager = userConnectionManager;
         }
 
         public async Task MulticastNotification(RequestMulticast request, ApplicationUser requester, string method = "multicast")
@@ -45,8 +48,19 @@ namespace SharedServices.UI.Services
                 notification.User = requester;
                 notification.Correspondent = user;
                 unitOfWork.NotificationRepository.Insert(Mapping.Mapper.Map<DAL.Entities.Notification>(notification));
+
+                await UserNotificationSender(method, user);
             }
-            await hubContext.Clients.All.SendAsync(method);
+        }
+
+        private async Task UserNotificationSender(string method, ApplicationUser user)
+        {
+            var connections = userConnectionManager.GetUserConnections(user.Id);
+
+            foreach (var connection in connections)
+            {
+                await hubContext.Clients.Client(connection).SendAsync(method);
+            }
         }
     }
 }

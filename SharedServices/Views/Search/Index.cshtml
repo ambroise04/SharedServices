@@ -25,6 +25,12 @@
         .modal-dialog.modal-notify.modal-info .fas {
             color: black;
         }
+
+        @@media (max-width: 768px){
+            .categories {
+                display: none;
+            }
+        }
     </style>
 }
 
@@ -53,30 +59,19 @@
                     </div>
                 </form>
             </div>
-
-            <h2 class="font-16 semi-font fables-forth-text-color fables-light-gary-background  p-3 mt-3">Catégories de service</h2>
-            <ul class="nav fables-forth-text-color fables-forth-before fables-store-left-list">
-                @foreach (var group in categories)
-                {
-                    <li><a class="disabled" href="#">@group.Title</a></li>
-                }
-            </ul>
+            <div class="categories">
+                <h2 class="font-16 semi-font fables-forth-text-color fables-light-gary-background  p-3 mt-3">Catégories de service</h2>
+                <ul class="nav fables-forth-text-color fables-forth-before fables-store-left-list">
+                    @foreach (var group in categories)
+                    {
+                        <li><a class="disabled" href="#">@group.Title</a></li>
+                    }
+                </ul>
+            </div>
         </div>
         <div class="col-12 col-md-8 col-lg-9 margin">
             <div class="row mb-4">
-                <div class="col-12 col-lg-4">
-                    <form>
-                        <div class="form-group mb-0">
-                            <select class="form-control rounded-0 browser-default custom-select" id="filter">
-                                <option selected>default sorting</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-4 col-md-6 col-lg-2 offset-lg-6 text-center pl-0 d-none d-lg-block">
+                <div class="col-md-12 float-right pl-0 d-none d-lg-block">
                     <span class="fables-iconlist fa-fw fables-view-btn fables-list-btn fables-third-border-color fables-third-text-color"></span>
                     <span class="fables-icongrid active fa-fw fables-view-btn fables-grid-btn fables-third-border-color fables-third-text-color"></span>
                 </div>

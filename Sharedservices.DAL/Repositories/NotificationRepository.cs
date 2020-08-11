@@ -65,6 +65,22 @@ namespace SharedServices.DAL.Repositories
                           .Where(predicate);
         }
 
+        public IEnumerable<Notification> GetByPredicateWithoutTracking(Expression<Func<Notification, bool>> predicate)
+        {
+            return Context.Notifications
+                          .AsNoTracking()
+                          .Include(s => s.Type)
+                          .Include(s => s.Request)
+                          .Include(s => s.User)
+                          .ThenInclude(u => u.Picture)
+                          .Include(s => s.RequestMulticast)
+                          .ThenInclude(r => r.Service)
+                          .Include(s => s.Correspondent)
+                          .ThenInclude(c => c.Picture)
+                          .Include(s => s.Service)
+                          .Where(predicate);
+        }
+
         public Notification Insert(Notification entity)
         {
             if (entity is null)

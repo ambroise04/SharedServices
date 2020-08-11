@@ -16,8 +16,11 @@ function retrieveInfos(target) {
             performUserInfos(data);
         },
         error: function (xhr) {
-            console.log(xhr.responseText)
-            toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+            if (xhr.status == 401) {
+                window.location.href = "/Account/Login";
+            } else {
+                toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
+            }
         }
     })
 }

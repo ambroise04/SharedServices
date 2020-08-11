@@ -30,7 +30,7 @@ function getForm(service, flag) {
         },
         error: function (xhr) {
             if (xhr.status == 401) {
-                window.location.href = "Account/Login";
+                window.location.href = "/Account/Login";
             } else {
                 toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
             }

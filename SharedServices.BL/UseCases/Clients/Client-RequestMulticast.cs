@@ -110,6 +110,25 @@ namespace SharedServices.BL.UseCases.Clients
             }
         }
 
+        public List<RequestMulticast> GetNotAcceptedRequestMulticasts()
+        {
+            var requests = new List<RequestMulticast>();
+
+            try
+            {
+                requests = unitOfWork.RequestMulticastRepository
+                                 .GetByPredicate(r => !r.Accepted)
+                                 .OrderByDescending(r => r.DateOfRequest)
+                                 .Select(r => Mapping.Mapping.Mapper.Map<RequestMulticast>(r))
+                                 .ToList();
+                return requests;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public ApplicationUser UserRequestMulticasts(string userId)
         {
             var user = userManager.Users

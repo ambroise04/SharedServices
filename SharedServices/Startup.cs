@@ -116,6 +116,8 @@ namespace SharedServices
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
+
             services.AddSession();
         }
 
@@ -177,7 +179,7 @@ namespace SharedServices
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapHub<SignalRHub>("/params");
+                endpoints.MapHub<NotificationHub>("/Notify");
             });
         }
     }

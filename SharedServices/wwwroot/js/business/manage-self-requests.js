@@ -21,7 +21,7 @@ function cancelRequest(id, source, $object) {
         },
         error: function (xhr) {
             if (xhr.status == 401) {
-                window.location.href = "Account/Login";
+                window.location.href = "/Account/Login";
             } else if(xhr.status == 403) {
                 toastr.error("Cette opération ne peut être effectuée. Veuillez réessayer s'il vous plaît!");
             } else if (xhr.status == 404) {

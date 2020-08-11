@@ -20,7 +20,7 @@ function postulate(request) {
         },
         error: function (xhr) {
             if (xhr.status == 401) {
-                window.location.href = "Acount/Login";
+                window.location.href = "/Acount/Login";
             } else {
                 toastr.error("Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît!");
             }

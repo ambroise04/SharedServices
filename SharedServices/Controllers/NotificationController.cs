@@ -5,7 +5,9 @@ using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.UI.Extensions;
 using System;
+using System.Linq;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace SharedServices.UI.Controllers
 {
@@ -23,13 +25,24 @@ namespace SharedServices.UI.Controllers
             _client = new Client(_unitOfWork);
         }
 
-        public IActionResult Notifications()
+        public async Task<IActionResult> Notifications()
         {
             var userId = _userManager.GetUserId(User);
             var notifications = _client.GetUserNotifications(userId);
             var isFR = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
+            var viewModel = notifications.ToViewModelCollection(isFR);
 
-            return View(notifications.ToViewModelCollection(isFR));
+            await _client.MarkUserNotificationsAsTriggered(userId);
+
+            return View(viewModel);
+        }
+
+        public IActionResult CheckMulticastNotifications()
+        {
+            var userId = _userManager.GetUserId(User);
+            var count = _client.GetUserNotTriggeredNotifications(userId);
+
+            return Json(new { status = true, count});
         }
     }
 }

@@ -81,7 +81,7 @@ namespace SharedServices.DAL.UnitOfWork
             {
                 if (disposing)
                 {
-                    _context.Dispose();
+                    //_context.Dispose();
                 }
                 disposedValue = true;
             }

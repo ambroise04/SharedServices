@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
 using SharedServices.BL.Mapping;
+using SharedServices.DAL;
 using SharedServices.Mutual;
 using SharedServices.Mutual.Enumerations;
 using SharedServices.UI.Attributes;
@@ -23,13 +24,21 @@ namespace SharedServices.UI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> All(int? pageIndex, SearchOptions search, double latitude, double longitude)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
-            var coordinate = new Coordinate { Latitude = latitude, Longitude = longitude };
+            var isSignedIn = _signInManager.IsSignedIn(User);
+            var userId = isSignedIn ? _userManager.GetUserId(User) : string.Empty ;
+            ApplicationUser user = null;
+            if(isSignedIn) 
+                user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
+            var coordinates = new Coordinate { Latitude = latitude, Longitude = longitude };
             PaginatedRequests<RequestMulticast> data;
             try
             {
-                var requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinate).AsQueryable();
+                IQueryable<RequestMulticast> requests;
+                if (isSignedIn)                
+                    requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinates).AsQueryable();                
+                else                
+                    requests = _client.GetNotAcceptedRequestMulticasts().AsQueryable();
+                
                 data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
 
                 return View(data);
@@ -84,6 +93,37 @@ namespace SharedServices.UI.Controllers
             _unitOfWork.CreateTransaction();
             try
             {
+                RequestMulticast newRequest = CreatePlaceAndRequestObjects(request, cultureFR, retrievedService, requester);
+
+                var result = _client.AddRequestMulticast(newRequest);
+                if (result != null)
+                {
+                    result = Mapping.Mapper.Map<RequestMulticast>(_unitOfWork.RequestMulticastRepository.GetById(result.Id));
+                    //await Broadcast(result);
+                    await _notificationService.MulticastNotification(request: result, requester: requester);
+                    _unitOfWork.CommitTransaction();
+                    var successMessage = cultureFR ? "Demande publiée avec succès."
+                        : "Request broadcasted successfully";
+                    return Json(new { status = true, message = successMessage });
+                }
+                else
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var errorMessage = cultureFR ? "Votre demande a échoué! Veuillez réessayer s'il vous plaît."
+                        : "Your request has failed! Try again, please.";
+                    return Json(new { status = false, message = errorMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var errorMessage = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
+                    : "A problem has been encountered! Try again, please.";
+                return Json(new { status = false, message = errorMessage });
+            }
+
+            static RequestMulticast CreatePlaceAndRequestObjects(CreateMulticastVM request, bool cultureFR, Service retrievedService, DAL.ApplicationUser requester)
+            {
                 request.Date = cultureFR ? request.Date : string.Join('-', request.Date?.Split("/"));
                 var requestDate = !string.IsNullOrEmpty(request.Date) ? DateTime.Parse(request.Date) : DateTime.MinValue;
                 var place = new Place
@@ -106,32 +146,7 @@ namespace SharedServices.UI.Controllers
                     Duration = request.Duration,
                     Description = request.Description
                 };
-
-                var result = _client.AddRequestMulticast(newRequest);
-                if (result != null)
-                {
-                    var successMessage = cultureFR ? "Demande publiée avec succès."
-                        : "Request broadcasted successfully";
-                    result = Mapping.Mapper.Map<RequestMulticast>(_unitOfWork.RequestMulticastRepository.GetById(result.Id));
-                    //await Broadcast(result);
-                    await _notificationService.MulticastNotification(request: result, requester: requester);
-                    _unitOfWork.CommitTransaction();
-                    return Json(new { status = true, message = successMessage });
-                }
-                else
-                {
-                    _unitOfWork.RollbackTransaction();
-                    var errorMessage = cultureFR ? "Votre demande a échoué! Veuillez réessayer s'il vous plaît."
-                        : "Your request has failed! Try again, please.";
-                    return Json(new { status = false, message = errorMessage });
-                }
-            }
-            catch (Exception ex)
-            {
-                _unitOfWork.RollbackTransaction();
-                var errorMessage = cultureFR ? "Un problème a été rencontré! Veuillez réessayer s'il vous plaît."
-                    : "A problem has been encountered! Try again, please.";
-                return Json(new { status = false, message = errorMessage });
+                return newRequest;
             }
         }
 
@@ -345,7 +360,7 @@ namespace SharedServices.UI.Controllers
                              $"Soyez l'un des premiers à répondre.<br /><br />" +
                              $"<a href=\"{requestUrl}\" class=\"btn btn-primary waves-effect form-control white-text\">Répondre</a>";
 
-            await _broadcastEmailSender.SendEmailAsync(userEmails, "Nouvelle demande de service", message);
+            await _broadcastEmailSender.SendEmailAsync(userEmails, "Nouvelle demande de service", message);            
         }
     }
 }

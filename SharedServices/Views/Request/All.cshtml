@@ -1,4 +1,5 @@
 ﻿@model PaginatedRequests<RequestMulticast>
+@inject SignInManager<ApplicationUser> SignInManager;
 @inject IViewLocalizer Localizer;
 
 @{
@@ -21,9 +22,10 @@
             <div class="row mb-4 d-flex align-items-end">
                 <div class="col-md-4">
                     <form>
+                        @{ var disabled = SignInManager.IsSignedIn(User) ? string.Empty : "disabled";}
                         <div class="form-group mb-0">
                             <label for="filter">Trier par : </label>
-                            <select class="form-control rounded-0 browser-default custom-select" id="filter" 
+                            <select class="form-control rounded-0 browser-default custom-select @disabled" id="filter"
                                     asp-items="Html.GetEnumSelectList(typeof(SharedServices.Mutual.Enumerations.SearchOptions))">
                             </select>
                         </div>
@@ -36,7 +38,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 m-0" id="dyn-content">
-                    <partial name="_AllRequestMulticast.cshtml"/>
+                    <partial name="_AllRequestMulticast.cshtml" />
                 </div>
             </div>
         </div>
