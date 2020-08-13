@@ -99,7 +99,7 @@ namespace SharedServices.UI.Controllers
                 if (result != null)
                 {
                     result = Mapping.Mapper.Map<RequestMulticast>(_unitOfWork.RequestMulticastRepository.GetById(result.Id));
-                    //await Broadcast(result);
+                    await Broadcast(result);
                     await _notificationService.MulticastNotification(request: result, requester: requester);
                     _unitOfWork.CommitTransaction();
                     var successMessage = cultureFR ? "Demande publiée avec succès."

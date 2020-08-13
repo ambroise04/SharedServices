@@ -97,11 +97,10 @@ namespace SharedServices.UI.Controllers
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
 
-            var errorMessage = cultureFR ? "Des paramètres incorrects ont été envoyés. Veuillez vérifier vos données et réessayez s'il vous plaît."
-                : "Incorrect parameters have been sent.Please check your details and try again please";
-
             if (string.IsNullOrEmpty(target) || string.IsNullOrEmpty(message))
             {
+                var errorMessage = cultureFR ? "Des paramètres incorrects ont été envoyés. Veuillez vérifier vos données et réessayez s'il vous plaît."
+                    : "Incorrect parameters have been sent.Please check your details and try again please";
                 return Json(new { status = false, message = errorMessage });
             }
 
@@ -109,7 +108,7 @@ namespace SharedServices.UI.Controllers
 
             if (targetUser is null)
             {
-                errorMessage = cultureFR ? "Votre correspondant n'a pas été trouvé. Veuillez réessayer s'il vous plaît."
+                var errorMessage = cultureFR ? "Votre correspondant n'a pas été trouvé. Veuillez réessayer s'il vous plaît."
                 : "Your correspondent was not found.Try again, please";
 
                 return Json(new { status = false, message = errorMessage });
@@ -132,7 +131,7 @@ namespace SharedServices.UI.Controllers
                 if (result is null)
                 {
                     unitOfWork.RollbackTransaction();
-                    errorMessage = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                    var errorMessage = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
                         : "An error has been encountered. Try again, please.";
                     return Json(new { status = false, message = errorMessage });
                 }
@@ -145,7 +144,7 @@ namespace SharedServices.UI.Controllers
             catch (Exception)
             {
                 unitOfWork.RollbackTransaction();
-                errorMessage = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                var errorMessage = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
                     : "An error has been encountered. Try again, please.";
 
                 return Json(new { status = false, message = errorMessage });

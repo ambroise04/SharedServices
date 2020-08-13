@@ -13,7 +13,6 @@
     </style>
 }
 
-<!-- Start page content -->
 <div class="container">
     <div id="cd-timeline" class="cd-container gallery-timeline my-4 my-md-5">
         <span class="fables-second-background-color line"></span>
@@ -23,11 +22,11 @@
                 <a href="#"><img src="~/images/steps/register.jpg" alt="" class="w-100" height="150"></a>
                 <h2 class="font-15 semi-font px-3 mt-2">
                     <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
-                        Inscription
+                        @Localizer["Inscription"]
                     </a>
                 </h2>
                 <p class="fables-forth-text-color fables-gallery-timeline-details">
-                    Inscrivez-vous, renseignez vos services.
+                    @Localizer["InscriptionDesc"]
                 </p>
                 <span class="cd-date white-text">1</span>
             </div>
@@ -39,11 +38,11 @@
                 <a href="#"><img src="~/images/steps/points.jpg" alt="" class="w-100" height="150"></a>
                 <h2 class="font-15 semi-font px-3 mt-2">
                     <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
-                        Gagnez des points
+                        @Localizer["GagnezPoints"]
                     </a>
                 </h2>
                 <p class="fables-forth-text-color fables-gallery-timeline-details">
-                    Dès votre inscription, gagnez vos premiers points. Vous avez besoin d'un service ?
+                    @Localizer["GagnezPointsDesc"]
                 </p>
 
                 <span class="cd-date white-text">2</span>
@@ -56,13 +55,11 @@
                 <a href="#"><img src="~/images/steps/search.jpg" alt="" class="w-100" height="150"></a>
                 <h2 class="font-15 semi-font px-3 mt-2">
                     <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
-                        Rechercher ou publier une demande
+                        @Localizer["RechercherPublier"]
                     </a>
                 </h2>
                 <p class="fables-forth-text-color fables-gallery-timeline-details">
-                    Rechercher la personne qu'il vous faut et envoyez-lui votre demande.
-                    Fixez directement rendez-vous avec une discussion privée.
-                    Ou encore, publier votre demande. Les personnes conpétentes vous répondront et vous aurez le loisir d'en choisir une.
+                    @Localizer["RechercherPublierDesc"]                    
                 </p>
 
                 <span class="cd-date white-text">3</span>
@@ -75,12 +72,11 @@
                 <a href="#"><img src="~/images/steps/service_done.jpg" alt="" class="w-100" height="150"></a>
                 <h2 class="font-15 semi-font px-3 mt-2">
                     <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
-                        Service rendu
+                        @Localizer["ServiceRendu"]
                     </a>
                 </h2>
                 <p class="fables-forth-text-color fables-gallery-timeline-details">
-                    Le service a été rendu ? Votre correspondant le signalera.
-                    Tout ce que vous aurez à faire, c'est de marquer ce service comme rendu.
+                    @Localizer["ServiceRenduDesc"]                    
                 </p>
 
                 <span class="cd-date white-text">4</span>
@@ -93,21 +89,18 @@
                 <a href="#"><img src="~/images/steps/feedback.jpg" alt="" class="w-100" height="150"></a>
                 <h2 class="font-15 semi-font px-3 mt-2">
                     <a href="#" class="fables-second-text-color fables-main-hover-color fables-gallery-timeline-head">
-                        Donnez votre avis
+                        @Localizer["Feedback"]
                     </a>
                 </h2>
                 <p class="fables-forth-text-color fables-gallery-timeline-details">
-                    Vous êtes ravi de la prestation de votre correspondant ? Donnez votre avis et une note. Il sera ravi lui aussi.
+                    @Localizer["FeedbackDesc"]                    
                 </p>
 
                 <span class="cd-date white-text">5</span>
             </div>
         </div>
-
-
     </div>
 </div>
-<!-- /End page content -->
 
 @section Scripts {
     <script src="~/template/js/timeline.js"></script>
