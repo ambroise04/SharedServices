@@ -1,14 +1,14 @@
 ﻿@inject IViewLocalizer Localizer
 @inject SignInManager<ApplicationUser> SignInManager
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-color-green scrolling-navbar">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-color-green scrolling-navbar global-nav">
     <div class="container">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/images/logo-complet-red.png" alt="Between us logo" class="fables-logo" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto ubuntu-light d-flex align-items-center text-center">
+            <ul class="navbar-nav mr-auto ubuntu-light d-flex">
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Home" asp-action="Index">
                         @Localizer["Accueil"]<span class="sr-only">(current)</span>
@@ -34,8 +34,8 @@
                         @Localizer["Aide"]
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="sub-nav7">
-                        <li><a class="dropdown-item" href="contactus1.html">FAQ</a></li>
-                        <li><a class="dropdown-item" href="contactus2.html">Contact</a></li>
+                        <li><a class="dropdown-item" href="contactus2.html">FAQ</a></li>
+                        <li><a class="dropdown-item" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     </ul>
                 </li>
             </ul>

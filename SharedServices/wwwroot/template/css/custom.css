@@ -2924,7 +2924,7 @@ body {
     position: relative;
     overflow: hidden;
 }
-/*.index-traingle::before{
+/*.index-traingle::before{ redefined in design.css
     content: "";
     position: absolute;
     left: 0;

@@ -2,7 +2,6 @@
 @inject IViewLocalizer Localizer;
 
 @{
-    ViewBag.Title = Localizer["Titre"];
     var users = Model.Users;
 }
 
@@ -18,15 +17,15 @@
                             <ul class="nav fables-product-btns">
                                 <li>
                                     <a asp-action="Details" asp-controller="Search" asp-route-id="@user.Id" asp-route-flag="@ViewBag.Service" class="fables-product-btn" data-toggle="tooltip" data-placement="top"
-                                       title="Plus de détails"><span class="fables-iconeye"></span></a>
+                                       title="@Localizer["PlusDetails"]"><span class="fables-iconeye"></span></a>
                                 </li>
                                 <li>
                                     <a href="#" id="@user.Id" class="fables-product-btn search-message-a" data-toggle="tooltip" data-placement="top"
-                                       title="Envoyer un message"><i class="far fa-envelope"></i></a>
+                                       title="@Localizer["EnvoyerMessage"]"><i class="far fa-envelope"></i></a>
                                 </li>
                                 <li>
                                     <a href="" id="@user.Id" class="fables-product-btn search-testi-c" data-toggle="tooltip" data-placement="top"
-                                       title="Noter">
+                                       title="@Localizer["Noter"]">
                                         <i class="far fa-star"></i>
                                     </a>
                                 </li>
@@ -50,7 +49,7 @@
                             <a service="@ViewBag.Service" flag="@user.Id" class="btn btn-sm btn-outline-green-light btn-rounded
                                            fables-hover-btn-color fables-second-text-color font-14 p-2 px-2 px-xl-4 request">
                                 <i class="fas fa-hands-helping fables-btn-value"></i>
-                                <span class="fables-btn-value">ENVOYER LA DEMANDE</span>
+                                <span class="fables-btn-value">@Localizer["EnvoyerDemande"]</span>
                             </a>
                         </p>
                     </div>

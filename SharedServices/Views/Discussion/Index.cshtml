@@ -114,11 +114,11 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="target" name="target" value="" />
                         <div class="form-group basic-textarea">
-                            <textarea class="form-control pl-2 my-0" name="message" id="message-box" rows="3" placeholder="Type your message here..."></textarea>
+                            <textarea class="form-control pl-2 my-0" name="message" id="message-box" rows="3" placeholder="@Localizer["MessageHint"]"></textarea>
                         </div>
                     </form>
                     @{ var disabled = contacts.Count() == 0 ? "disabled" : "";}
-                    <button type="button" class="btn btn-outline-my-green btn-rounded btn-sm waves-effect waves-dark float-right @disabled" onclick="sendingMessage()">Envoyer</button>
+                <button type="button" class="btn btn-outline-my-green btn-rounded btn-sm waves-effect waves-dark float-right @disabled" onclick="sendingMessage()">@Localizer["Envoyer"]</button>
                 </div>
             </div>
         </div>

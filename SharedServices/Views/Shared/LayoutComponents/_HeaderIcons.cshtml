@@ -4,7 +4,7 @@
     var userId = UserManager.GetUserId(User);
     var currentUser = UserManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(userId));
 }
-<ul class="navbar-nav ml-md-auto ubuntu-light d-flex align-items-end">
+<ul class="navbar-nav ml-md-auto ubuntu-light d-flex align-items-end nav-icons">
     <li class="nav-item text-center">
         <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Discussion">
             @*Affichage à gérer avec la class .visible*@

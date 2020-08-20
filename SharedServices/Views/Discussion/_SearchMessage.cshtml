@@ -1,8 +1,10 @@
 ﻿@model SearchMessageUserInfos
+@inject IViewLocalizer Localizer
+
 <div class="modal-header d-flex justify-content-center bg-color-green">
     <div class="d-flex justify-content-center flex-wrap">
         <img src="@Model.ImageSource" alt="Contact picture" class="avatar rounded-circle" />
-        <p class="heading">Contacter @Model.FullName</p>
+        <p class="heading">@Localizer["Contacter"] @Model.FullName</p>
     </div>
 </div>
 <div class="modal-body">
@@ -10,12 +12,12 @@
         @Html.AntiForgeryToken()
         <input type="hidden" value="@Model.Id" name="target" />
         <div class="form-group green-border">
-            <label for="message"><span class="ubuntu-medium">À :</span><span class="text-color-green"> @Model.FullName</span></label>
+            <label for="message"><span class="ubuntu-medium">@Localizer["A"] :</span><span class="text-color-green"> @Model.FullName</span></label>
             <textarea class="form-control py-1" id="message" rows="4" name="message"></textarea>
         </div>
     </form>
 </div>
 <div class="d-flex justify-content-between" style="padding: 1rem; border-top: 1px solid #e9ecef;">
-    <a class="btn btn-sm btn-outline-my-green waves-effect" data-dismiss="modal">Annuler</a>
-    <a class="btn btn-sm bg-color-green waves-effect" id="btn-message" onclick="messageSending();">Envoyer</a>
+    <a class="btn btn-sm btn-outline-my-green waves-effect" data-dismiss="modal">@Localizer["Annuler"]</a>
+    <a class="btn btn-sm bg-color-green waves-effect" id="btn-message" onclick="messageSending();">@Localizer["Envoyer"]</a>
 </div>

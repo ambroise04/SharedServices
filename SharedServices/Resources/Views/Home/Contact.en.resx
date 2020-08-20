@@ -117,34 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Adresse" xml:space="preserve">
-    <value>Place Cardinal Mercier 2, Wavre Belgique</value>
+  <data name="ContactDesc" xml:space="preserve">
+    <value>Have you encountered a problem using our services ?
+                    You have a question ? Please do not hesitate to contact us directly.
+                    Our team will get back to you as soon as possible.</value>
   </data>
-  <data name="AdresseTitre" xml:space="preserve">
-    <value>Adresse pour informations</value>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
-  <data name="CallTitre" xml:space="preserve">
-    <value>Appelez maintenant</value>
+  <data name="EmailError" xml:space="preserve">
+    <value>Please enter your email</value>
   </data>
-  <data name="ContactNous" xml:space="preserve">
-    <value>Contactez-nous</value>
+  <data name="Envoyer" xml:space="preserve">
+    <value>Send</value>
   </data>
-  <data name="Copyright" xml:space="preserve">
-    <value>Copyright © Koami LABA. Tous droits réservés.</value>
+  <data name="Message" xml:space="preserve">
+    <value>Your message</value>
   </data>
-  <data name="Exploration" xml:space="preserve">
-    <value>Explorer ce site</value>
+  <data name="MessageErreur" xml:space="preserve">
+    <value>Please enter your message</value>
   </data>
-  <data name="Partager" xml:space="preserve">
-    <value>Partager</value>
+  <data name="NousContacter" xml:space="preserve">
+    <value>Contact us</value>
   </data>
-  <data name="Resume" xml:space="preserve">
-    <value>Rejoignez le réseau de particuliers, proposez votre aide et gagnez des points. Vous avez plutôt besoin d'un service ? Contactez l'un des nombreux particuliers inscrits sur BETWEEN US</value>
+  <data name="Sujet" xml:space="preserve">
+    <value>Subject</value>
   </data>
-  <data name="Temoignage" xml:space="preserve">
-    <value>Témoignages</value>
+  <data name="SujetErreur" xml:space="preserve">
+    <value>Please enter the subject</value>
   </data>
-  <data name="Title" xml:space="preserve">
-    <value>Rejoignez BETWEEN US</value>
+  <data name="Titre" xml:space="preserve">
+    <value>Contact</value>
   </data>
 </root>

@@ -117,34 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Adresse" xml:space="preserve">
-    <value>Place Cardinal Mercier 2, Wavre Belgique</value>
+  <data name="Annuler" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="AdresseTitre" xml:space="preserve">
-    <value>Adresse pour informations</value>
+  <data name="AucuneDemande" xml:space="preserve">
+    <value>No request sent</value>
   </data>
-  <data name="CallTitre" xml:space="preserve">
-    <value>Appelez maintenant</value>
+  <data name="Cloture" xml:space="preserve">
+    <value>Closed</value>
   </data>
-  <data name="ContactNous" xml:space="preserve">
-    <value>Contactez-nous</value>
+  <data name="DateEnvoi" xml:space="preserve">
+    <value>Sent on</value>
   </data>
-  <data name="Copyright" xml:space="preserve">
-    <value>Copyright © Koami LABA. Tous droits réservés.</value>
+  <data name="DateEnvoiSep" xml:space="preserve">
+    <value>at</value>
   </data>
-  <data name="Exploration" xml:space="preserve">
-    <value>Explorer ce site</value>
+  <data name="Effectue" xml:space="preserve">
+    <value>Mark as done</value>
   </data>
-  <data name="Partager" xml:space="preserve">
-    <value>Partager</value>
-  </data>
-  <data name="Resume" xml:space="preserve">
-    <value>Rejoignez le réseau de particuliers, proposez votre aide et gagnez des points. Vous avez plutôt besoin d'un service ? Contactez l'un des nombreux particuliers inscrits sur BETWEEN US</value>
-  </data>
-  <data name="Temoignage" xml:space="preserve">
-    <value>Témoignages</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Rejoignez BETWEEN US</value>
+  <data name="Rejete" xml:space="preserve">
+    <value>Rejected</value>
   </data>
 </root>

@@ -5,7 +5,7 @@
     var infos = GlobalInfo.GetGlobalInfo();
     var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
 }
-<div class="pt-5">
+<div>
     <div class="fables-footer-image fables-after-overlay white-color py-4 py-lg-5 bg-rules">
         <div class="container">
             <div class="row">
@@ -17,9 +17,16 @@
                         @{ string desc = (cultureFR) ? infos.DescriptionFR : infos.DescriptionEN;}
                         @desc
                     </p>
-
+                    <p>
+                        <hr />
+                        @{ var url = "https://www.bettween-us.be"; }
+                        <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=@url&p[images]=&p[title]=@Localizer["Title"]&p[summary]=@Localizer["Resume"]" 
+                           class="btn btn-sm white-text" style="background-color: #375999" target="_blank">
+                            <i class="fab fa-facebook-f ml-2"></i>
+                            @Localizer["Partager"]
+                        </a>
+                    </p>
                 </div>
-
                 <div class="col-12 col-sm-6 col-lg-4">
                     <h2 class="font-20 semi-font fables-second-border-color border-bottom pb-3">@Localizer["ContactNous"]</h2>
                     <div class="my-3">
@@ -42,13 +49,11 @@
                     <h2 class="font-20 semi-font fables-second-border-color border-bottom pb-3 mb-3">@Localizer["Exploration"]</h2>
                     <ul class="nav fables-footer-links">
                         <li><a asp-controller="Home" asp-action="Faq">FAQs</a></li>
-                        <li><a asp-controller="Contact" asp-action="ContactUs">Contact</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
                         <li><a asp-controller="Home" asp-action="Testimonial">@Localizer["Temoignage"]</a></li>
                     </ul>
                 </div>
-
             </div>
-
         </div>
     </div>
     <div class="copyright fables-main-background-color mt-0 border-0 white-color font-15">

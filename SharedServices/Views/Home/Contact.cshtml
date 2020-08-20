@@ -1,0 +1,118 @@
+﻿@inject IViewLocalizer Localizer
+@inject IGlobalInfo GlobalInfo
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = Localizer["Titre"];
+    var infos = GlobalInfo.GetGlobalInfo();
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-12 card box-shadow-0">
+            <section class="mb-4 ubuntu-light">
+                <h2 class="h1-responsive ubuntu-medium text-center my-4 text-color-green">@Localizer["NousContacter"]</h2>
+                <p class="text-center w-responsive mx-auto mb-5 grey-text">
+                    @Localizer["ContactDesc"]                    
+                </p>
+                <div class="row">
+                    <div class="col-md-9 mb-md-0 mb-5 card-body">
+                        <form id="contactForm" name="contact-form" method="POST">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                @if (!SignInManager.IsSignedIn(User))
+                                {
+                                    <div class="col-md-6">
+                                        <div class="md-form mb-0">
+                                            <input type="email" id="email" name="email" class="form-control" required>
+                                            <label for="email">@Localizer["Email"]</label>
+                                            <div class="invalid-tooltip">
+                                                @Localizer["EmailError"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (!SignInManager.IsSignedIn(User))
+                                {
+                                    <div class="col-md-6">
+                                        <div class="md-form mb-0">
+                                            <input type="text" id="subject" name="subject" class="form-control" required>
+                                            <label for="subject">@Localizer["Sujet"]</label>
+                                            <div class="invalid-tooltip">
+                                                @Localizer["SujetErreur"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12">
+                                        <div class="md-form mb-0">
+                                            <input type="text" id="subject" name="subject" class="form-control" required>
+                                            <label for="subject">@Localizer["Sujet"]</label>
+                                            <div class="invalid-tooltip">
+                                                @Localizer["SujetErreur"]
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <!--Grid row-->
+                            <!--Grid row-->
+                            <div class="row">
+                                <!--Grid column-->
+                                <div class="col-md-12">
+                                    <div class="md-form">
+                                        <textarea type="text" id="message" name="message" rows="5" class="form-control md-textarea" required></textarea>
+                                        <label for="message">@Localizer["Message"]</label>
+                                        <div class="invalid-tooltip">
+                                            @Localizer["MessageErreur"]
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--Grid row-->
+                        </form>
+                        <div class="text-center text-md-left">
+                            <button id="btnSendMessage" type="submit" class="btn bg-color-green text-white float-md-right">@Localizer["Envoyer"]</button>
+                        </div>
+                        <div class="status"></div>
+                    </div>
+                    <!--Grid column-->
+                    <!--Grid column-->
+                    <div class="col-md-3 text-center">
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                @{ var address = cultureFR ? infos.AddressFR : infos.AddressEN;}
+                                <i class="fas fa-map-marker-alt fa-2x text-color-green"></i>
+                                <p>@address</p>
+                            </li>
+                            <li>
+                                <i class="fas fa-phone mt-4 fa-2x text-color-green"></i>
+                                <p>@infos.Phone</p>
+                            </li>
+                            <li>
+                                <i class="fas fa-envelope mt-4 fa-2x text-color-green"></i>
+                                <p>@infos.Email</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/business/contactus.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            contactus();
+        })
+
+        // Tooltips Initialization
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}

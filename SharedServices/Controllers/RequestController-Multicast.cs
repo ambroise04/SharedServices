@@ -54,13 +54,29 @@ namespace SharedServices.UI.Controllers
         [Ajax(HttpVerb = "GET")]
         public async Task<IActionResult> Filter(int? pageIndex, SearchOptions search, double latitude, double longitude)
         {
-            var userId = _userManager.GetUserId(User);
-            var user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
-            var coordinate = new Coordinate { Latitude = latitude, Longitude = longitude };
-            var requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinate).AsQueryable();
-            var data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
+            var isSignedIn = _signInManager.IsSignedIn(User);
+            var userId = isSignedIn ? _userManager.GetUserId(User) : string.Empty;
+            ApplicationUser user = null;
+            if (isSignedIn)
+                user = _userManager.Users.Include(u => u.UserServices).FirstOrDefault(u => u.Id.Equals(userId));
+            var coordinates = new Coordinate { Latitude = latitude, Longitude = longitude };
+            PaginatedRequests<RequestMulticast> data;
+            try
+            {
+                IQueryable<RequestMulticast> requests;
+                if (isSignedIn)
+                    requests = _client.GetNotAcceptedRequestMulticasts(user, search, coordinates).AsQueryable();
+                else
+                    requests = _client.GetNotAcceptedRequestMulticasts().AsQueryable();
 
-            return PartialView("_AllRequestMulticast", data);
+                data = await PaginatedRequests<RequestMulticast>.CreateAsync(requests, pageIndex ?? 1, 9);
+
+                return PartialView("_AllRequestMulticast", data);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Error", "Home");
+            }           
         }
 
         [AllowAnonymous]

@@ -135,7 +135,16 @@
   <data name="Exploration" xml:space="preserve">
     <value>Explore our site</value>
   </data>
+  <data name="Partager" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Join the network of individuals, offer your help and earn points. Rather in need of a service ? Contact one of the many individuals registered on BETWEEN US</value>
+  </data>
   <data name="Temoignage" xml:space="preserve">
     <value>Testimonials</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Join BETWEEN US</value>
   </data>
 </root>

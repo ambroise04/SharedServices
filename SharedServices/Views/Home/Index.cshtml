@@ -7,18 +7,28 @@
 
 @section Styles {
     <style>
+        .my-footer {
+            padding-top: 0px;
+        }
+
+        @@media (max-width: 768px) {
+            .logo {
+                margin-bottom: 1.5rem !important;
+                margin-top: 1.5rem !important;                
+            }
+
+                .logo img {
+                    float: right !important;
+                }
+        }
     </style>
 }
 
 <!-- Start Header -->
-<div class="fables-header fables-after-overlay overlay-lighter index-traingle bg-rules mt-md-5" style="background-image: url(/template/images/index-background.jpg);">
+<div class="fables-header fables-after-overlay overlay-lighter index-traingle bg-rules mt-md-5" style="background-image: url(/images/home.jpg);">
     <partial name="/Views/Shared/LayoutComponents/_Header.cshtml" />
 </div>
 <!-- /End Header -->
-
-<div class="container">
-
-</div>
 
 @section Scripts {
     <script src="~/js/business/notification.js"></script>

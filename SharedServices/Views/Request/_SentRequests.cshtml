@@ -3,7 +3,6 @@
 @inject UserManager<ApplicationUser> UserManager;
 
 @{
-    ViewBag.Title = Localizer["Titre"];
     var user = Model;
     var sent = user.RequestsSent;
 
@@ -15,7 +14,7 @@
 {
     <div class="row mb-3">
         <div class="col-lg-4 col-md-3 col-sm-12 text-center">
-            <p>Aucune demande envoyée</p>
+            <p>@Localizer["AucuneDemande"]</p>
         </div>
     </div>
 }
@@ -34,7 +33,10 @@
         <div class="col-lg-5 col-md-7 col-sm-12 pl-0 align">
             <a href="#" class="fables-main-text-color semi-font fables-second-hover-color">@request.Service.Title </a>
             <p class="fables-fifth-text-color font-14 my-2">
-                Envoyée le @request.DateOfAddition.ToString("dddd, dd MMMM yyyy", culture) à @request.DateOfAddition.ToString("HH:mm", culture)
+                @{var format = "dddd, dd MMMM yyyy";
+                    var hourFormat = cultureFR ? "HH:mm" : " h:mm tt";
+                }
+                @Localizer["DateEnvoi"] @request.DateOfAddition.ToString(format, culture) @Localizer["DateEnvoiSep"] @request.DateOfAddition.ToString(hourFormat)
             </p>
             <p class="fables-fifth-text-color font-14 my-2">
                 <i class="fas fa-clock text-color-green mr-1"></i>
@@ -44,21 +46,22 @@
             </p>
             <div class="fables-forth-text-color font-14">
                 <span class="fables-icondata text-color-red"></span>
-                <span class="ml-1"> @request.DateOfRequest.ToString("HH:mm - dd MMMM yyyy", culture) </span>                
-                <i class="fas fa-map-marker-alt text-color-green ml-3 mr-1"></i>
-                <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
-            </div>
+                @{var dateFormat = cultureFR ? "HH:mm | dd/MM/yyyy" : "h:mm tt | MM-dd-yyyy"; }
+                    <span class="ml-1"> @request.DateOfRequest.ToString(dateFormat, culture) </span>
+                    <i class="fas fa-map-marker-alt text-color-green ml-3 mr-1"></i>
+                    <span class="fables-forth-text-color fables-second-hover-color position-relative z-index">@request.Place.PostalCode @request.Place.City - @request.Place.Country</span>
+                </div>
         </div>
         @if (request.State == SharedServices.Mutual.Enumerations.RequestStates.Waiting)
         {
             <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
-                <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect" onclick="removeRequest(this)" data-source="@request.Source" data-target="@request.Id">Annuler</a>
+                <a class="btn btn-sm btn-outline-my-red btn-rounded waves-effect" onclick="removeRequest(this)" data-source="@request.Source" data-target="@request.Id">@Localizer["Annuler"]</a>
             </div>
         }
         else if (request.State == SharedServices.Mutual.Enumerations.RequestStates.Rejected)
         {
             <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
-                <span class="badge badge-pill white-text bg-color-red">Rejeté</span>
+                <span class="badge badge-pill white-text bg-color-red">@Localizer["Rejete"]</span>
             </div>
         }
         else
@@ -66,14 +69,14 @@
             if (request.RequesterValidation)
             {
                 <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
-                    <span class="badge badge-pill white-text bg-color-red">Clôturé</span>
+                    <span class="badge badge-pill white-text bg-color-red">@Localizer["Cloture"]</span>
                 </div>
             }
             else
             {
                 <div class="col-lg-3 col-md-2 col-sm-12 d-flex flex-lg-column flex-md-column flex-sm-row-reverse justify-content-center align-items-center">
                     <a class="btn btn-sm btn-outline-my-green btn-rounded waves-effect" data-target="@request.Id" onclick="validation(this);">
-                        Marquer comme effectué
+                        @Localizer["Effectue"]
                     </a>
                 </div>
             }

@@ -20,7 +20,7 @@
                             <ul class="nav fables-product-btns">
                                 <li>
                                     <a asp-action="Details" asp-controller="Search" asp-route-id="@request.RequesterMulticast.Id" class="fables-product-btn" data-toggle="tooltip" data-placement="top"
-                                       title="Plus de détails"><span class="fables-iconeye"></span></a>
+                                       title="@Localizer["PlusDetails"]"><span class="fables-iconeye"></span></a>
                                 </li>
                             </ul>
                         </div>
@@ -59,32 +59,34 @@
                         <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 mt-3">
                             @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
                             {
-                                <span>Date prévue : @request.DateOfRequest.ToString("dd/MM/yyyy - HH:mm", culture)</span>
+                                var dateFormat = cultureFR ? "dd/MM/yyyy | HH:mm" : "MM-dd-yyyy | h:mm tt";
+                                <span>@Localizer["DatePrevue"] : @request.DateOfRequest.ToString(dateFormat)</span>
                             }
                             else
                             {
-                                <span>Date prévue : Non renseignée</span>
+                                <span>@Localizer["DateNonRenseignee"]</span>
                             }
                         </p>
                         <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 mb-3">
                             @if (request.Duration != 0)
                             {
-                                <span>Durée prévue : @request.Duration min.</span>
+                                <span>@Localizer["DureePrevue"] : @request.Duration min.</span>
                             }
                             else
                             {
-                                <span>Durée prévue : Non renseignée</span>
+                                <span>@Localizer["DureeNonRenseignee"]</span>
                             }
                         </p>
                         <p class="fables-product-info">
                             <a request="@request.Id" class="btn btn-sm btn-outline-green-light btn-rounded
                                            fables-hover-btn-color fables-second-text-color font-14 p-2 px-2 px-xl-4 request">
                                 <i class="fas fa-reply fables-btn-value"></i>
-                                <span class="fables-btn-value">RÉPONDRE À LA DEMANDE</span>
+                                <span class="fables-btn-value">@Localizer["Answer"]</span>
                             </a>
                         </p>
                         <p class="store-card-text fables-fifth-text-color font-15 mx-xl-3 mt-3 mb-1">
-                            <small>Demande publiée le @request.DateOfAddition.ToString("dd MMM yyyy | HH:mm", culture)</small>
+                            @{var format = cultureFR ? "dd/MM/yyyy | HH:mm" : "MM-dd-yyyy | h:mm tt";}
+                            <small>@Localizer["DatePublication"] @request.DateOfAddition.ToString(format)</small>
                         </p>
                     </div>
                 </div>

@@ -13,6 +13,12 @@ namespace SharedServices.UI.Services
         {
             Options = optionsAccessor.Value;
         }
+
+        public Task SendContactEmailAsync(string email, string subject, string message, string name, string receiver)
+        {
+            return ExecuteContactEmail(Options.SendGridKey, subject, message, email, receiver, name);
+        }
+
         public Task SendEmailAsync(List<string> emails, string subject, string message)
         {
             return Execute(Options.SendGridKey, subject, message, emails);
@@ -33,6 +39,23 @@ namespace SharedServices.UI.Services
                 emailAddresses.Add(new EmailAddress(email));
             }
             msg.AddTos(emailAddresses);
+
+            msg.SetClickTracking(false, false);
+
+            return client.SendEmailAsync(msg);
+        }
+
+        private Task ExecuteContactEmail(string apiKey, string subject, string message, string email, string receiver, string name = "")
+        {
+            var client = new SendGridClient(apiKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(email, name + "Contact | Between us"),
+                Subject = subject,
+                HtmlContent = message
+            };
+
+            msg.AddTo(new EmailAddress(receiver));
 
             msg.SetClickTracking(false, false);
 
