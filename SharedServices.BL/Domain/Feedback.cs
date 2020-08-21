@@ -1,6 +1,4 @@
 ﻿using SharedServices.DAL;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace SharedServices.BL.Domain
 {

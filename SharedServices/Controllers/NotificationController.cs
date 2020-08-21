@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
 using SharedServices.UI.Extensions;
 using System;
-using System.Linq;
 using System.Globalization;
 using System.Threading.Tasks;
 
 namespace SharedServices.UI.Controllers
 {
+    [Authorize]
     public class NotificationController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -42,7 +43,7 @@ namespace SharedServices.UI.Controllers
             var userId = _userManager.GetUserId(User);
             var count = _client.GetUserNotTriggeredNotifications(userId);
 
-            return Json(new { status = true, count});
+            return Json(new { status = true, count });
         }
     }
 }

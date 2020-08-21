@@ -1,0 +1,84 @@
+﻿@model ICollection<SharedServices.UI.Models.FaqViewModels.FaqQuestionVM>
+@{
+    ViewData["Title"] = "FAQ";
+}
+
+@section Styles{
+
+}
+<div class="container ubuntu-light my-5">
+    <section class="mb-5 wow fadeIn" data-wow-delay="0.3s">
+        <div class="comments-list text-center text-md-left">
+            @foreach (var question in Model)
+            {
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <!--Question-->
+                        <div class="row">
+                            <div class="col-sm-12 col-12">
+                                <a class="d-flex justify-content-between">
+                                    <h5 class="ubuntu-light">@question.User</h5>
+                                    <span class="comment-date text-muted"><i class="far fa-clock"></i> @question.Date</span>
+                                </a>
+                                <p class="text-color-green text-sm-left text-justify mb-2 ubuntu-medium">@question.Message</p>
+                            </div>
+                        </div>
+                        <!--Réponse-->
+                        @foreach (var response in question.Responses)
+                        {
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-12 chat-body white p-3 z-depth-1 box-shadow-0">
+                                            <div class="header">
+                                                <strong class="primary-font">Between us</strong>
+                                                <small class="pull-right text-muted"><i class="far fa-clock"></i> @response.Date</small>
+                                            </div>
+                                            <hr class="w-100">
+                                            <p class="mb-0 text-sm-left">
+                                                @response.Message
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+</div>
+
+<div class="container-fluid mb-md-5 py-3 mb-3" style="background-color: #bdbdbd">
+    <section class="container wow fadeIn" data-wow-delay="0.3s">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="reply-form ubuntu-light">
+                    <h5 class="text-center h5 mb-2 ubuntu-medium">Vous n'avez pas trouvé réponse à votre question ? Posez une question</h5>
+                    <p class="text-center">(Utilisateur authentifié)</p>
+                    <div class="row text-center text-md-left">
+                        <div class="col-sm-2 col-12 mb-md-0 mt-4">
+                            <img src="~/images/logo-complet.png" alt="Sample avatar image" class="img-fluid">
+                        </div>
+                        <div class="col-sm-10 col-12">
+                            <form id="faq-form">
+                                @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    <label for="faq-question">Votre question</label>
+                                    <textarea type="text" name="Message" id="faq-question" class="form-control border-dark" rows="3" placeholder="Tapez votre question ici..."></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12 mt-4">
+                            <button id="btnFaqQuestion" class="btn bg-color-green btn-rounded text-white float-right">Soumettre</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts{
+    <script src="~/js/business/faq.js"></script>
+}

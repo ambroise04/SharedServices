@@ -14,6 +14,7 @@ namespace SharedServices.DAL.UnitOfWork
         IGlobalInfoRepository GlobalInfoRepository { get; }
         INotificationRepository NotificationRepository { get; }
         INotificationTypeRepository NotificationTypeRepository { get; }
+        IFaqQuestionRepository FaqQuestionRepository { get; }
 
         void CreateTransaction();
         void CommitTransaction();

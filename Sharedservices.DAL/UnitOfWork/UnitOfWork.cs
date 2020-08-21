@@ -21,6 +21,7 @@ namespace SharedServices.DAL.UnitOfWork
         private readonly IGlobalInfoRepository globalInfoRepository;
         private readonly INotificationRepository notificationRepository;
         private readonly INotificationTypeRepository notificationTypeRepository;
+        private readonly IFaqQuestionRepository faqQuestionRepository;
 
         private bool disposedValue = false;
 
@@ -39,6 +40,7 @@ namespace SharedServices.DAL.UnitOfWork
         public IGlobalInfoRepository GlobalInfoRepository => globalInfoRepository ?? new GlobalInfoRepository(_context);
         public INotificationRepository NotificationRepository => notificationRepository ?? new NotificationRepository(_context);
         public INotificationTypeRepository NotificationTypeRepository => notificationTypeRepository ?? new NotificationTypeRepository(_context);
+        public IFaqQuestionRepository FaqQuestionRepository => faqQuestionRepository ?? new FaqQuestionRepository(_context);
 
         public void CreateTransaction()
         {

@@ -43,6 +43,16 @@ namespace SharedServices.BL.Mapping
             CreateMap<Notification, DAL.Entities.Notification>()
                 .ForMember(dest => dest.DateOfAddition, opt => opt.MapFrom(s => s.DateOfAddition.ToUniversalTime()));
 
+            CreateMap<DAL.Entities.FaqQuestion, FaqQuestion>()
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(s => s.Date.ToLocalTime()));
+            CreateMap<FaqQuestion, DAL.Entities.FaqQuestion>()
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(s => s.Date.ToUniversalTime()));
+
+            CreateMap<DAL.Entities.FaqResponse, FaqResponse>()
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(s => s.Date.ToLocalTime()));
+            CreateMap<FaqResponse, DAL.Entities.FaqResponse>()
+                .ForMember(dest => dest.Date, opt => opt.MapFrom(s => s.Date.ToUniversalTime()));
+
             CreateMap<DAL.Entities.NotificationType, NotificationType>();
             CreateMap<DAL.Entities.NotificationType, NotificationType>().ReverseMap();
         }

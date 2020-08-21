@@ -78,6 +78,8 @@ namespace SharedServices.DAL
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<NotificationType> NotificationTypes { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<FaqQuestion> FaqQuestions { get; set; }
+        public DbSet<FaqResponse> FaqResponses { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<GlobalInfo> Infos { get; set; }
     }
