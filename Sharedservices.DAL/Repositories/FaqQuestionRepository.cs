@@ -33,6 +33,8 @@ namespace SharedServices.DAL.Repositories
                           .Include(q => q.User)
                           .ThenInclude(u => u.Picture)
                           .Include(q => q.Responses)
+                          .Where(q => !q.IsDeleted)
+                          .OrderByDescending(q => q.Date)                          
                           .ToList();
         }
 
@@ -41,9 +43,11 @@ namespace SharedServices.DAL.Repositories
             if (id <= 0)
                 throw new ArgumentException("A bad id was submitted.");
 
-            return Context.FaqQuestions                          
+            return Context.FaqQuestions
+                          .Include(q => q.User)
+                          .ThenInclude(u => u.Picture)
                           .Include(q => q.Responses)
-                          .FirstOrDefault(s => s.Id == id);
+                          .FirstOrDefault(s => !s.IsDeleted && s.Id == id);
         }
 
         public IEnumerable<FaqQuestion> GetByPredicate(Expression<Func<FaqQuestion, bool>> predicate)
@@ -52,7 +56,8 @@ namespace SharedServices.DAL.Repositories
                           .Include(q => q.User)
                           .ThenInclude(u => u.Picture)
                           .Include(q => q.Responses)
-                          .Where(predicate);
+                          .Where(predicate)
+                          .OrderByDescending(q => q.Date);
         }
 
         public FaqQuestion Insert(FaqQuestion entity)

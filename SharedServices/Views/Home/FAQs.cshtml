@@ -1,4 +1,5 @@
 ﻿@model ICollection<SharedServices.UI.Models.FaqViewModels.FaqQuestionVM>
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "FAQ";
 }
@@ -55,8 +56,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="reply-form ubuntu-light">
-                    <h5 class="text-center h5 mb-2 ubuntu-medium">Vous n'avez pas trouvé réponse à votre question ? Posez une question</h5>
-                    <p class="text-center">(Utilisateur authentifié)</p>
+                    <h5 class="text-center h5 mb-2 ubuntu-medium">@Localizer["QuestionTitre"]</h5>
+                    <p class="text-center">(@Localizer["UtilisateurAuth"])</p>
                     <div class="row text-center text-md-left">
                         <div class="col-sm-2 col-12 mb-md-0 mt-4">
                             <img src="~/images/logo-complet.png" alt="Sample avatar image" class="img-fluid">
@@ -65,13 +66,13 @@
                             <form id="faq-form">
                                 @Html.AntiForgeryToken()
                                 <div class="form-group">
-                                    <label for="faq-question">Votre question</label>
-                                    <textarea type="text" name="Message" id="faq-question" class="form-control border-dark" rows="3" placeholder="Tapez votre question ici..."></textarea>
+                                    <label for="faq-question">@Localizer["QuestionLabel"]</label>
+                                    <textarea type="text" name="Message" id="faq-question" class="form-control border-dark" rows="3" placeholder="@Localizer["QuestionPlaceholder"]"></textarea>
                                 </div>
                             </form>
                         </div>
                         <div class="col-md-12 mt-4">
-                            <button id="btnFaqQuestion" class="btn bg-color-green btn-rounded text-white float-right">Soumettre</button>
+                            <button id="btnFaqQuestion" class="btn bg-color-green btn-rounded text-white float-right">@Localizer["Soumettre"]</button>
                         </div>
                     </div>
                 </div>

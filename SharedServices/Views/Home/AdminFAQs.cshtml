@@ -1,0 +1,115 @@
+﻿@model ICollection<SharedServices.UI.Models.FaqViewModels.FaqQuestionVM>
+@{
+    ViewData["Title"] = "FAQs [Admin]";
+}
+
+@section Styles{
+    <link href="~/mdb/css/chat.min.css" rel="stylesheet" />
+    <link href="~/mdb/css/chat-styles.css" rel="stylesheet" />
+}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-12 ubuntu-medium">
+        </div>
+    </div>
+    <div class="row ubuntu-light">
+        <div class="col-md-12">
+            <div class="card grey lighten-4 chat-room box-shadow-0">
+                <div class="card-body">
+                    <div class="row px-lg-2 px-2">
+                        <div class="col-md-6 col-xl-4 px-0">
+                            <h6 class="font-weight-bold mb-3 text-center text-lg-left">Utilisateurs</h6>
+                            <div class="white z-depth-1 px-2 pt-3 pb-0 members-panel-1 box-shadow-0 scrollbar-light-blue">
+                                <ul class="list-unstyled friend-list">
+                                    @foreach (var userQuestion in Model)
+                                    {
+                                        <li class="p-2">
+                                            <a href="#" id="@userQuestion.Id" class="d-flex justify-content-between user-question">
+                                                <img src="@userQuestion.UserPicture" alt="avatar" class="avatar rounded-circle d-flex align-self-center mr-2">
+                                                <div class="text-small">
+                                                    <strong>@userQuestion.User</strong>
+                                                    @if (userQuestion.Message.Length < 20)
+                                                    {
+                                                        <p class="last-message text-muted">@userQuestion.Message</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="last-message text-muted">@string.Concat(userQuestion.Message.Substring(0, 20), "...")</p>
+                                                    }
+
+                                                </div>
+                                                <div class="chat-footer">
+                                                    <p class="text-smaller text-muted mb-0">@userQuestion.Date</p>
+                                                    <span class="text-muted float-right"><i class="fas fa-mail-reply" aria-hidden="true"></i></span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Message box -->
+                        <div class="col-md-6 mt-2 col-xl-8 pl-md-3 px-lg-auto px-0">
+                            <div class="chat-message">
+                                <ul class="list-unstyled chat-1 scrollbar-light-blue" id="conversation-box">
+                                    @{ var question = Model.FirstOrDefault();}
+                                    @if (question != null)
+                                    {
+                                        <li class="d-flex flex-wrap justify-content-between mb-4">
+                                            <img src="@question.UserPicture" alt="User avatar" class="avatar rounded-circle mr-2 ml-lg-3 ml-0 z-depth-1">
+                                            <div class="chat-body white p-3 ml-2">
+                                                <div class="header">
+                                                    <strong class="primary-font">@question.User</strong>
+                                                    <small class="pull-right text-muted"><i class="far fa-clock"></i> @question.Date</small>
+                                                </div>
+                                                <hr class="w-100">
+                                                <p class="mb-0">
+                                                    @question.Message
+                                                </p>
+                                            </div>
+                                        </li>
+                                        @foreach (var response in question.Responses)
+                                        {
+                                            <li class="d-flex justify-content-between mb-4 white-text">
+                                                <div class="chat-body bg-color-green p-3">
+                                                    <div class="header">
+                                                        <strong class="primary-font">Admin</strong>
+                                                        <small class="pull-right text-muted"><i class="far fa-clock"></i> @response.Date</small>
+                                                    </div>
+                                                    <hr class="w-100">
+                                                    <p class="mb-0">
+                                                        @response.Message
+                                                    </p>
+                                                </div>
+                                                <img src="~/images/favicon.png" alt="avatar" class="avatar rounded-circle mr-0 ml-3">
+                                            </li>
+                                        }
+
+                                    }
+                                </ul>
+                                <div class="white">
+                                    <form id="form-response" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group basic-textarea">
+                                            @if (question != null)
+                                            {
+                                                <input class="question" type="hidden" name="question" value="@question.Id" />
+                                            }
+                                            <textarea name="response" class="form-control pl-2 my-0" rows="3" placeholder="Tapez votre réponse ici..."></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                                <button id="btnSendResponse" type="button" class="btn bg-color-green btn-rounded btn-sm waves-effect waves-dark float-right white-text">Envoyer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/mdb/js/chat.min.js"></script>
+    <script src="~/js/business/admin-faq.js"></script>
+}

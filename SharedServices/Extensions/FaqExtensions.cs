@@ -20,6 +20,7 @@ namespace SharedServices.UI.Extensions
                     Message = r.Message,
                     Date = inFr ? r.Date.ToString("dd/MM/yyyy HH:mm") : r.Date.ToString("MM-dd-yyyy hh:mm tt"),
                 })
+                .OrderByDescending(r => r.Date)
                 .ToList();   
                 
                 viewQuestions.Add(new FaqQuestionVM
@@ -34,6 +35,42 @@ namespace SharedServices.UI.Extensions
             }
 
             return viewQuestions;
+        }
+
+        public static FaqQuestionVM ToViewModel(this FaqQuestion question, bool inFr)
+        {            
+                List<FaqResponseVM> responses = question.Responses.Select(r => new FaqResponseVM
+                {
+                    Id = r.Id,
+                    Message = r.Message,
+                    Date = inFr ? r.Date.ToString("dd/MM/yyyy HH:mm") : r.Date.ToString("MM-dd-yyyy hh:mm tt"),
+                })
+                .OrderByDescending(r => r.Date)
+                .ToList();
+
+                var questionVM = new FaqQuestionVM
+                {
+                    Id = question.Id,
+                    Message = question.Message,
+                    User = string.Concat(question.User.FirstName, " ", question.User.LastName),
+                    UserPicture = question.User.PictureSource(),
+                    Date = inFr ? question.Date.ToString("dd/MM/yyyy HH:mm") : question.Date.ToString("MM-dd-yyyy hh:mm tt"),
+                    Responses = responses
+                };
+
+            return questionVM;
+        }
+
+        public static FaqResponseVM ToViewModel(this FaqResponse response, bool inFr)
+        {
+            var responseVM =  new FaqResponseVM
+            {
+                Id = response.Id,
+                Message = response.Message,
+                Date = inFr ? response.Date.ToString("dd/MM/yyyy HH:mm") : response.Date.ToString("MM-dd-yyyy hh:mm tt")
+            };           
+
+            return responseVM;
         }
     }
 }

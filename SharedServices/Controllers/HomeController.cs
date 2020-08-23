@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SharedServices.BL.Domain;
 using SharedServices.BL.Services;
+using SharedServices.BL.UseCases.Admin;
 using SharedServices.BL.UseCases.Clients;
 using SharedServices.DAL;
 using SharedServices.DAL.UnitOfWork;
+using SharedServices.Mutual;
 using SharedServices.UI.Attributes;
 using SharedServices.UI.Extensions;
 using SharedServices.UI.Models;
@@ -28,6 +30,7 @@ namespace SharedServices.UI.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
         private Client _client;
+        private Adminitrator _admin;
         private IGlobalInfo _globalInfo;
 
         public HomeController(ILogger<HomeController> logger,
@@ -44,6 +47,7 @@ namespace SharedServices.UI.Controllers
             _globalInfo = globalInfo;
             _unitOfWork = unitOfWork;
             _client = new Client(_unitOfWork);
+            _admin = new Adminitrator(_unitOfWork);
         }
 
         public IActionResult Index()
@@ -139,6 +143,56 @@ namespace SharedServices.UI.Controllers
                         "Sorry, an error has been encountered.Try again, please.";
 
                 return Json(new { status = false, message = errorMessage });
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminFAQs()
+        {
+            bool inFr = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
+            List<FaqQuestionVM> questions = _admin.GetFaqQuestions().ToViewModels(inFr);
+
+            return View(questions);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Ajax(HttpVerb = "GET")]
+        public IActionResult UserQuestions(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException($"'{nameof(id)}' cannot be smaller than zero", nameof(id));
+            }
+            bool inFr = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
+            var userQuestion = _admin.GetFaqQuestion(id).ToViewModel(inFr);
+
+            return Json(new { status = true, question = userQuestion });
+        }
+
+        public IActionResult FaqAnswer(int question, string response)
+        {
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                FaqResponse faqResponse = new FaqResponse
+                {
+                    Message = response,
+                    Date = DateTime.Now,
+                    IsDeleted = false
+                };
+                
+                var result = _admin.AnswerToFaqQuestion(question, faqResponse);
+                _unitOfWork.CommitTransaction();
+
+                bool inFr = CultureInfo.CurrentCulture.Name.ToLower().Contains("fr");
+                var viewResponse = faqResponse.ToViewModel(inFr);
+
+                return Json(new { status = true, response = viewResponse });
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                return Json(new { status = false, message = $"Error. {ex.Message}" });
             }
         }
 

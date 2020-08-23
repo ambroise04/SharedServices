@@ -1,5 +1,6 @@
 ﻿@inject IViewLocalizer Localizer
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-color-green scrolling-navbar global-nav">
     <div class="container">
@@ -36,6 +37,11 @@
                     <ul class="dropdown-menu" aria-labelledby="sub-nav7">
                         <li><a class="dropdown-item" asp-controller="Home" asp-action="FAQs">FAQ</a></li>
                         <li><a class="dropdown-item" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                        @{ var user = await UserManager.GetUserAsync(User);}
+                        @if (SignInManager.IsSignedIn(User) && UserManager.IsInRoleAsync(user, SharedServices.Mutual.Roles.Admin.ToString()).Result)
+                        {
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="AdminFAQs">[Admin] FAQ's Questions</a></li>
+                        }
                     </ul>
                 </li>
             </ul>

@@ -10,12 +10,12 @@ namespace SharedServices.BL.UseCases.Clients
         public List<FaqQuestion> GetAnsweredFaqQuestions()
         {
             var questions = unitOfWork.FaqQuestionRepository
-                                      .GetByPredicate(q => q.Responses.Count() != 0)
+                                      .GetByPredicate(q => q.Responses.Count() != 0 && !q.IsDeleted)
                                       .Select(q => Mapping.Mapping.Mapper.Map<FaqQuestion>(q))
                                       .ToList();
 
             return questions;
-        }
+        }        
 
         public bool CreateFaqQuestion(FaqQuestion question)
         {

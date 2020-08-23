@@ -107,6 +107,7 @@ namespace SharedServices
             services.AddScoped<IGlobalInfoRepository, GlobalInfoRepository>();
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<INotificationTypeRepository, NotificationTypeRepository>();
+            services.AddScoped<IFaqQuestionRepository, FaqQuestionRepository>();
             //Enterprise information
             services.AddTransient<IGlobalInfo, GlobalInfo>();
 

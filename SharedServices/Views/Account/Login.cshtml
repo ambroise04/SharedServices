@@ -16,7 +16,7 @@
     </style>
 }
 
-<div class="fables-after-overlay py-4 py-lg-5 mb-4 mb-lg-5 bg-rules" style="background-image: url('/images/register-bg-2.jpg');">
+<div class="fables-after-overlay py-4 py-lg-5 mb-4 mb-lg-5 bg-rules" style="background-image: url('/images/home.jpg');">
     <div class="container position-relative z-index">
         <div class="text-center">
             <img src="~/images/logo-complet.png" alt="Between us logo" class="img-fluid img-logo">
@@ -28,17 +28,14 @@
         animation-duration: 1.5s;
         animation-delay: 0.4s;
         animation-name: bounceInDown;">
-                <!-- Default form login -->
                 <form class="border border-light p-5" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
                     <div asp-validation-summary="ModelOnly" class="mb-3 text-color-red"></div>
-                    <!-- Email -->
                     <div class="form-group">
                         <label asp-for="Email"></label>
                         <input asp-for="Email" class="form-control">
                         <span asp-validation-for="Email" class="text-color-red"></span>
                     </div>
                     <div class="form-group">
-                        <!-- Password -->
                         <label asp-for="Password"></label>
                         <input asp-for="Password" class="form-control">
                         <span asp-validation-for="Password" class="text-color-red"></span>
@@ -46,27 +43,21 @@
 
                     <div class="d-flex flex-wrap justify-content-around">
                         <div>
-                            <!-- Remember me -->
                             <div class="form-check">
                                 <input class="form-check-input ml-0" asp-for="RememberMe">
                                 <label class="form-check-label" asp-for="RememberMe"></label>
                             </div>
                         </div>
                         <div>
-                            <!-- Forgot password -->
                             <a href="">@Localizer["PasswordForgotten"]</a>
                         </div>
                     </div>
-
-                    <!-- Sign in button -->
-                    <button class="btn btn-info btn-block my-4" type="submit">@Localizer["Valider"]</button>
-                    <!-- Register -->
+                    <button class="btn bg-color-green text-white btn-block my-4" type="submit">@Localizer["Valider"]</button>
                     <p class="text-center">
                         @Localizer["NotMember"]
                         <a asp-action="Register">@Localizer["Register"]</a>
                     </p>
                 </form>
-                <!-- Default form login -->
             </div>
         </div>
     </div>
