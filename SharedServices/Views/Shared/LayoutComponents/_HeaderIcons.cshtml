@@ -6,8 +6,7 @@
 }
 <ul class="navbar-nav ml-md-auto ubuntu-light d-flex align-items-end nav-icons">
     <li class="nav-item text-center">
-        <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Discussion">
-            @*Affichage à gérer avec la class .visible*@
+        <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Discussion">            
             <span class="nav-item__badge visible"><span aria-hidden="true" class="nav-item__badge-count">1</span></span>
             <i class="far fa-envelope"></i>
             <span class="font-13">@Localizer["Messagerie"]</span>
@@ -23,7 +22,7 @@
     <li class="nav-item text-center">
         <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center"
            asp-controller="Notification" asp-action="Notifications">
-            <span class="nav-item__badge notifications__nav visible"><span aria-hidden="true" class="nav-item__badge-count notifications__nav-count">1</span></span>
+            <span class="nav-item__badge notifications__nav"><span aria-hidden="true" class="nav-item__badge-count notifications__nav-count">0</span></span>
             <i class="far fa-bell"></i>
             <span class="font-13">@Localizer["Notifications"]</span>
         </a>

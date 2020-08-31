@@ -23,6 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mutual", "Mutual", "{F62543
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedServices.Mutual", "SharedServices.Mutual\SharedServices.Mutual.csproj", "{66AC0628-0AD1-405E-B400-9905B48D095D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "[Docs]", "[Docs]", "{9BD32FCC-AE6B-4814-ACC4-D0A4AE301928}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\Projet BF\DC.png = ..\..\..\Desktop\Projet BF\DC.png
+		..\..\..\Desktop\Projet BF\UC.png = ..\..\..\Desktop\Projet BF\UC.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -2,7 +2,7 @@
 @inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = Localizer["PageTitle"];
+    ViewData["Title"] = Localizer["Titre"];
     var userServices = Model.UserServices;
     var selectServices = Model.SelectServices;
 }
@@ -33,13 +33,13 @@
             <ul class="nav md-pills flex-column" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link link active" data-toggle="tab" href="#my-services" role="tab">
-                        Mes services
+                        @Localizer["MesServices"]
                         <i class="fas fa-clipboard-list ml-2"></i>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link" data-toggle="tab" href="#add-services" role="tab">
-                        Ajouter des services
+                        @Localizer["AjouterServices"]
                         <i class="fas fa-plus-square ml-2"></i>
                     </a>
                 </li>
@@ -51,7 +51,7 @@
                 <!-- Panel 1 -->
                 <div class="tab-pane fade in show active" id="my-services" role="tabpanel">
                     <div class="row mb-2">
-                        <h2 class="ubuntu-light font-weight-bold mt-2 col-md-12">Mes services</h2>
+                        <h2 class="ubuntu-light font-weight-bold mt-2 col-md-12">@Localizer["MesServices"]</h2>
                     </div>
                     <div class="row mb-4 mb-md-5">
                         <div class="col-md-12">
@@ -76,16 +76,16 @@
                 <!-- Panel 2 -->
                 <div class="tab-pane fade" id="add-services" role="tabpanel">
                     <div class="row mb-2">
-                        <h2 class="ubuntu-light font-weight-bold mt-2 col-md-12">Ajouter des services</h2>
+                        <h2 class="ubuntu-light font-weight-bold mt-2 col-md-12">@Localizer["AjouterServices"]</h2>
                     </div>
                     <div class="row my-2 my-md-2">
                         <form class="col-md-12 card card-body loading-content" autocomplete="off" id="form-add-service">
                             @Html.AntiForgeryToken()
-                            <label for="sve">Sélectionnez vos services</label>
-                            <select name="Services" id="sve" class="mdb-select md-form md-outline service-select mt-0" searchable="Rechercher..." multiple>
+                            <label for="sve">@Localizer["SelectionnerServices"]</label>
+                            <select name="Services" id="sve" class="mdb-select md-form md-outline service-select mt-0" searchable="@Localizer["Rechercher"]" multiple>
                                 @foreach (var group in selectServices)
                                 {
-                                    <optgroup label="@group.ServiceGroup.Title (@group.ServiceGroup.PointsByHour points/heure)">
+                                    <optgroup label="@group.ServiceGroup.Title (@group.ServiceGroup.PointsByHour @Localizer["PointHeure"])">
                                         @foreach (var service in group.Services)
                                         {
                                             <option value="@service.Id">@service.Title</option>
@@ -95,13 +95,12 @@
                             </select>
                             <div class="row d-flex justify-content-end">
                                 <div class="col-md-4">
-                                    <button class="btn btn-sm bg-color-green waves-effect form-control white-text" id="btn-add-service">Ajouter</button>
+                                    <button class="btn btn-sm bg-color-green waves-effect form-control white-text" id="btn-add-service">@Localizer["Ajouter"]</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-                <!-- Panel 2 -->
             </div>
         </div>
     </div>

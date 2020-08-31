@@ -17,6 +17,7 @@ using SharedServices.UI.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -169,6 +170,8 @@ namespace SharedServices.UI.Controllers
             return Json(new { status = true, question = userQuestion });
         }
 
+        [Authorize(Roles = "Admin")]
+        [Ajax(HttpVerb = "POST")]
         public IActionResult FaqAnswer(int question, string response)
         {
             _unitOfWork.CreateTransaction();
