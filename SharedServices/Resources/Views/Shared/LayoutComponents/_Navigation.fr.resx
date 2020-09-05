@@ -129,6 +129,9 @@
   <data name="Recherche" xml:space="preserve">
     <value>Recherche</value>
   </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
   <data name="VoirDemandes" xml:space="preserve">
     <value>Toutes les demandes</value>
   </data>

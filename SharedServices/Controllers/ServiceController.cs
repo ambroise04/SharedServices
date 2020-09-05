@@ -82,5 +82,74 @@ namespace SharedServices.UI.Controllers
 
             return Json(new { status = false, message = error });
         }
+
+        public IActionResult Index()
+        {
+            List<ServiceTO> services = _client.GetAllServicesGrouped();
+
+            return View(services);
+        }
+
+        [Ajax(HttpVerb = "GET")]
+        public IActionResult AddService(int id)
+        {
+            ViewBag.GroupId = id;
+            List<ServiceTO> services = _client.GetAllServicesGrouped();
+
+            return PartialView("_AddService", services);
+        }
+
+        [Ajax(HttpVerb = "POST")]
+        public IActionResult AddService(int group, string service, string description)
+        {
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+
+            if (string.IsNullOrEmpty(service) || group <= 0)
+            {
+                var message = cultureFR ? "Des paramètres incorrects ont été envoyés. Veuillez vérifier vos données et réessayez s'il vous plaît."
+                    : "Incorrect parameters have been sent.Please check your details and try again please";
+                return Json(new { status = false, message });
+            }
+
+            var retrievedGroup = _client.GetGroupServiceById(group);
+            if (retrievedGroup is null)
+            {
+                var message = cultureFR ? "Des paramètres incorrects ont été envoyés. Veuillez vérifier vos données et réessayez s'il vous plaît."
+                    : "Incorrect parameters have been sent.Please check your details and try again please";
+                return Json(new { status = false, message });
+            }
+
+            var newService = new Service
+            {
+                Title = service,
+                Description = description
+            };
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                retrievedGroup.Services.Add(newService);
+                var result = _client.UpdateGroupService(retrievedGroup);
+
+                if (result is null)
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                        : "An error has been encountered. Try again, please.";
+                    return Json(new { status = false, message });
+                }
+                _unitOfWork.CommitTransaction();
+                var successMessage = cultureFR ? "Votre service a été ajouté avec succès." : "Your service has been added successfully.";
+
+                return Json(new { status = true, message = successMessage});
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                    : "An error has been encountered. Try again, please.";
+
+                return Json(new { status = false, message });
+            }
+        }
     }
 }

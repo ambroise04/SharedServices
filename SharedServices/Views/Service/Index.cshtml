@@ -1,0 +1,125 @@
+﻿@model ICollection<ServiceTO>
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Titre"];
+
+    var services = Model;
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
+}
+
+
+@section Styles {
+    <style>
+        h5 {
+            font-weight: bold !important;
+        }
+
+        .user:hover {
+            color: dimgrey;
+        }
+    </style>
+}
+
+<div class="container">
+    <div class="row my-4 my-md-5">
+        <div class="col-md-12">
+            @if (services.Count() == 0)
+            {
+                <div class="card p-3" style="box-shadow : none">
+                    <p class="text-center">
+                        <span>Aucun group à afficher.</span>
+                    </p>
+                </div>
+            }
+            else
+            {
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion" id="accordionEx1" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card -->
+                    @foreach (var group in services)
+                    {
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="hnls-bz-ju-loading-screen-@group.ServiceGroup.Id">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#bnls-bz-ju-loading-screen-@group.ServiceGroup.Id"
+                                   aria-expanded="false" aria-controls="collapseTwo1">
+                                    <div class="row mb-2 text-color-green">
+                                        <div class="col-md-12">
+                                            <h5 class="mb-0">
+                                                @group.ServiceGroup.Title <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 black-text">
+                                            <div class="row">
+                                                <div class="col-md-12 d-flex justify-content-between">
+                                                    <p>
+                                                        <span><i class="far fa-calendar-alt mr-2"></i>Nombre de services : </span><span>@group.Services.Count()</span>
+                                                    </p>
+                                                    <p>
+                                                        <span class="add-service" id="@group.ServiceGroup.Id" data-toggle="tooltip" data-placement="top" title="Ajouter un service"><i class="fas fa-plus"></i></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-12">
+                                                    <small>Veuillez dérouler pour voir les services de cette catégorie.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Card body -->
+                            <div id="bnls-bz-ju-loading-screen-@group.ServiceGroup.Id" class="collapse" role="tabpanel" aria-labelledby="hnls-bz-ju-loading-screen-@group.ServiceGroup.Id"
+                                 data-parent="#accordionEx1">
+                                <div class="card-body">
+                                    <div class="list-group-flush">
+                                        @if (group.Services.Count() != 0)
+                                        {
+                                            foreach (var service in group.Services)
+                                            {
+                                                <div class="list-group-item">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="d-flex">
+                                                                <div class="d-flex flex-column justify-content-center">
+                                                                    <h6>@service.Title</h6>
+                                                                    <p>@service.Description</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="list-group-item">
+                                                <div class="row mb-0">
+                                                    <div class="col-md-12">
+                                                        <p>Aucun service dans cette catégorie pour l'instant</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<partial name="/Views/Service/_AddServiceHeader.cshtml" />
+
+@section Scripts{
+    <script src="~/js/business/global-service.js"></script>
+}

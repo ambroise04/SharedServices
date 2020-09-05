@@ -1,0 +1,49 @@
+﻿@model ICollection<ServiceTO>
+@inject IViewLocalizer Localizer
+
+<div class="modal-header bg-color-green">
+    <p class="heading">Ajouter un service</p>
+</div>
+<div class="modal-body">
+    <form action="/" method="post" id="form-service" class="ubuntu-medium row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6 green-border">
+                    <label for="group">Groupe de services</label>
+                    <select class="form-control browser-default custom-select ubuntu-light" id="group" name="group">
+                        @foreach (var group in Model)
+                        {
+                            if (group.ServiceGroup.Id == ViewBag.GroupId)
+                            {
+                                <option value="@group.ServiceGroup.Id" selected>@group.ServiceGroup.Title</option>
+                            }
+                            else
+                            {
+                                <option value="@group.ServiceGroup.Id">@group.ServiceGroup.Title</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group green-border">
+                        <label for="description">Service</label>
+                        <input type="text" class="form-control green-border" id="service" name="service" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group green-border">
+                        <label for="description">Description du service</label>
+                        <textarea class="form-control py-1" id="description" rows="3" name="description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="d-flex justify-content-between" style="padding: 1rem; border-top: 1px solid #e9ecef;">
+    <a class="btn btn-sm btn-outline-my-green waves-effect" data-dismiss="modal">@Localizer["Annuler"]</a>
+    <a class="btn btn-sm bg-color-green waves-effect" id="btn-message" onclick="serviceSending();">@Localizer["Sauvegarder"]</a>
+</div>

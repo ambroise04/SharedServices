@@ -196,7 +196,7 @@
     border: 1px solid white !important;
 }
 
-.green-border textarea {
+.green-border textarea, .green-border input, .green-border select {
     border: 1px solid #0e9c9c;
 }
 

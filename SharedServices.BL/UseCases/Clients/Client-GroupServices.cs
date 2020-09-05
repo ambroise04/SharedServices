@@ -42,5 +42,15 @@ namespace SharedServices.BL.UseCases.Clients
 
             return groups;
         }
+
+        public ServiceGroup UpdateGroupService(ServiceGroup serviceGroup)
+        {
+            var services = serviceGroup.Services;
+            var entity = unitOfWork.ServiceGroupRepository.GetById(serviceGroup.Id);
+            entity.Services = services.Select(s => Mapping.Mapping.Mapper.Map<DAL.Entities.Service>(s)).ToList();
+            var result = unitOfWork.ServiceGroupRepository.Update(entity);
+
+            return Mapping.Mapping.Mapper.Map<ServiceGroup>(result); ;
+        }
     }
 }
