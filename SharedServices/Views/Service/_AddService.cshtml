@@ -1,4 +1,4 @@
-﻿@model ICollection<ServiceTO>
+﻿@model ICollection<ServiceGroup>
 @inject IViewLocalizer Localizer
 
 <div class="modal-header bg-color-green">
@@ -13,13 +13,13 @@
                     <select class="form-control browser-default custom-select ubuntu-light" id="group" name="group">
                         @foreach (var group in Model)
                         {
-                            if (group.ServiceGroup.Id == ViewBag.GroupId)
+                            if (group.Id == ViewBag.GroupId)
                             {
-                                <option value="@group.ServiceGroup.Id" selected>@group.ServiceGroup.Title</option>
+                                <option value="@group.Id" selected>@group.Title</option>
                             }
                             else
                             {
-                                <option value="@group.ServiceGroup.Id">@group.ServiceGroup.Title</option>
+                                <option value="@group.Id">@group.Title</option>
                             }
                         }
                     </select>

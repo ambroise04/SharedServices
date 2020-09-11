@@ -29,8 +29,8 @@ namespace SharedServices.DAL
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");
-                //optionsBuilder.UseSqlite(@"DataSource=SharedServiceDB.db;");
+                optionsBuilder.UseSqlite(@"DataSource=BetweenUsDB.db;");
+                //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -65,6 +65,8 @@ namespace SharedServices.DAL
             //Data seeds
             builder.Entity<GlobalInfo>().HasData(GlobalInfoSeed.GlobalInfo());
             builder.Entity<NotificationType>().HasData(NotificationTypeSeed.SeedTypes());
+            builder.Entity<ServiceGroup>().HasData(ServiceGategorySeed.GetCategories());
+            builder.Entity<Service>().HasData(SeedServices.GetServices());
 
             base.OnModelCreating(builder);
         }

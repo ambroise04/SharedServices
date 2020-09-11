@@ -72,7 +72,7 @@
                     <a service="@ViewBag.Service" flag="@user.Id" class="btn btn-sm btn-outline-green-light btn-rounded fables-hover-btn-color
                        fables-second-text-color font-14 p-2 px-2 px-xl-4 request">
                         <i class="fas fa-hands-helping fables-btn-value"></i>
-                        <span class="fables-btn-value">ENVOYER LA DEMANDE</span>
+                        <span class="fables-btn-value">@Localizer["EnvoyerDemande"]</span>
                     </a>
                 </div>
                 <div class="col-6 text-right">
@@ -91,13 +91,13 @@
             <nav class="fables-single-nav">
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <a class="fables-single-item nav-link fables-forth-text-color fables-second-active fables-second-hover-color fables-forth-after px-3 px-md-5 font-15 semi-font border-0 active rounded-0 py-3" id="nav-serv-tab" data-toggle="tab" href="#nav-serv" role="tab" aria-controls="nav-desc" aria-selected="true">SERVICES</a>
-                    <a class="fables-single-item nav-link fables-forth-text-color fables-second-active fables-second-hover-color fables-forth-after border-0 px-3 px-md-5 font-15 semi-font rounded-0 py-3" id="nav-avis-tab" data-toggle="tab" href="#nav-avis" role="tab" aria-controls="nav-review" aria-selected="false">AVIS (@user.Feedbacks.Count())</a>
+                    <a class="fables-single-item nav-link fables-forth-text-color fables-second-active fables-second-hover-color fables-forth-after border-0 px-3 px-md-5 font-15 semi-font rounded-0 py-3" id="nav-avis-tab" data-toggle="tab" href="#nav-avis" role="tab" aria-controls="nav-review" aria-selected="false">@Localizer["FeedbackTitre"] (@user.Feedbacks.Count())</a>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-serv" role="tabpanel" aria-labelledby="nav-serv-tab">
                     <div class="">
-                        <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">@user.FirstName a les compétences suivantes :</h2>
+                        <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">@user.FirstName @Localizer["Competences"]</h2>
                         <ul class="nav fables-blog-cat-list fables-forth-text-color fables-second-hover-color-link">
                             @foreach (var service in user.UserServices)
                             {
@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-avis" role="tabpanel" aria-labelledby="nav-avis-tab">
-                    <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Avis sur @user.FirstName</h2>
+                    <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">@Localizer["Avis"] @user.FirstName</h2>
                     @foreach (var feedback in user.Feedbacks)
                     {
                         var advisor = UserManager.Users.Include(u => u.Picture).FirstOrDefault(u => u.Id.Equals(feedback.Advisor));

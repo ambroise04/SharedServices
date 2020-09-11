@@ -9,6 +9,7 @@ namespace SharedServices.DAL.Entities
         [Required]
         public string Title { get; set; }
         public string Description { get; set; }
+        public int GroupId { get; set; }
         public ServiceGroup Group { get; set; }
         public ICollection<ApplicationUserServices> UserServices { get; set; }
     }

@@ -375,8 +375,8 @@ namespace SharedServices.UI.Controllers
                              $"<bold><em>{request.Service.Title}</em></bold> <br /> " +
                              $"Soyez l'un des premiers à répondre.<br /><br />" +
                              $"<a href=\"{requestUrl}\" class=\"btn btn-primary waves-effect form-control white-text\">Répondre</a>";
-
-            await _broadcastEmailSender.SendEmailAsync(userEmails, "Nouvelle demande de service", message);            
+            if(userEmails != null && userEmails.Count() != 0)
+                await _broadcastEmailSender.SendEmailAsync(userEmails, "Nouvelle demande de service", message);            
         }
     }
 }

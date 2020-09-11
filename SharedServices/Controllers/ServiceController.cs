@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedServices.BL.Domain;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace SharedServices.UI.Controllers
 {
+    [Authorize]
     public class ServiceController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -94,12 +96,14 @@ namespace SharedServices.UI.Controllers
         public IActionResult AddService(int id)
         {
             ViewBag.GroupId = id;
-            List<ServiceTO> services = _client.GetAllServicesGrouped();
+            List<ServiceGroup> categories = _client.GetServiceCategories();
 
-            return PartialView("_AddService", services);
+            return PartialView("_AddService", categories);
         }
 
+        [Authorize(Roles = "Admin")]
         [Ajax(HttpVerb = "POST")]
+        [ValidateAntiForgeryToken]
         public IActionResult AddService(int group, string service, string description)
         {
             var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
@@ -141,6 +145,57 @@ namespace SharedServices.UI.Controllers
                 var successMessage = cultureFR ? "Votre service a été ajouté avec succès." : "Your service has been added successfully.";
 
                 return Json(new { status = true, message = successMessage});
+            }
+            catch (Exception ex)
+            {
+                _unitOfWork.RollbackTransaction();
+                var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                    : "An error has been encountered. Try again, please.";
+
+                return Json(new { status = false, message });
+            }
+        }
+
+        public IActionResult AddCategory()
+        {
+            return PartialView("_AddGroup");
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Ajax(HttpVerb = "POST")]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCategory(string title, int point)
+        {
+            var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+
+            if (string.IsNullOrEmpty(title) || point <= 0)
+            {
+                var message = cultureFR ? "Des paramètres incorrects ont été envoyés. Veuillez vérifier vos données et réessayez s'il vous plaît."
+                    : "Incorrect parameters have been sent.Please check your details and try again please";
+                return Json(new { status = false, message });
+            }
+
+            var newGroup = new ServiceGroup
+            {
+                Title = title,
+                PointsByHour = point
+            };
+            _unitOfWork.CreateTransaction();
+            try
+            {
+                var result = _client.AddGroupService(newGroup);
+
+                if (result is null)
+                {
+                    _unitOfWork.RollbackTransaction();
+                    var message = cultureFR ? "Une erreur a été rencontrée. Veuillez réessayer s'il vous plaît."
+                        : "An error has been encountered. Try again, please.";
+                    return Json(new { status = false, message });
+                }
+                _unitOfWork.CommitTransaction();
+                var successMessage = cultureFR ? "La catégorie de service a été ajoutée avec succès." : "The service category has been added successfully.";
+
+                return Json(new { status = true, message = successMessage });
             }
             catch (Exception ex)
             {

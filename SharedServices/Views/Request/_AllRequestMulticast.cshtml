@@ -9,6 +9,14 @@
 }
 
 <div class="row m-0">
+    @if (requests.Count() == 0)
+    {
+        <div class="col-md-12 text-center">
+            <div class="card rounded-0 mb-4" style="box-shadow:none">
+                <p class="p-3">Aucune demande n'a été publiée. Veuillez réessayer plus tard!</p>
+            </div>
+        </div>
+    }
     @foreach (var request in requests)
     {
         <div class="col-12 col-sm-6 col-lg-4 fables-product-block">

@@ -90,14 +90,15 @@ namespace SharedServices.BL.UseCases.Clients
             return services;
         }
 
-        public List<Service> GetServicesByGroup(int groupId)
+        public List<ServiceGroup> GetServiceCategories()
         {
-            var services = unitOfWork.ServiceRepository
-                      .GetByPredicate(s => s.Group.Id == groupId)
-                      .Select(s => Mapping.Mapping.Mapper.Map<Service>(s))
+            var categories = unitOfWork.ServiceGroupRepository
+                      .GetAll()
+                      .OrderBy(c => c.Title)
+                      .Select(s => Mapping.Mapping.Mapper.Map<ServiceGroup>(s))
                       .ToList();
 
-            return services;
+            return categories;
         }
 
         public ICollection<ServiceTO> UserServices(string user)

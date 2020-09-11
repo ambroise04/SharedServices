@@ -1,5 +1,7 @@
 ﻿@model ICollection<ServiceTO>
 @inject IViewLocalizer Localizer
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = Localizer["Titre"];
@@ -24,13 +26,25 @@
 }
 
 <div class="container">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        if (await UserManager.IsInRoleAsync(user, SharedServices.Mutual.Roles.Admin.ToString()))
+        {
+            <div class="row my-4 my-md-5">
+                <div class="col-md-12 ubuntu-light">
+                    <p>Ajouter une nouvelle catégorie de service <span><a class="btn-floating bg-color-green text-white add-group"><i class="fas fa-plus"></i></a></span></p>
+                </div>
+            </div>
+        }
+    }
     <div class="row my-4 my-md-5">
         <div class="col-md-12">
             @if (services.Count() == 0)
             {
                 <div class="card p-3" style="box-shadow : none">
                     <p class="text-center">
-                        <span>Aucun group à afficher.</span>
+                        <span>Aucun service à afficher.</span>
                     </p>
                 </div>
             }
@@ -120,6 +134,16 @@
 
 <partial name="/Views/Service/_AddServiceHeader.cshtml" />
 
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    if (await UserManager.IsInRoleAsync(user, SharedServices.Mutual.Roles.Admin.ToString()))
+    {
+        <partial name="/Views/Service/_AddGroupHeader.cshtml" />
+    }
+}
+
 @section Scripts{
     <script src="~/js/business/global-service.js"></script>
+    <script src="~/js/business/global-group.js"></script>
 }

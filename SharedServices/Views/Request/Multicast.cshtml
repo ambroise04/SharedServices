@@ -23,7 +23,7 @@
 <!-- Start page content -->
 <div class="container">
     <div class="row text-center">
-        <h2 class="ubuntu-light font-weight-bold  my-4">Publier une demande</h2>
+        <h2 class="ubuntu-light font-weight-bold  my-4">@Localizer["Titre"]</h2>
     </div>
     <div class="row my-4 my-md-5">
         <div class="col-12 card loading-content">
@@ -33,7 +33,7 @@
                 <input type="hidden" value="" id="lng" name="lng" />
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <p class="py-1"><span class="ubuntu-light">Vous avez actuellement : </span><span class="text-color-green ubuntu-medium">@ViewBag.Points  points</span></p>
+                        <p class="py-1"><span class="ubuntu-light">@Localizer["NombreDemandes"] : </span><span class="text-color-green ubuntu-medium">@ViewBag.Points  points</span></p>
                     </div>
                 </div>
                 <hr />
@@ -53,13 +53,13 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="description">Description du service</label>
+                        <label for="description">@Localizer["ServiceDesc"]</label>
                         <textarea class="form-control" id="description" name="description" rows="2">Ceci est la description du service que je recherche.</textarea>
                     </div>
                 </div>
                 <div class="row my-md-4">
                     <div class="col-md-4">
-                        <label for="duration">Durée du service (en minutes)</label>
+                        <label for="duration">@Localizer["DureeService"]</label>
                         <div class="def-number-input number-input safari_only form-control">
                             <a onclick="management_(this)" class="minus text-center"></a>
                             <input id="duration" class="quantity form-control" min="0" step="10" name="duration" value="1" type="number">
@@ -74,11 +74,11 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group green-border mb-0">
-                            <label for="date">Cliquez pour sélectionner la date et l'heure</label>
+                            <label for="date">@Localizer["InstruDate"]</label>
                             <input type="text" id="date" class="form-control request-date">
                             <small>
-                                La date est optionnelle pour certains service. <br />
-                                Elle est par contre nécessaire pour d'autres services (Ex: Babysitting)
+                                @Localizer["HitDate1"] <br />
+                                @Localizer["HitDate2"]
                             </small>
                             <input type="hidden" id="dateSubmit" class="form-control request-date" name="date">
                         </div>
@@ -88,20 +88,20 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12">
-                                <p class="ubuntu-medium place-desc">Lieu où le service sera rendu</p><br />
+                                <p class="ubuntu-medium place-desc">@Localizer["LieuDesc"]</p><br />
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-2">
-                                <label for="inputZip">Postal code</label>
+                                <label for="inputZip">@Localizer["CodePostal"]</label>
                                 <input type="text" class="form-control" id="inputZip" name="postalcode" value="1300">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputCity">City</label>
+                                <label for="inputCity">@Localizer["Ville"]</label>
                                 <input type="text" class="form-control" id="inputCity" name="city" value="Wavre">
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="inputState">Country</label>
+                                <label for="inputState">@Localizer["Pays"]</label>
                                 <select id="inputState" class="form-control browser-default custom-select ubuntu-light" name="country">
                                     <partial name="/Views/Shared/_Countries.cshtml" />
                                 </select>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="row d-flex justify-content-end">
                     <div class="col-md-4">
-                        <button class="btn bg-color-green waves-effect form-control white-text" id="btn-submit">Publier</button>
+                        <button class="btn bg-color-green waves-effect form-control white-text" id="btn-submit">@Localizer["Publier"]</button>
                     </div>
                 </div>
             </form>
