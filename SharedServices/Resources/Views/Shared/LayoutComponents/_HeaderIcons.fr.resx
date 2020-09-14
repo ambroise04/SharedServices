@@ -130,7 +130,7 @@
     <value>Publier une demande</value>
   </data>
   <data name="MyRequests" xml:space="preserve">
-    <value>Demandes publiées</value>
+    <value>Mes publications</value>
   </data>
   <data name="MyServices" xml:space="preserve">
     <value>Mes services</value>

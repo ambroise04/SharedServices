@@ -130,7 +130,7 @@
     <value>Broadcast a request</value>
   </data>
   <data name="MyRequests" xml:space="preserve">
-    <value>Broadcasted requests</value>
+    <value>My publications</value>
   </data>
   <data name="MyServices" xml:space="preserve">
     <value>My services</value>

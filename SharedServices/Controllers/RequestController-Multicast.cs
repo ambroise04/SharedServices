@@ -78,8 +78,7 @@ namespace SharedServices.UI.Controllers
                 return RedirectToAction("Error", "Home");
             }           
         }
-
-        [AllowAnonymous]
+        
         [HttpGet]
         public async Task<IActionResult> Multicast()
         {

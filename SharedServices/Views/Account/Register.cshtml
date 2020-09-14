@@ -69,13 +69,13 @@
                                         <div class="col-md-6 col-sm-12">
                                             <!-- First name -->
                                             <label asp-for="FirstName"></label>
-                                            <input asp-for="FirstName" class="form-control validate" value="Ambroise" required>
+                                            <input asp-for="FirstName" class="form-control validate" required>
                                             <span asp-validation-for="FirstName" class="text-color-red"></span>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
                                             <!-- Last name -->
                                             <label asp-for="LastName"></label>
-                                            <input asp-for="LastName" class="form-control validate" value="LABA" required>
+                                            <input asp-for="LastName" class="form-control validate" required>
                                             <span asp-validation-for="LastName" class="text-color-red"></span>
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@
                                         <div class="col-md-12">
                                             <!-- E-mail -->
                                             <label asp-for="Email"></label>
-                                            <input asp-for="Email" class="form-control validate" value="ambroiselaba2000@gmail.com" required>
+                                            <input asp-for="Email" class="form-control validate" required>
                                             <span asp-validation-for="Email" class="text-color-red"></span>
                                         </div>
                                     </div>
@@ -91,7 +91,7 @@
                                         <div class="col-md-6 col-sm-12">
                                             <!-- Password -->
                                             <label asp-for="Password"></label>
-                                            <input asp-for="Password" class="form-control validate" aria-describedby="registerPassword" value="Ambroise0" required>
+                                            <input asp-for="Password" class="form-control validate" aria-describedby="registerPassword" required>
                                             <span asp-validation-for="Password" class="text-color-red"></span>
                                             <small id="registerPassword" class="form-text text-muted mb-4">
                                                 @Localizer["PasswordHint"]
@@ -100,7 +100,7 @@
                                         <div class="col-md-6 col-sm-12">
                                             <!-- Confirm Password -->
                                             <label asp-for="ConfirmPassword"></label>
-                                            <input asp-for="ConfirmPassword" class="form-control validate" value="Ambroise0" required>
+                                            <input asp-for="ConfirmPassword" class="form-control validate" required>
                                             <span asp-validation-for="ConfirmPassword" class="text-color-red"></span>
                                         </div>
                                     </div>
@@ -116,13 +116,13 @@
                                         <div class="col-md-4 col-sm-12">
                                             <!-- Postal cod -->
                                             <label asp-for="PostalCode"></label>
-                                            <input asp-for="PostalCode" class="form-control validate" value="1300" required>
+                                            <input asp-for="PostalCode" class="form-control validate" required>
                                             <span asp-validation-for="PostalCode" class="text-color-red"></span>
                                         </div>
                                         <div class="col-md-4 col-sm-12">
                                             <!-- City -->
                                             <label asp-for="City"></label>
-                                            <input asp-for="City" class="form-control validate" value="Wavre" required>
+                                            <input asp-for="City" class="form-control validate" required>
                                             <span asp-validation-for="City" class="text-color-red"></span>
                                         </div>
                                         <div class="col-md-4 col-sm-12">
@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 select-outline">
-                                            <select name="Services" id="sve" class="mdb-select md-form md-outline service-select" searchable="Rechercher..." multiple>
+                                            <select name="Services" id="sve" class="mdb-select md-form md-outline service-select" searchable="@Localizer["Rechercher"]" multiple>
                                                 @foreach (var group in services)
                                                 {
                                                     <optgroup label="@group.ServiceGroup.Title">

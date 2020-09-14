@@ -148,6 +148,9 @@
   <data name="3Btn1" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="3Btn2" xml:space="preserve">
+    <value>How it works ?</value>
+  </data>
   <data name="3Description" xml:space="preserve">
     <value>Choose an individual among those corresponding to your request.
                         You just have to make an appointment directly with the latter.</value>

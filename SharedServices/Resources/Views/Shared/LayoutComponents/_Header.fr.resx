@@ -148,6 +148,9 @@
   <data name="3Btn1" xml:space="preserve">
     <value>Rechercher</value>
   </data>
+  <data name="3Btn2" xml:space="preserve">
+    <value>Comment ça marche ?</value>
+  </data>
   <data name="3Description" xml:space="preserve">
     <value>Choisissez un particulier parmi ceux correspondant à votre demande.
                         Il ne vous reste qu'à fixer un rendez-vous directement avec ce dernier.</value>

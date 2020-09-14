@@ -29,7 +29,7 @@
             {
                 <div class="card p-3" style="box-shadow : none">
                     <p class="text-center">
-                        <span>Vous n'avez pas encore de demandes de service.</span>
+                        <span>@Localizer["PasDeService"]</span>
                     </p>
                 </div>
             }
@@ -59,11 +59,11 @@
                                                     <p>
                                                         @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
                                                         {
-                                                            <span><i class="far fa-calendar-alt mr-2"></i>Date prévue : </span><span>@request.DateOfRequest.ToLocalTime().ToString("dd MMM yyyy", culture)</span>
+                                                            <span><i class="far fa-calendar-alt mr-2"></i>@Localizer["DatePrevue1"] : </span><span>@request.DateOfRequest.ToLocalTime().ToString("dd MMM yyyy", culture)</span>
                                                         }
                                                         else
                                                         {
-                                                            <span><i class="far fa-calendar-alt mr-2"></i>Date prévue : Non renseignée</span>
+                                                            <span><i class="far fa-calendar-alt mr-2"></i>@Localizer["DatePrevue2"]</span>
                                                         }
                                                     </p>
                                                     <p>
@@ -77,11 +77,11 @@
                                                     <p>
                                                         @if (request.DateOfRequest.Year != DateTime.MinValue.Year)
                                                         {
-                                                            <span><i class="far fa-clock mr-2"></i>Heure : </span><span>@request.DateOfRequest.ToLocalTime().ToString("H:mm tt", culture)</span>
+                                                            <span><i class="far fa-clock mr-2"></i>@Localizer["Heure1"] : </span><span>@request.DateOfRequest.ToLocalTime().ToString("H:mm tt", culture)</span>
                                                         }
                                                         else
                                                         {
-                                                            <span><i class="far fa-clock mr-2"></i>Heure : Non renseignée</span>
+                                                            <span><i class="far fa-clock mr-2"></i>@Localizer["Heure2"]</span>
                                                         }
                                                     </p>
                                                 </div>
@@ -92,7 +92,7 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <p class="text-color-green">
-                                                        <span><i class="fas fa-users mr-2"></i>Nombre de réponses : </span><span>@request.Responses.Count()</span>
+                                                        <span><i class="fas fa-users mr-2"></i>@Localizer["NombreReponses"] : </span><span>@request.Responses.Count()</span>
                                                         @if (request.Accepted)
                                                         {
                                                             <i class="fas fa-user-check float-right"></i>
@@ -102,14 +102,14 @@
                                             </div>
                                             <div class="row mt-2">
                                                 <div class="col-md-12">
-                                                    <small>Veuillez dérouler pour voir les réponses à cette demande.</small>
+                                                    <small>@Localizer["VoirPlus"]</small>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-md-12 grey-text">
-                                            <small>Demande publiée le @request.DateOfAddition.ToLocalTime().ToString("dd MMM yyyy | H:mm tt", culture)</small>
+                                            <small>@Localizer["DatePublication"] @request.DateOfAddition.ToLocalTime().ToString("dd MMM yyyy | H:mm tt", culture)</small>
                                         </div>
                                     </div>
                                 </a>
@@ -151,15 +151,15 @@
                                                             <p class="mb-0 text-center">
                                                                 @if (response.Choosen)
                                                                 {
-                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose disabled" request="@request.Id" target="@response.Responder.Id">Votre choix <i class="fas fa-user-check ml-2"></i></button>
+                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose disabled" request="@request.Id" target="@response.Responder.Id">@Localizer["VotreChoix"] <i class="fas fa-user-check ml-2"></i></button>
                                                                 }
                                                                 else if (request.Accepted)
                                                                 {
-                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose disabled" request="@request.Id" target="@response.Responder.Id">Choix effectué</button>
+                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose disabled" request="@request.Id" target="@response.Responder.Id">@Localizer["ChoixEffectue"]</button>
                                                                 }
                                                                 else
                                                                 {
-                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose" request="@request.Id" target="@response.Responder.Id">Choisir</button>
+                                                                    <button class="btn btn-rounded btn-sm btn-outline-my-green btn-choose" request="@request.Id" target="@response.Responder.Id">@Localizer["Choisir"]</button>
                                                                 }
                                                             </p>
                                                         </div>
@@ -172,7 +172,7 @@
                                             <div class="list-group-item">
                                                 <div class="row mb-0">
                                                     <div class="col-md-12">
-                                                        <p>Aucune réponse pour l'instant</p>
+                                                        <p>@Localizer["AucuneReponse"]</p>
                                                     </div>
                                                 </div>
                                             </div>

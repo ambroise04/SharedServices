@@ -19,9 +19,9 @@
                     <p class="fables-forth-text-colo mb-3 light-font fables-header-slider-details">
                         @Localizer["1Description"]
                     </p>
-                    <a href="#" class="btn fables-second-background-color fables-second-border-color white-color
+                    <a asp-controller="Service" asp-action="Index" class="btn fables-second-background-color fables-second-border-color white-text
                        rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">@Localizer["1Btn1"]</a>
-                    <a href="#" class="btn btn-outline-red fables-second-text-color px-3 px-md-4 py-2
+                    <a asp-action="Multicast" asp-controller="Request" class="btn btn-outline-red fables-second-text-color px-3 px-md-4 py-2
                        fables-second-hover-background-color">@Localizer["1Btn2"]</a>
                 </div>
                 <!--Part2-->
@@ -34,7 +34,7 @@
                         @Localizer["2Description"]
                     </p>
                     <a asp-controller="Account" asp-action="Register" class="btn fables-second-background-color fables-second-border-color
-                       white-color rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">@Localizer["2Btn1"]</a>
+                       white-text rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">@Localizer["2Btn1"]</a>
                 </div>
                 <!--Part3-->
                 <div class="pt-0 mt-0 pt-xl-5 mt-xl-5 wow slideInUp" data-wow-duration="2s" data-wow-delay=".4s">
@@ -47,6 +47,8 @@
                     </p>
                     <a asp-controller="Search" asp-action="Index" class="btn btn-outline-red fables-second-text-color
                        px-3 px-md-4 py-2 fables-second-hover-background-color">@Localizer["3Btn1"]</a>
+                    <a asp-controller="Home" asp-action="Steps" class="btn fables-second-background-color fables-second-border-color
+                       white-text rounded-0 mr-4 px-3 px-md-4 py-2 bg-hover-transparent fables-second-hover-color">@Localizer["3Btn2"]</a>
                 </div>
             </div>
         </div>

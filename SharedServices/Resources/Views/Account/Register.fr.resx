@@ -144,6 +144,9 @@
   <data name="PictureBtn" xml:space="preserve">
     <value>Ajouter une photo</value>
   </data>
+  <data name="Rechercher" xml:space="preserve">
+    <value>Rechercher...</value>
+  </data>
   <data name="SeConnecter" xml:space="preserve">
     <value>Se connecter</value>
   </data>
