@@ -33,7 +33,7 @@
             <img width="24" src="@currentUser.ResizePicture(24, 24)" height="24" alt="@currentUser.FirstName @currentUser.LastName" class="nav-item__profile-member-photo nav-item__icon">
             <span class="font-13">@Localizer["Vous"]</span>
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
+        <div class="dropdown-menu dropdown-menu-right profile" aria-labelledby="user-menu">
             <a class="dropdown-item" id="login" asp-action="Profile" asp-controller="User"><i class="far fa-address-card prefix mr-2"></i>@Localizer["Profile"]</a>
             <div class="dropdown-divider mt-0"></div>
             <a class="dropdown-item" asp-action="Multicast" asp-controller="Request"><i class="fas fa-bullhorn mr-2"></i>@Localizer["Multicast"]</a>

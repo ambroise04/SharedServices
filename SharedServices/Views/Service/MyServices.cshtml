@@ -85,7 +85,7 @@
                             <select name="Services" id="sve" class="mdb-select md-form md-outline service-select mt-0" searchable="@Localizer["Rechercher"]" multiple>
                                 @foreach (var group in selectServices)
                                 {
-                                    <optgroup label="@group.ServiceGroup.Title (@group.ServiceGroup.PointsByHour @Localizer["PointHeure"])">
+                                    <optgroup label="@group.ServiceGroup.Title">
                                         @foreach (var service in group.Services)
                                         {
                                             <option value="@service.Id">@service.Title</option>

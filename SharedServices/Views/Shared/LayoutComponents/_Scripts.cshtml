@@ -21,3 +21,21 @@
 <script src="~/js/jqloader.js"></script>
 <script src="~/js/loading.js"></script>
 <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).click(function (event) {
+            var clickover = $(event.target);
+            var _opened = $(".navbar-collapse").hasClass("show");
+            if (_opened === true && !clickover.hasClass("navbar-toggle")) {
+                $("button.navbar-toggler").click();
+            }
+        });
+        $(document).scroll(function (event) {
+            var clickover = $(event.target);
+            var _opened = $(".navbar-collapse").hasClass("show");
+            if (_opened === true && !clickover.hasClass("navbar-toggle")) {
+                $("button.navbar-toggler").click();
+            }
+        });
+    });
+</script>

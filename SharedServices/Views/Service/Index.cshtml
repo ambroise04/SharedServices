@@ -33,7 +33,7 @@
         {
             <div class="row my-4 my-md-5">
                 <div class="col-md-12 ubuntu-light">
-                    <p>Ajouter une nouvelle catégorie de service <span><a class="btn-floating bg-color-green text-white add-group"><i class="fas fa-plus"></i></a></span></p>
+                    <p>@Localizer["AjouterCategorie"] <span><a class="btn-floating bg-color-green text-white add-group"><i class="fas fa-plus"></i></a></span></p>
                 </div>
             </div>
         }
@@ -44,7 +44,7 @@
             {
                 <div class="card p-3" style="box-shadow : none">
                     <p class="text-center">
-                        <span>Aucun service à afficher.</span>
+                        <span>@Localizer["PasDeService"]</span>
                     </p>
                 </div>
             }
@@ -72,7 +72,7 @@
                                             <div class="row">
                                                 <div class="col-md-12 d-flex justify-content-between">
                                                     <p>
-                                                        <span><i class="far fa-calendar-alt mr-2"></i>Nombre de services : </span><span>@group.Services.Count()</span>
+                                                        <span><i class="far fa-calendar-alt mr-2"></i>@Localizer["NombreService"] : </span><span>@group.Services.Count()</span>
                                                     </p>
                                                     <p>
                                                         <span class="add-service" id="@group.ServiceGroup.Id" data-toggle="tooltip" data-placement="top" title="Ajouter un service"><i class="fas fa-plus"></i></span>
@@ -81,7 +81,7 @@
                                             </div>
                                             <div class="row mt-2">
                                                 <div class="col-md-12">
-                                                    <small>Veuillez dérouler pour voir les services de cette catégorie.</small>
+                                                    <small>@Localizer["VoirPlus"]</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -116,7 +116,7 @@
                                             <div class="list-group-item">
                                                 <div class="row mb-0">
                                                     <div class="col-md-12">
-                                                        <p>Aucun service dans cette catégorie pour l'instant</p>
+                                                        <p>@Localizer["AucunService"]</p>
                                                     </div>
                                                 </div>
                                             </div>
