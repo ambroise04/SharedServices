@@ -64,5 +64,12 @@ namespace SharedServices.UI.Controllers
                 return Json(new { status = false, message = "We encountered an error. " });
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult Visitors()
+        {
+            var visitors = _admin.GetVisitors();
+            return View(visitors);
+        }
     }
 }

@@ -1,0 +1,102 @@
+﻿@model ICollection<UserSession>
+@inject IViewLocalizer Localizer;
+@{
+    ViewData["Title"] = "Visiteurs";
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
+
+    var visitors = Model;
+}
+
+<div class="container">
+    <div class="row my-4 my-md-5">
+        <div class="col-md-12">
+            @if (visitors.Count() == 0)
+            {
+                <div class="card p-3" style="box-shadow : none">
+                    <p class="text-center">
+                        <span>Aucun visiteur à afficher</span>
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="mb-2">
+                    <p class="font-20">
+                        Nombre de visiteurs : <span class="ubuntu-medium text-color-green">@visitors.Count()</span>
+                    </p>
+                </div>
+                <!--Accordion wrapper-->
+                <div class="accordion md-accordion" id="accordionEx1" role="tablist" aria-multiselectable="true">
+                    <!-- Accordion card -->
+                    @foreach (var visitor in visitors)
+                    {
+                        <div class="card">
+                            <!-- Card header -->
+                            <div class="card-header" role="tab" id="hnls-bz-ju-loading-screen-@visitor.Id">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#bnls-bz-ju-loading-screen-@visitor.Id"
+                                   aria-expanded="false" aria-controls="collapseTwo1">
+                                    <div class="row mb-2 text-color-green">
+                                        <div class="col-md-12">
+                                            <h5 class="mb-0">
+                                                @{ var address = string.Concat(visitor.Postal, " ", visitor.City, $"({visitor.Region})", " - ", visitor.Country) ;}
+                                                @address <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 black-text">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p>                                                      
+                                                        <span><i class="far fa-calendar-alt mr-2"></i>Date de visite : </span><span>@visitor.SessionDate.ToString("dd MMM yyyy", culture)</span>                                                        
+                                                    </p>
+                                                </div>  
+                                                <div class="col-md-6">
+                                                    <p>
+                                                        <span><i class="far fa-clock mr-2"></i>Heure de visite : </span><span>@visitor.SessionDate.ToString("H:mm tt", culture)</span>                                                       
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-12">
+                                                    <small>Voir plus</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- Card body -->
+                            <div id="bnls-bz-ju-loading-screen-@visitor.Id" class="collapse" role="tabpanel" aria-labelledby="hnls-bz-ju-loading-screen-@visitor.Id"
+                                 data-parent="#accordionEx1">
+                                <div class="card-body">
+                                    <div class="list-group-flush">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <p>
+                                                    <span><i class="fas fa-wifi mr-2"></i>Adresse IP : </span><span>@visitor.Ip</span>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>
+                                                    <span><i class="fas fa-map-marker-alt mr-2"></i>Latitude : </span><span>@visitor.Loc?.Split(',').First()</span>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p>
+                                                    <span><i class="fas fa-map-marker-alt mr-2"></i>Longitude : </span><span>@visitor.Loc?.Split(',').Last()</span>
+                                                </p>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

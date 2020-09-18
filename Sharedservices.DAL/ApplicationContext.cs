@@ -29,8 +29,8 @@ namespace SharedServices.DAL
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite(@"DataSource=BetweenUsDB.db;");
-                //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlite(@"DataSource=BetweenUsDB.db;");
+                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=SharedServicesDB;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 
@@ -84,5 +84,6 @@ namespace SharedServices.DAL
         public DbSet<FaqResponse> FaqResponses { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<GlobalInfo> Infos { get; set; }
+        public DbSet<UserSession> UserSessions { get; set; }
     }
 }

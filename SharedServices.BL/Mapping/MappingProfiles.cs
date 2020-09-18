@@ -55,6 +55,11 @@ namespace SharedServices.BL.Mapping
 
             CreateMap<DAL.Entities.NotificationType, NotificationType>();
             CreateMap<DAL.Entities.NotificationType, NotificationType>().ReverseMap();
+
+            CreateMap<DAL.Entities.UserSession, UserSession>()
+                .ForMember(dest => dest.SessionDate, opt => opt.MapFrom(s => s.SessionDate.ToLocalTime()));
+            CreateMap<UserSession, DAL.Entities.UserSession>()
+                .ForMember(dest => dest.SessionDate, opt => opt.MapFrom(s => s.SessionDate.ToUniversalTime()));
         }
     }
 }

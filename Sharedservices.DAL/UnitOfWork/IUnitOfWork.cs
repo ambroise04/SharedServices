@@ -15,6 +15,7 @@ namespace SharedServices.DAL.UnitOfWork
         INotificationRepository NotificationRepository { get; }
         INotificationTypeRepository NotificationTypeRepository { get; }
         IFaqQuestionRepository FaqQuestionRepository { get; }
+        IUserSessionRepository UserSessionRepository { get; }
 
         void CreateTransaction();
         void CommitTransaction();

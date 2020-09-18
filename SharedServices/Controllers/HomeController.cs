@@ -53,6 +53,15 @@ namespace SharedServices.UI.Controllers
 
         public IActionResult Index()
         {
+            string remoteIpAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+
+            if (Request.Headers.ContainsKey("X-Forwarded-For"))
+            {
+                remoteIpAddress = Request.Headers["X-Forwarded-For"];
+            }
+
+            _admin.SaveSessionInfos(remoteIpAddress);
+
             return View();
         }
 

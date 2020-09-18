@@ -35,8 +35,6 @@ namespace SharedServices
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Trying to resolve session error for sign in manager
-            //services.AddSession();
             services.AddSignalR();
 
             //i18n service
@@ -108,6 +106,7 @@ namespace SharedServices
             services.AddScoped<INotificationRepository, NotificationRepository>();
             services.AddScoped<INotificationTypeRepository, NotificationTypeRepository>();
             services.AddScoped<IFaqQuestionRepository, FaqQuestionRepository>();
+            services.AddScoped<IUserSessionRepository, UserSessionRepository>();
             //Enterprise information
             services.AddTransient<IGlobalInfo, GlobalInfo>();
 
@@ -120,6 +119,11 @@ namespace SharedServices
             services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
 
             services.AddSession();
+
+            //Visitors counting purpose
+            services.Configure<ForwardedHeadersOptions>(options => 
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -129,7 +133,7 @@ namespace SharedServices
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
             else
             {
