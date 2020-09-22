@@ -47,12 +47,14 @@ namespace SharedServices
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
             {
                 services.AddDbContext<ApplicationContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("Default"))
+                    options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
                 );
             }
             else
             {
-                services.AddDbContext<ApplicationContext>();
+                services.AddDbContext<ApplicationContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("SqliteConnection"))
+                );
             }
 
             services.AddControllersWithViews();
@@ -123,7 +125,6 @@ namespace SharedServices
             //Visitors counting purpose
             services.Configure<ForwardedHeadersOptions>(options => 
                 options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -198,7 +199,7 @@ namespace SharedServices
             {
                 using (var context = serviceScope.ServiceProvider.GetService<ApplicationContext>())
                 {
-                    context.Database.EnsureCreated();
+                    context.Database.Migrate();
                 }
             }
         }

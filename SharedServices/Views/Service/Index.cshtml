@@ -7,6 +7,9 @@
     ViewData["Title"] = Localizer["Titre"];
 
     var services = Model;
+    bool isSignedIn = SignInManager.IsSignedIn(User);
+    ApplicationUser user = isSignedIn ? await UserManager.GetUserAsync(User) : null;
+    bool isAdmin = (user is null) ? false : await UserManager.IsInRoleAsync(user, SharedServices.Mutual.Roles.Admin.ToString());
 
     var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
     var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
@@ -26,17 +29,13 @@
 }
 
 <div class="container">
-    @if (SignInManager.IsSignedIn(User))
+    @if (isSignedIn && isAdmin)
     {
-        var user = await UserManager.GetUserAsync(User);
-        if (await UserManager.IsInRoleAsync(user, SharedServices.Mutual.Roles.Admin.ToString()))
-        {
-            <div class="row my-4 my-md-5">
-                <div class="col-md-12 ubuntu-light">
-                    <p>@Localizer["AjouterCategorie"] <span><a class="btn-floating bg-color-green text-white add-group"><i class="fas fa-plus"></i></a></span></p>
-                </div>
+        <div class="row my-4 my-md-5">
+            <div class="col-md-12 ubuntu-light">
+                <p>@Localizer["AjouterCategorie"] <span><a class="btn-floating bg-color-green text-white add-group"><i class="fas fa-plus"></i></a></span></p>
             </div>
-        }
+        </div>
     }
     <div class="row my-4 my-md-5">
         <div class="col-md-12">
@@ -74,9 +73,12 @@
                                                     <p>
                                                         <span><i class="far fa-calendar-alt mr-2"></i>@Localizer["NombreService"] : </span><span>@group.Services.Count()</span>
                                                     </p>
-                                                    <p>
-                                                        <span class="add-service" id="@group.ServiceGroup.Id" data-toggle="tooltip" data-placement="top" title="Ajouter un service"><i class="fas fa-plus"></i></span>
-                                                    </p>
+                                                    @if (isSignedIn && isAdmin)
+                                                    {
+                                                        <p>
+                                                            <span class="add-service" id="@group.ServiceGroup.Id" data-toggle="tooltip" data-placement="top" title="Ajouter un service"><i class="fas fa-plus"></i></span>
+                                                        </p>
+                                                    }
                                                 </div>
                                             </div>
                                             <div class="row mt-2">
@@ -134,13 +136,9 @@
 
 <partial name="/Views/Service/_AddServiceHeader.cshtml" />
 
-@if (SignInManager.IsSignedIn(User))
+@if (isSignedIn && isAdmin)
 {
-    var user = await UserManager.GetUserAsync(User);
-    if (await UserManager.IsInRoleAsync(user, SharedServices.Mutual.Roles.Admin.ToString()))
-    {
-        <partial name="/Views/Service/_AddGroupHeader.cshtml" />
-    }
+    <partial name="/Views/Service/_AddGroupHeader.cshtml" />
 }
 
 @section Scripts{

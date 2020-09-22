@@ -10,6 +10,18 @@
       "type": "signalr",
       "suggestion": "true",
       "ignored": "true"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "SqliteConnection",
+      "suggestion": "true",
+      "ignored": "true"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "SqlServerConnection",
+      "suggestion": "true",
+      "ignored": "true"
     }
   }
 }

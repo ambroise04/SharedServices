@@ -85,6 +85,7 @@ namespace SharedServices.UI.Controllers
             return Json(new { status = false, message = error });
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             List<ServiceTO> services = _client.GetAllServicesGrouped();

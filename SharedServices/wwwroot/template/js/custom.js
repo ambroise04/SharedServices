@@ -358,6 +358,3 @@ $(function ($) {
            $this.countTo(options);
        }
    } 
-
-
- 

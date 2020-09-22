@@ -15,11 +15,14 @@ namespace SharedServices.BL.UseCases.Admin
         {
             UserSession userInfo = new UserSession();
             try
-            {
+            {                
                 string info = new WebClient().DownloadString("http://ipinfo.io/" + ipAddress);
                 userInfo = JsonConvert.DeserializeObject<UserSession>(info);
-                RegionInfo regionInfo = new RegionInfo(userInfo.Country);
-                userInfo.Country = regionInfo.EnglishName;
+                if (!string.IsNullOrEmpty(userInfo.Country))
+                {
+                    RegionInfo regionInfo = new RegionInfo(userInfo.Country);
+                    userInfo.Country = regionInfo.EnglishName;
+                }
                 userInfo.SessionDate = DateTime.Now;
             }
             catch (Exception)
@@ -35,6 +38,7 @@ namespace SharedServices.BL.UseCases.Admin
             if (string.IsNullOrEmpty(ip))
                 throw new ArgumentNullException($"Ip address cannot be null or empty. {nameof(ip)}");
 
+            ip = ip.Split(':').First();
             var exists = unitOfWork.UserSessionRepository.SessionExists(ip);
             if (exists) return;
 
@@ -45,7 +49,7 @@ namespace SharedServices.BL.UseCases.Admin
                 unitOfWork.UserSessionRepository.AddSessionInfo(dalSession);
                 unitOfWork.Save();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //Log exception
                 throw;
