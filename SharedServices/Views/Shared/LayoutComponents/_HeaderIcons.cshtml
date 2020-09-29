@@ -6,17 +6,17 @@
 }
 <ul class="navbar-nav ml-md-auto ubuntu-light d-flex align-items-end nav-icons">
     <li class="nav-item text-center">
-        <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Discussion">            
+        <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Discussion">
             <span class="nav-item__badge visible"><span aria-hidden="true" class="nav-item__badge-count">1</span></span>
             <i class="far fa-envelope"></i>
-            <span class="font-13">@Localizer["Messagerie"]</span>
+            <span class="font-12">@Localizer["Messagerie"]</span>
         </a>
     </li>
     <li class="nav-item text-center">
         <a class="nav-link fables-third-text-color px-2 d-flex flex-column justify-content-center" asp-action="Index" asp-controller="Request">
             <span class="nav-item__badge visible"><span aria-hidden="true" class="nav-item__badge-count">2</span></span>
             <i class="far fa-handshake"></i>
-            <span class="font-13">@Localizer["Demandes"]</span>
+            <span class="font-12">@Localizer["Demandes"]</span>
         </a>
     </li>
     <li class="nav-item text-center">
@@ -24,14 +24,27 @@
            asp-controller="Notification" asp-action="Notifications">
             <span class="nav-item__badge notifications__nav"><span aria-hidden="true" class="nav-item__badge-count notifications__nav-count">0</span></span>
             <i class="far fa-bell"></i>
-            <span class="font-13">@Localizer["Notifications"]</span>
+            <span class="font-12">@Localizer["Notifications"]</span>
         </a>
+    </li>
+    <li class="nav-item dropdown text-center">
+        <a class="nav-link dropdown-toggle fables-third-text-color px-2 d-flex flex-column justify-content-center"
+           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="params-menu">
+            <i class="fas fa-cog"></i>
+            <span class="font-12">@Localizer["Params"]</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right profile" aria-labelledby="params-menu">
+            @if (await UserManager.IsInRoleAsync(currentUser, SharedServices.Mutual.Roles.Admin.ToString()))
+            {
+                <a class="dropdown-item" id="login" asp-action="Index" asp-controller="Enterprise"><i class="fas fa-info prefix mr-2"></i>@Localizer["BetweenUsInfos"]</a>
+            }
+        </div>
     </li>
     <li class="nav-item dropdown text-center">
         <a class="nav-link dropdown-toggle fables-third-text-color px-2 d-flex flex-column justify-content-center"
            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="user-menu">
             <img width="24" src="@currentUser.ResizePicture(24, 24)" height="24" alt="@currentUser.FirstName @currentUser.LastName" class="nav-item__profile-member-photo nav-item__icon">
-            <span class="font-13">@Localizer["Vous"]</span>
+            <span class="font-12">@Localizer["Vous"]</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right profile" aria-labelledby="user-menu">
             <a class="dropdown-item" id="login" asp-action="Profile" asp-controller="User"><i class="far fa-address-card prefix mr-2"></i>@Localizer["Profile"]</a>
@@ -40,13 +53,13 @@
             <a class="dropdown-item" asp-action="MyRequests" asp-controller="Request"><i class="fas fa-hands-helping mr-2"></i>@Localizer["MyRequests"]</a>
             <div class="dropdown-divider mt-0"></div>
             <a class="dropdown-item" asp-action="MyServices" asp-controller="Service"><i class="fas fa-clipboard-list mr-2"></i>@Localizer["MyServices"]</a>
-            
+
             @if (await UserManager.IsInRoleAsync(currentUser, SharedServices.Mutual.Roles.Admin.ToString()))
             {
                 <div class="dropdown-divider mt-0"></div>
                 <a class="dropdown-item" asp-action="Visitors" asp-controller="User"><i class="fas fa-glasses mr-2"></i>@Localizer["Visitors"]</a>
             }
-            
+
             <div class="dropdown-divider mt-0"></div>
             <form style="width:inherit" id="logoutForm" class="" asp-action="Logout" asp-controller="Account" asp-route-returnUrl="@Url.Action("Index", "Home")">
                 <button id="logout" type="submit" class="nav-link btn-sm btn-outline-my-green text-dark hoverable btn-logout form-control"><i class="fas fa-sign-out-alt prefix"></i>@Localizer["Deconnexion"]</button>

@@ -1,0 +1,143 @@
+﻿@model SharedServices.Mutual.GlobalInfo
+@inject UserManager<ApplicationUser> UserManager;
+@inject IViewLocalizer Localizer;
+
+@{
+    ViewBag.Title = "Données Entreprise";
+    var currentUser = await UserManager.GetUserAsync(User);
+    var contacts = ViewBag.Contacts as List<ContactTO>;
+    var infos = Model;
+
+    var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
+    var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
+}
+
+@section Styles {
+    <style>
+        .fa-pencil-alt:hover {
+            cursor: pointer;
+        }
+    </style>
+}
+
+<div class="container my-5">
+    <div class="row card box-shadow-0">
+        <section class="col-md-12 card-body">
+            <div class="row" id="email-row">
+                <div class="col-md-12">
+                    <div class="row mb-2">
+                        <h5 class="col-md-12 font-20 text-color-green">Email<i class="fas fa-pencil-alt ml-2" onclick="activateEmail();"></i></h5>
+                    </div>
+                    <div class="row">
+                        <span class="col-md-8">
+                            <input id="email" type="text" name="email" value="@infos.Email" class="form-control" disabled />
+                        </span>
+                        <span class="col-md-4">
+                            <a class="btn btn-sm bg-color-green text-white float-right" onclick="editEmail();">Modifier</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3 bg-color-green" />
+            <div class="row" id="address-row">
+                <div class="col-md-12">
+                    <div class="row mb-2">
+                        <h5 class="col-md-12 font-20 text-color-green">Adresse<i class="fas fa-pencil-alt ml-2" onclick="activateAddress();"></i></h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="address-fr">Français</label>
+                            <input id="address-fr" type="text" name="addressfr" value="@infos.AddressFR" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="address-en">Anglais</label>
+                            <input id="address-en" type="text" name="addressen" value="@infos.AddressEN" class="form-control" disabled />
+                        </div>
+                        <span class="col-md-4 d-flex justify-content-end align-items-end">
+                            <a class="btn btn-sm bg-color-green text-white float-right" onclick="editAddress();">Modifier</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3 bg-color-green" />
+            <div class="row" id="desc-row">
+                <div class="col-md-12">
+                    <div class="row mb-2">
+                        <h5 class="col-md-12 font-20 text-color-green">Description<i class="fas fa-pencil-alt ml-2" onclick="activateDesc();"></i></h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="desc-fr">Description en Français</label>
+                            <textarea id="desc-fr" rows="2" name="descfr" class="form-control" disabled>@infos.DescriptionFR</textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="desc-en">Description en Anglais</label>
+                            <textarea id="desc-en" rows="2" name="descsen" class="form-control" disabled>@infos.DescriptionEN</textarea>
+                        </div>
+                        <span class="col-md-4 d-flex justify-content-end align-items-end">
+                            <a class="btn btn-sm bg-color-green text-white float-right" onclick="editDesc();">Modifier</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3 bg-color-green" />
+            <div class="row" id="phone-row">
+                <div class="col-md-12">
+                    <div class="row mb-2">
+                        <h5 class="col-md-12 font-20 text-color-green">Numéro de téléphone<i class="fas fa-pencil-alt ml-2" onclick="activatePhone();"></i></h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="phone">Téléphone</label>
+                            <input id="phone" type="tel" name="phone" value="@infos.Phone" class="form-control" disabled />
+                        </div>
+                        <span class="col-md-4 d-flex justify-content-end align-items-end">
+                            <a class="btn btn-sm bg-color-green text-white float-right" onclick="editPhone();">Modifier</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3 bg-color-green" />
+            <div class="row" id="point-row">
+                <div class="col-md-12">
+                    <div class="row mb-2">
+                        <h5 class="col-md-12 font-20 text-color-green">Points à l'inscription<i class="fas fa-pencil-alt ml-2" onclick="activatePoint();"></i></h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="point">Nombre de points</label>
+                            <input id="point" type="number" step="1" min="0" name="point" value="@infos.DefaultPointForUsers" class="form-control" disabled />
+                        </div>
+                        <span class="col-md-4 d-flex justify-content-end align-items-end">
+                            <a class="btn btn-sm bg-color-green text-white float-right" onclick="editPoint();">Modifier</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-3 bg-color-green" />
+            <div class="row" id="link-row">
+                <div class="col-md-12">
+                    <div class="row mb-2">
+                        <h5 class="col-md-12 font-20 text-color-green">Informations sur l'auteur<i class="fas fa-pencil-alt ml-2" onclick="activateAuthorInfos();"></i></h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label for="link">Lien de auteur</label>
+                            <input id="link" type="text" name="link" value="@infos.AuthorLink" class="form-control" disabled />
+                        </div>
+                        <span class="col-md-4 d-flex justify-content-end align-items-end">
+                            <a class="btn btn-sm bg-color-green text-white float-right" onclick="editAuthorInfos();">Modifier</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/business/enterprise/ent-info.js"></script>
+    <script src="~/js/business/enterprise/edition.js"></script>
+    <script type="text/javascript">
+    </script>
+}

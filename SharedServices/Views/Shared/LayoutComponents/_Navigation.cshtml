@@ -8,6 +8,17 @@
                 top: -15em !important;
             }
         }
+        @@media (min-width:992px) {
+            .navbar-nav .nav-link {
+                text-align: center;
+                -webkit-box-align: center !important;
+                align-items: center !important;
+            }
+            .principal {
+                -webkit-box-align: center !important;
+                align-items: center !important;
+            }
+        }
     </style>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-color-green scrolling-navbar global-nav">
         <div class="container">
@@ -16,7 +27,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto ubuntu-light d-flex">
+                <ul class="navbar-nav mr-auto ubuntu-light d-flex principal">
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">
                             @Localizer["Accueil"]<span class="sr-only">(current)</span>
