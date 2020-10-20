@@ -1,7 +1,7 @@
 ﻿@model ApplicationUser
 @inject IViewLocalizer Localizer;
 @{
-    ViewData["Title"] = Localizer["Title"];
+    ViewData["Title"] = Localizer["Titre"];
 
     var cultureFR = CultureInfo.CurrentCulture.Name.Contains("fr");
     var culture = (cultureFR) ? CultureInfo.CreateSpecificCulture("fr-FR") : CultureInfo.CreateSpecificCulture("en-US");
@@ -28,14 +28,14 @@
 <div class="container">
     <div class="row my-4 my-md-5">
         <div class="col-md-12">
-            <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">Profile</h2>
+            <h2 class="position-relative font-23 semi-font fables-blog-category-head fables-main-text-color fables-second-before pl-3 mb-4">@Localizer["Titre"]</h2>
         </div>
     </div>
     <div class="row my-4 my-md-5">
         <div class="col-md-12 text-center text-color-green d-flex justify-content-center align-items-center points">
-            <span class="mr-md-4 font-points-label black-text font-weight-bold">Il vous reste </span>
+            <span class="mr-md-4 font-points-label black-text font-weight-bold">@Localizer["Point1"] </span>
             <h2 class="point-displayer rounded font-points font-weight-bold mb-3 border fables-second-border-color d-inline-block px-4 py-2 mb-4" data-count="307">0</h2>
-            <h3 class="font-14 semi-font ml-md-4">POINTS</h3>
+            <h3 class="font-14 semi-font ml-md-4">@Localizer["Point2"]</h3>
         </div>
     </div>
 </div>
