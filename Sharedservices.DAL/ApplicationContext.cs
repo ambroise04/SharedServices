@@ -29,7 +29,8 @@ namespace SharedServices.DAL
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlite("Data Source=BetweenUsDB.db;");
+                optionsBuilder.UseSqlServer("Server=AMBROISE-PC,1433;Database=BetweenUsDBProd;User Id=BetweenUs; Password=Ambroise0;Trusted_Connection=True;MultipleActiveResultSets=true");
+                //optionsBuilder.UseSqlite("Data Source=BetweenUsDB.db;");
             }
         }
 

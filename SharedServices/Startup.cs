@@ -44,16 +44,16 @@ namespace SharedServices
                     .AddDataAnnotationsLocalization();
 
             //Framework services
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Development"))
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("Production"))
             {
                 services.AddDbContext<ApplicationContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"))
+                    options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnectionProd"))
                 );
             }
             else
             {
                 services.AddDbContext<ApplicationContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("SqliteConnection"))
+                    options.UseSqlite(Configuration.GetConnectionString("SqlServerConnectionDev"))
                 );
             }
 

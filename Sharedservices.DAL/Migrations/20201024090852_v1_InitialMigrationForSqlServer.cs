@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SharedServices.DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class v1_InitialMigrationForSqlServer : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,7 +66,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Email = table.Column<string>(nullable: false),
                     DescriptionFR = table.Column<string>(nullable: false),
                     DescriptionEN = table.Column<string>(nullable: true),
@@ -86,7 +86,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Type = table.Column<int>(nullable: false),
                     MessageFR = table.Column<string>(nullable: true),
                     MessageEN = table.Column<string>(nullable: true)
@@ -101,7 +101,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PostalCode = table.Column<int>(nullable: false),
                     City = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: true),
@@ -118,7 +118,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
                     PointsByHour = table.Column<int>(nullable: false)
                 },
@@ -132,7 +132,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Ip = table.Column<string>(nullable: true),
                     Hostname = table.Column<string>(nullable: true),
                     City = table.Column<string>(nullable: true),
@@ -153,7 +153,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -174,7 +174,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -259,7 +259,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Emitter = table.Column<string>(nullable: false),
                     Receiver = table.Column<string>(nullable: false),
                     Message = table.Column<string>(nullable: false),
@@ -282,7 +282,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
                     Message = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
@@ -304,7 +304,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Mark = table.Column<int>(nullable: false),
                     Comment = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
@@ -327,7 +327,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ContentType = table.Column<string>(nullable: false),
                     Image = table.Column<byte[]>(nullable: false),
                     ApplicationUserId = table.Column<string>(nullable: false)
@@ -348,7 +348,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     GroupId = table.Column<int>(nullable: false)
@@ -369,7 +369,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Message = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
                     QuestionId = table.Column<int>(nullable: true),
@@ -415,7 +415,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RequesterMulticastId = table.Column<string>(nullable: false),
                     ServiceId = table.Column<int>(nullable: false),
                     DateOfRequest = table.Column<DateTime>(nullable: false),
@@ -454,7 +454,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ReceiverId = table.Column<string>(nullable: true),
                     RequesterId = table.Column<string>(nullable: true),
                     ServiceId = table.Column<int>(nullable: false),
@@ -519,7 +519,7 @@ namespace SharedServices.DAL.Migrations
                         column: x => x.RequestMulticastId,
                         principalTable: "RequestMulticasts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -527,7 +527,7 @@ namespace SharedServices.DAL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: true),
                     CorrespondentId = table.Column<string>(nullable: true),
                     TypeId = table.Column<int>(nullable: false),
@@ -586,137 +586,50 @@ namespace SharedServices.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "NotificationTypes",
                 columns: new[] { "Id", "MessageEN", "MessageFR", "Type" },
-                values: new object[] { 4, "A new request has been published. Do you want to know more ?", "Une nouvelle demande a été publiée. Voulez-vous en savoir plus ?", 3 });
-
-            migrationBuilder.InsertData(
-                table: "NotificationTypes",
-                columns: new[] { "Id", "MessageEN", "MessageFR", "Type" },
-                values: new object[] { 1, "Your correspondent has marked a service as rendered. Your confirmation is required for the transfer of points.", "Votre correspondant a marqué un service comme rendu. Veuillez donner votre accord pour le transfert des points.", 0 });
-
-            migrationBuilder.InsertData(
-                table: "NotificationTypes",
-                columns: new[] { "Id", "MessageEN", "MessageFR", "Type" },
-                values: new object[] { 2, "Your correspondent has marked a service as rendered. Please accept the transfer of points.", "Votre correspondant a marqué un service comme rendu. Veuillez accepter le transfert des points", 1 });
-
-            migrationBuilder.InsertData(
-                table: "NotificationTypes",
-                columns: new[] { "Id", "MessageEN", "MessageFR", "Type" },
-                values: new object[] { 3, "New response to your request. Consult the list of requests ?", "Une nouvelle réponse a votre demande a été envoyée. Consulter la liste des demandes ?", 2 });
+                values: new object[,]
+                {
+                    { 4, "A new request has been published. Do you want to know more ?", "Une nouvelle demande a été publiée. Voulez-vous en savoir plus ?", 3 },
+                    { 1, "Your correspondent has marked a service as rendered. Your confirmation is required for the transfer of points.", "Votre correspondant a marqué un service comme rendu. Veuillez donner votre accord pour le transfert des points.", 0 },
+                    { 2, "Your correspondent has marked a service as rendered. Please accept the transfer of points.", "Votre correspondant a marqué un service comme rendu. Veuillez accepter le transfert des points", 1 },
+                    { 3, "New response to your request. Consult the list of requests ?", "Une nouvelle réponse a votre demande a été envoyée. Consulter la liste des demandes ?", 2 }
+                });
 
             migrationBuilder.InsertData(
                 table: "ServiceGroups",
                 columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 1, 15, "Déménagement" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 2, 15, "Jardinage" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 3, 15, "Bricolage" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 4, 15, "Babysitting" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 12, 15, "Courses et Démarches" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 6, 15, "Cours particuliers" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 7, 15, "Tâches ménagères" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 8, 15, "Informatique" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 9, 15, "Soins et Beauté" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 10, 15, "Evénements" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 11, 15, "Entretien" });
-
-            migrationBuilder.InsertData(
-                table: "ServiceGroups",
-                columns: new[] { "Id", "PointsByHour", "Title" },
-                values: new object[] { 5, 15, "Animaux" });
+                values: new object[,]
+                {
+                    { 1, 15, "Déménagement" },
+                    { 2, 15, "Jardinage" },
+                    { 3, 15, "Bricolage" },
+                    { 4, 15, "Babysitting" },
+                    { 12, 15, "Courses et Démarches" },
+                    { 6, 15, "Cours particuliers" },
+                    { 7, 15, "Tâches ménagères" },
+                    { 8, 15, "Informatique" },
+                    { 9, 15, "Soins et Beauté" },
+                    { 10, 15, "Evénements" },
+                    { 11, 15, "Entretien" },
+                    { 5, 15, "Animaux" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Services",
                 columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 2, "Vous aider à déplacer vos meubles et autres.", 1, "Aide déménagement" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 7, "Garder les enfants, les amuser le temps que les parents reviennent", 2, "Tondre une pelouse" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 9, "Rendre la clôture de vos maisons belle et attirante.", 2, "Tondre une haie" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 3, "Habitué des meubles, je peux vous aider à monter les vôtres.", 3, "Montage de meubles en kit" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 5, "Je peux vous aider à faire les finitions", 3, "Maçonnerie" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 6, "Aide à la décoration pour vos événements.", 3, "Décoration" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 1, "Garder les enfants, les amuser le temps que les parents reviennent.", 4, "Garde d'enfant" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 8, "Garder les grands-parents, les aider et leur faire rire.", 4, "Garde de personnes agées" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 4, "Fan des animaux, j'adore les garder et les promener", 5, "Garde d'animaux" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 10, "Vous aider dans vos différentes tâches ménagères.", 7, "Aide ménagère" });
-
-            migrationBuilder.InsertData(
-                table: "Services",
-                columns: new[] { "Id", "Description", "GroupId", "Title" },
-                values: new object[] { 11, "Repasser vos linges.", 7, "Repassage" });
+                values: new object[,]
+                {
+                    { 2, "Vous aider à déplacer vos meubles et autres.", 1, "Aide déménagement" },
+                    { 7, "Garder les enfants, les amuser le temps que les parents reviennent", 2, "Tondre une pelouse" },
+                    { 9, "Rendre la clôture de vos maisons belle et attirante.", 2, "Tondre une haie" },
+                    { 3, "Habitué des meubles, je peux vous aider à monter les vôtres.", 3, "Montage de meubles en kit" },
+                    { 5, "Je peux vous aider à faire les finitions", 3, "Maçonnerie" },
+                    { 6, "Aide à la décoration pour vos événements.", 3, "Décoration" },
+                    { 1, "Garder les enfants, les amuser le temps que les parents reviennent.", 4, "Garde d'enfant" },
+                    { 8, "Garder les grands-parents, les aider et leur faire rire.", 4, "Garde de personnes agées" },
+                    { 4, "Fan des animaux, j'adore les garder et les promener", 5, "Garde d'animaux" },
+                    { 10, "Vous aider dans vos différentes tâches ménagères.", 7, "Aide ménagère" },
+                    { 11, "Repasser vos linges.", 7, "Repassage" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApplicationUserServices_ApplicationUserId",
@@ -732,7 +645,8 @@ namespace SharedServices.DAL.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -763,7 +677,8 @@ namespace SharedServices.DAL.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Discussions_ApplicationUserId",
